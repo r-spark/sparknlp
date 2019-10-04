@@ -1,0 +1,6 @@
+^.*\.Rproj$
+^\.Rproj\.user$
+^internal$
+^spark-warehouse$
+^logs$
+^LICENSE\.md$
