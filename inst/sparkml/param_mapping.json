@@ -1,4 +1,5 @@
 {
   "idCol": "id_col",
-  "metadataCol": "metadata_col"
+  "metadataCol": "metadata_col",
+  "cleanupMode": "cleanup_mode"
 }

@@ -7,7 +7,7 @@ spark_dependencies <- function(spark_version, scala_version, ...) {
     #   )
     # ),
     packages = c(
-      sprintf("com.johnsnowlabs.nlp:spark-nlp_2.11:2.2.0")
+      sprintf("com.johnsnowlabs.nlp:spark-nlp_2.11:2.2.2")
     )
   )
 }

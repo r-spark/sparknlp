@@ -2,25 +2,41 @@
 % Please edit documentation in R/document-assembler.R
 \name{nlp_document_assembler}
 \alias{nlp_document_assembler}
-\title{Document Assembler}
+\title{Spark NLP DocumentAssembler}
 \usage{
-nlp_document_assembler(x, input_col = NULL, output_col = NULL,
-  id_col = NULL, metadata_col = NULL,
+nlp_document_assembler(x, input_col, output_col, id_col = NULL,
+  metadata_col = NULL, cleanup_mode = NULL,
   uid = random_string("document_assembler_"))
 }
 \arguments{
 \item{x}{A Spark connection, pipeline object, or a Spark data frame.}
 
-\item{input_col}{Input column.}
+\item{input_col}{Input column. Required.}
 
-\item{output_col}{Output column.}
+\item{output_col}{Output column. Required.}
 
-\item{id_col}{ID column.}
+\item{id_col}{String type column with id information. Optional.}
 
-\item{metadata_col}{Metadata column.}
+\item{metadata_col}{Map type column with metadata information. Optional.}
+
+\item{cleanup_mode}{Cleaning up options. Optional. Default is "disabled". Possible values:
+\tabular{ll}{
+disabled \tab source kept as original \cr
+inplace \tab removes new lines and tabs \cr
+inplace_full \tab removes new lines and tabs but also those which were converted to strings \cr
+shrink \tab removes new lines and tabs, plus merging multiple spaces and blank lines to a single space. \cr
+shrink_full \tab removews new lines and tabs, including stringified values, plus shrinking spaces and blank lines. \cr
+ }}
 
 \item{uid}{UID}
 }
+\value{
+When \code{x} is a \code{spark_connection} the function returns a DocumentAssembler Transformer. When
+\code{x} is a \code{ml_pipeline} a Pipeline with the DocumentAssembler as the only stage. When \code{x} is a 
+\code{tbl_spark} a transformed \code{tbl_spark}.
+}
 \description{
-Document Assembler
+Spark ML transformer that creates the first annotation of type Document. Can read a column containing either
+a \code{String} or \code{Array[String]}. See 
+\url{https://nlp.johnsnowlabs.com/docs/en/annotators#documentassembler-getting-data-in}
 }

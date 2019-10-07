@@ -1,41 +1,50 @@
-
-# Each estimator/transformer is a generic that has implementations for
-#   1. `spark_connection`
-#   2. `ml_pipeline`
-#   3. tbl_spark or whatever is natural to be passed to it to be
-#         evaluated eagerly
-#
-#  Docs could be improved...
-#
-#' Document Assembler
+#' Spark NLP DocumentAssembler
+#' 
+#' Spark ML transformer that creates the first annotation of type Document. Can read a column containing either
+#' a \code{String} or \code{Array[String]}. See 
+#' \url{https://nlp.johnsnowlabs.com/docs/en/annotators#documentassembler-getting-data-in}
 #' 
 #' @param x A Spark connection, pipeline object, or a Spark data frame.
-#' @param input_col Input column.
-#' @param output_col Output column.
-#' @param id_col ID column.
-#' @param metadata_col Metadata column.
+#' @param input_col Input column. Required.
+#' @param output_col Output column. Required.
+#' @param id_col String type column with id information. Optional.
+#' @param metadata_col Map type column with metadata information. Optional.
+#' @param cleanup_mode Cleaning up options. Optional. Default is "disabled". Possible values:
+#' \tabular{ll}{
+#' disabled \tab source kept as original \cr
+#' inplace \tab removes new lines and tabs \cr
+#' inplace_full \tab removes new lines and tabs but also those which were converted to strings \cr
+#' shrink \tab removes new lines and tabs, plus merging multiple spaces and blank lines to a single space. \cr
+#' shrink_full \tab removews new lines and tabs, including stringified values, plus shrinking spaces and blank lines. \cr
+#'  }
+#' 
 #' @param uid UID
 #' 
+#' @return When \code{x} is a \code{spark_connection} the function returns a DocumentAssembler Transformer. When
+#' \code{x} is a \code{ml_pipeline} a Pipeline with the DocumentAssembler as the only stage. When \code{x} is a 
+#' \code{tbl_spark} a transformed \code{tbl_spark}.
+#' 
 #' @export
-nlp_document_assembler <- function(x, input_col = NULL, output_col = NULL,
-                                   id_col = NULL, metadata_col = NULL, 
+nlp_document_assembler <- function(x, input_col, output_col,
+                                   id_col = NULL, metadata_col = NULL, cleanup_mode = NULL,
                                    uid = random_string("document_assembler_")) {
   UseMethod("nlp_document_assembler")
 }
 
 #' @export
-nlp_document_assembler.spark_connection <- function(x, input_col = NULL, output_col = NULL,
-                                   id_col = NULL, metadata_col = NULL, 
+nlp_document_assembler.spark_connection <- function(x, input_col, output_col,
+                                   id_col = NULL, metadata_col = NULL, cleanup_mode = NULL,
                                    uid = random_string("document_assembler_")) {
   args <- list(
     input_col = input_col,
     output_col = output_col,
     id_col = id_col,
     metadata_col = metadata_col,
+    cleanup_mode = cleanup_mode,
     uid = uid
-  ) %>%
-    validator_nlp_document_assembler()
-  
+  ) %>% 
+   validator_nlp_document_assembler()
+
   jobj <- sparklyr::spark_pipeline_stage(
     x, "com.johnsnowlabs.nlp.DocumentAssembler",
     input_col = args[["input_col"]],
@@ -45,14 +54,16 @@ nlp_document_assembler.spark_connection <- function(x, input_col = NULL, output_
     # `jobj_set_param()` helps with potentially null values
     #   or parameters that require a minimum Spark version
     sparklyr::jobj_set_param("setIdCol", args[["id_col"]]) %>%
-    sparklyr::jobj_set_param("setMetadataCol", args[["metadata_col"]])
+    sparklyr::jobj_set_param("setMetadataCol", args[["metadata_col"]]) %>% 
+    sparklyr::jobj_set_param("setCleanupMode", args[["cleanup_mode"]])
+  
   
   new_nlp_document_assembler(jobj)
 }
 
 #' @export
-nlp_document_assembler.ml_pipeline <- function(x, input_col = NULL, output_col = NULL,
-                                                    id_col = NULL, metadata_col = NULL,
+nlp_document_assembler.ml_pipeline <- function(x, input_col, output_col,
+                                                    id_col = NULL, metadata_col = NULL, cleanup_mode = NULL,
                                                     uid = random_string("document_assembler_")) {
 
   stage <- nlp_document_assembler.spark_connection(
@@ -61,6 +72,7 @@ nlp_document_assembler.ml_pipeline <- function(x, input_col = NULL, output_col =
     output_col = output_col,
     id_col = id_col,
     metadata_col = metadata_col,
+    cleanup_mode = cleanup_mode,
     uid = uid
   )
   
@@ -68,8 +80,8 @@ nlp_document_assembler.ml_pipeline <- function(x, input_col = NULL, output_col =
 }
 
 #' @export
-nlp_document_assembler.tbl_spark <- function(x, input_col = NULL, output_col = NULL,
-                                             id_col = NULL, metadata_col = NULL, 
+nlp_document_assembler.tbl_spark <- function(x, input_col, output_col,
+                                             id_col = NULL, metadata_col = NULL, cleanup_mode = NULL,
                                              uid = random_string("document_assembler_")) {
   stage <- nlp_document_assembler.spark_connection(
     x = sparklyr::spark_connection(x),
@@ -77,6 +89,7 @@ nlp_document_assembler.tbl_spark <- function(x, input_col = NULL, output_col = N
     output_col = output_col,
     id_col = id_col,
     metadata_col = metadata_col,
+    cleanup_mode = cleanup_mode,
     uid = uid
   )
   
@@ -88,10 +101,11 @@ nlp_document_assembler.tbl_spark <- function(x, input_col = NULL, output_col = N
 validator_nlp_document_assembler <- function(args) {
   # Input checking, much of these can be factored out; can be composed
   #   with other input checkers to avoid redundancy
-  args[["input_col"]] <- cast_nullable_string(args[["input_col"]])
-  args[["output_col"]] <- cast_nullable_string(args[["output_col"]])
+  args[["input_col"]] <- cast_string(args[["input_col"]])
+  args[["output_col"]] <- cast_string(args[["output_col"]])
   args[["id_col"]] <- cast_nullable_string(args[["id_col"]])
   args[["metadata_col"]] <- cast_nullable_string(args[["metadata_col"]])
+  args[["cleanup_mode"]] <- cast_nullable_string(args[["cleanup_mode"]])
   args
 }
 
