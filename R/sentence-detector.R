@@ -13,8 +13,8 @@
 #' @param uid UID
 #' 
 #' @return When \code{x} is a \code{spark_connection} the function returns a SentenceDetector Transformer. When
-#' \code{x} is a \code{ml_pipeline} a Pipeline with the SentenceDetector as the only stage. When \code{x} is a 
-#' \code{tbl_spark} a transformed \code{tbl_spark}.
+#' \code{x} is a \code{ml_pipeline} the pipeline with the SentenceDetector added. When \code{x} is a 
+#' \code{tbl_spark} a transformed \code{tbl_spark} (note that the Dataframe passed in must contain the input_cols specified).
 #' 
 #' @export
 nlp_sentence_detector <- function(x, input_cols, output_col,

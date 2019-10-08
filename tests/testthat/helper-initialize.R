@@ -49,16 +49,6 @@ testthat_tbl <- function(name) {
   tbl
 }
 
-# Use a local data frame as a spark dataframe
-testthat_data <- function(data, name) {
-  sc <- testthat_spark_connection()
-  tbl <- tryCatch(dplyr::tbl(sc, name), error = identity)
-  if (inherits(tbl, "error")) {
-    tbl <- dplyr::copy_to(sc, data, name = name)
-  }
-  tbl
-}
-
 skip_unless_verbose <- function(message = NULL) {
   message <- message %||% "Verbose test skipped"
   verbose <- Sys.getenv("SPARKLYR_TESTS_VERBOSE", unset = NA)

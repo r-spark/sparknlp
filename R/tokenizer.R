@@ -18,9 +18,9 @@
 #' 
 #' @param uid UID
 #' 
-#' @return When \code{x} is a \code{spark_connection} the function returns a ?????? Transformer. When
-#' \code{x} is a \code{ml_pipeline} a Pipeline with the ?????? as the only stage. When \code{x} is a 
-#' \code{tbl_spark} a transformed \code{tbl_spark}.
+#' @return When \code{x} is a \code{spark_connection} the function returns a Tokenizer estimator. When
+#' \code{x} is a \code{ml_pipeline} a Pipeline with the Tokenizer stage added. When \code{x} is a 
+#' \code{tbl_spark} a transformed \code{tbl_spark} (note that you must make sure the Dataframe contains the input_cols specified).
 #' 
 #' @export
 nlp_tokenizer <- function(x, input_cols, output_col,

@@ -21,8 +21,8 @@
 #' @param uid UID
 #' 
 #' @return When \code{x} is a \code{spark_connection} the function returns a DocumentAssembler Transformer. When
-#' \code{x} is a \code{ml_pipeline} a Pipeline with the DocumentAssembler as the only stage. When \code{x} is a 
-#' \code{tbl_spark} a transformed \code{tbl_spark}.
+#' \code{x} is a \code{ml_pipeline} the pipeline with the DocumentAssembler added. When \code{x} is a 
+#' \code{tbl_spark} a transformed \code{tbl_spark} (note that the Dataframe passed in must have the input_col specified).
 #' 
 #' @export
 nlp_document_assembler <- function(x, input_col, output_col,
