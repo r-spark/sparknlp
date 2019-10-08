@@ -1,3 +1,5 @@
 {
-  "com.johnsnowlabs.nlp.DocumentAssembler": "nlp_document_assembler"
+  "com.johnsnowlabs.nlp.DocumentAssembler": "nlp_document_assembler",
+  "com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector": "nlp_sentence_detector",
+  "com.johnsnowlabs.nlp.annotators.Tokenizer": "nlp_tokenizer"
 }

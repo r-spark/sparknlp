@@ -1,5 +1,16 @@
 {
   "idCol": "id_col",
   "metadataCol": "metadata_col",
-  "cleanupMode": "cleanup_mode"
-}
+  "cleanupMode": "cleanup_mode",
+  "exceptions": "exceptions",
+  "caseSensitiveExceptions": "case_sensitive_exceptions",
+  "contextChars": "context_chars",
+  "splitChars": "split_chars",
+  "targetPattern": "target_pattern",
+  "suffixPattern": "suffix_pattern",
+  "prefixPattern": "prefix_pattern",
+  "infixPatterns": "infix_patterns",
+  "customBounds": "custom_bounds",
+  "useCustomBoundsOnly": "use_custom_only",
+  "useAbbreviations": "use_abbreviations",
+  "explodeSentences": "explode_sentences"}

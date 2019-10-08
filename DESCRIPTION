@@ -1,11 +1,10 @@
 Package: sparknlp
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Implements functions to work with Spark NLP
 Version: 0.0.0.9000
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-  Use four spaces when indenting paragraphs within the Description.
+Author: Kevin Kuo / Dave Kincaid
+Maintainer: Dave Kincaid <kincaid.dave@gmail.com>
+Description: This package implements functions to use John Snow Labs Spark NLP with sparklyr.
 License: Apache License (>= 2.0)
 Encoding: UTF-8
 LazyData: true
