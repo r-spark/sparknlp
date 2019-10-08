@@ -1,13 +1,11 @@
 setup({
   sc <- testthat_spark_connection()
-  text_tbl <- testthat_data(data.frame(text = "The cat ate the mouse"), "textdata")
-  
+  text_tbl <- testthat_tbl("test_text")
   assign("sc", sc, envir = parent.frame())
   assign("text_tbl", text_tbl, envir = parent.frame())
 })
 
 teardown({
-  sparklyr::tbl_uncache(sc, "textdata")
   rm(sc, envir = .GlobalEnv)
   rm(text_tbl, envir = .GlobalEnv)
 })
@@ -30,10 +28,10 @@ test_that("nlp_document_assembler() spark_connection", {
 })
 
 test_that("nlp_document_assembler() ml_pipeline", {
-  assembler <- nlp_document_assembler(sc, input_col = "text", output_col = "document")
-  pipeline <- ml_pipeline(assembler)
+  pipeline <- ml_pipeline(sc)
+  assembler <- nlp_document_assembler(pipeline, input_col = "text", output_col = "document")
   
-  transformed_data <- ml_fit_and_transform(pipeline, text_tbl)
+  transformed_data <- ml_fit_and_transform(assembler, text_tbl)
   
   expect_true("document" %in% colnames(transformed_data))
 })

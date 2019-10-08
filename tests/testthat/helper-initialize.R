@@ -2,6 +2,9 @@
   if (is.null(x)) y else x
 }
 
+test_text <- data.frame(text = c("In 1949, Grace Hopper became an employee of the Eckert–Mauchly Computer Corporation as a senior mathematician and joined the team developing the UNIVAC I. Hopper also served as UNIVAC director of Automatic Programming Development for Remington Rand.",
+               "Turing is widely considered to be the father of theoretical computer science and artificial intelligence. During the Second World War, Turing was a leading participant in the breaking of German ciphers at Bletchley Park."))
+
 # helper functions from sparklyr tests
 # https://github.com/rstudio/sparklyr/blob/master/tests/testthat/helper-initialize.R
 testthat_spark_connection <- function() {
@@ -31,7 +34,7 @@ testthat_spark_connection <- function() {
     sc <- sparklyr::spark_connect(master = "local", version = version, config = config)
     assign(".testthat_spark_connection", sc, envir = .GlobalEnv)
   }
-  
+
   # retrieve spark connection
   get(".testthat_spark_connection", envir = .GlobalEnv)
 }

@@ -3,6 +3,7 @@
   "metadataCol": "metadata_col",
   "cleanupMode": "cleanup_mode",
   "exceptions": "exceptions",
+  "exceptionsPath": "exceptions_path",
   "caseSensitiveExceptions": "case_sensitive_exceptions",
   "contextChars": "context_chars",
   "splitChars": "split_chars",
