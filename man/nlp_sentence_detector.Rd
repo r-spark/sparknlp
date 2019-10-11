@@ -27,8 +27,8 @@ nlp_sentence_detector(x, input_cols, output_col, custom_bounds = NULL,
 }
 \value{
 When \code{x} is a \code{spark_connection} the function returns a SentenceDetector Transformer. When
-\code{x} is a \code{ml_pipeline} a Pipeline with the SentenceDetector as the only stage. When \code{x} is a 
-\code{tbl_spark} a transformed \code{tbl_spark}.
+\code{x} is a \code{ml_pipeline} the pipeline with the SentenceDetector added. When \code{x} is a 
+\code{tbl_spark} a transformed \code{tbl_spark} (note that the Dataframe passed in must contain the input_cols specified).
 }
 \description{
 Spark ML Transformer that finds sentence bounds in raw text. Applies rule from Pragmatic Segmenter

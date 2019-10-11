@@ -18,7 +18,6 @@ teardown({
 })
 
 test_that("nlp_tokenizer() param setting", {
-  sc <- testthat_spark_connection()
   test_args <- list(
     input_cols = c("sentences"), 
     output_col = "token",
@@ -50,7 +49,6 @@ test_that("nlp_tokenizer() ml_pipeline", {
 
 
 test_that("nlp_tokenizer() tbl_spark", {
-  sc <- testthat_spark_connection()
   transformed_data <- nlp_tokenizer(sentence_data, input_cols = c("sentence"), output_col = "token")
   expect_true("token" %in% colnames(transformed_data))
 })

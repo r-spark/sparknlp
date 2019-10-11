@@ -32,8 +32,8 @@ shrink_full \tab removews new lines and tabs, including stringified values, plus
 }
 \value{
 When \code{x} is a \code{spark_connection} the function returns a DocumentAssembler Transformer. When
-\code{x} is a \code{ml_pipeline} a Pipeline with the DocumentAssembler as the only stage. When \code{x} is a 
-\code{tbl_spark} a transformed \code{tbl_spark}.
+\code{x} is a \code{ml_pipeline} the pipeline with the DocumentAssembler added. When \code{x} is a 
+\code{tbl_spark} a transformed \code{tbl_spark} (note that the Dataframe passed in must have the input_col specified).
 }
 \description{
 Spark ML transformer that creates the first annotation of type Document. Can read a column containing either

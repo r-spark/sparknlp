@@ -14,4 +14,10 @@
   "customBounds": "custom_bounds",
   "useCustomBoundsOnly": "use_custom_only",
   "useAbbreviations": "use_abbreviations",
-  "explodeSentences": "explode_sentences"}
+  "explodeSentences": "explode_sentences",
+  "cleanAnnotations": "clean_annotations",
+  "valueSplitSymbol": "value_split_symbol",
+  "annotationSplitSymbol": "annotation_split_symbol",
+  "includeMetadata": "include_metadata",
+  "outputAsArray": "output_as_array"
+}

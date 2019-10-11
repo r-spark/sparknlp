@@ -1,5 +1,7 @@
 {
   "com.johnsnowlabs.nlp.DocumentAssembler": "nlp_document_assembler",
   "com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector": "nlp_sentence_detector",
-  "com.johnsnowlabs.nlp.annotators.Tokenizer": "nlp_tokenizer"
+  "com.johnsnowlabs.nlp.annotators.Tokenizer": "nlp_tokenizer",
+  "com.johnsnowlabs.nlp.Finisher": "finisher",
+  "com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel": "perceptron_model"
 }

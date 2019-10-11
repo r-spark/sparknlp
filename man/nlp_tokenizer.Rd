@@ -38,9 +38,9 @@ nlp_tokenizer(x, input_cols, output_col, exceptions = NULL,
 \item{uid}{UID}
 }
 \value{
-When \code{x} is a \code{spark_connection} the function returns a ?????? Transformer. When
-\code{x} is a \code{ml_pipeline} a Pipeline with the ?????? as the only stage. When \code{x} is a 
-\code{tbl_spark} a transformed \code{tbl_spark}.
+When \code{x} is a \code{spark_connection} the function returns a Tokenizer estimator. When
+\code{x} is a \code{ml_pipeline} a Pipeline with the Tokenizer stage added. When \code{x} is a 
+\code{tbl_spark} a transformed \code{tbl_spark} (note that you must make sure the Dataframe contains the input_cols specified).
 }
 \description{
 Spark ML estimator that identifies tokens with tokenization open standards. A few rules will help customizing
