@@ -4,9 +4,8 @@
 #' a \code{String} or \code{Array[String]}. See 
 #' \url{https://nlp.johnsnowlabs.com/docs/en/annotators#documentassembler-getting-data-in}
 #' 
-#' @param x A Spark connection, pipeline object, or a Spark data frame.
-#' @param input_col Input column. Required.
-#' @param output_col Output column. Required.
+#' @template roxlate-nlp-algo
+#' @template roxlate-input-output-params
 #' @param id_col String type column with id information. Optional.
 #' @param metadata_col Map type column with metadata information. Optional.
 #' @param cleanup_mode Cleaning up options. Optional. Default is "disabled". Possible values:
@@ -17,12 +16,6 @@
 #' shrink \tab removes new lines and tabs, plus merging multiple spaces and blank lines to a single space. \cr
 #' shrink_full \tab removews new lines and tabs, including stringified values, plus shrinking spaces and blank lines. \cr
 #'  }
-#' 
-#' @param uid UID
-#' 
-#' @return When \code{x} is a \code{spark_connection} the function returns a DocumentAssembler Transformer. When
-#' \code{x} is a \code{ml_pipeline} the pipeline with the DocumentAssembler added. When \code{x} is a 
-#' \code{tbl_spark} a transformed \code{tbl_spark} (note that the Dataframe passed in must have the input_col specified).
 #' 
 #' @export
 nlp_document_assembler <- function(x, input_col, output_col,

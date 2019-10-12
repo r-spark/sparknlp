@@ -3,9 +3,8 @@
 #' Spark ML estimator that identifies tokens with tokenization open standards. A few rules will help customizing
 #' it if defaults do not fit user needs. See \url{https://nlp.johnsnowlabs.com/docs/en/annotators#tokenizer}
 #' 
-#' @param x A Spark connection, pipeline object, or a Spark data frame.
-#' @param input_cols Input columns. String array Required.
-#' @param output_col Output column. String. Required.
+#' @template roxlate-nlp-algo
+#' @template roxlate-inputs-output-params
 #' @param exceptions String array. List of tokens to not alter at all. Allows composite tokens like two worded tokens that the user may not want to split.
 #' @param exceptions_path NOTE: NOT IMPLEMENTED. String. Path to txt file with list of token exceptions
 #' @param case_sensitive_exceptions Boolean. Whether to follow case sensitiveness for matching exceptions in text
@@ -15,12 +14,6 @@
 #' @param suffix_pattern String. Regex to identify subtokens that are in the end of the token. Regex has to end with `\\z` and must contain groups (). Each group will become a separate token within the prefix. Defaults to non-letter characters. e.g. quotes or parenthesis
 #' @param prefix_pattern String. Regex to identify subtokens that come in the beginning of the token. Regex has to start with `\\A` and must contain groups (). Each group will become a separate token within the prefix. Defaults to non-letter characters. e.g. quotes or parenthesis
 #' @param infix_patterns String array. extension pattern regex with groups to the top of the rules (will target first, from more specific to the more general).
-#' 
-#' @param uid UID
-#' 
-#' @return When \code{x} is a \code{spark_connection} the function returns a Tokenizer estimator. When
-#' \code{x} is a \code{ml_pipeline} a Pipeline with the Tokenizer stage added. When \code{x} is a 
-#' \code{tbl_spark} a transformed \code{tbl_spark} (note that you must make sure the Dataframe contains the input_cols specified).
 #' 
 #' @export
 nlp_tokenizer <- function(x, input_cols, output_col,

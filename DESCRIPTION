@@ -1,11 +1,17 @@
 Package: sparknlp
 Type: Package
-Title: Implements functions to work with Spark NLP
+Title: R Interface to John Snow Labs Spark NLP
 Version: 0.0.0.9000
-Author: Kevin Kuo / Dave Kincaid
+Authors@R: c(
+    person("Dave", "Kincaid", email = "kincaid.dave@gmail.com", role = c("aut")),
+    person("Kevin", "Kuo", email = "kevin.kuo@rstudio.com", role = c("aut", "cre"), 
+           comment = c(ORCID = "0000-0001-7803-7901")),
+    person(family = "RStudio", role = c("cph"))
+    )
 Maintainer: Dave Kincaid <kincaid.dave@gmail.com>
 Description: This package implements functions to use John Snow Labs Spark NLP with sparklyr.
 License: Apache License (>= 2.0)
+BugReports: https://github.com/rstudio/sparknlp/issues
 Encoding: UTF-8
 LazyData: true
 Depends:

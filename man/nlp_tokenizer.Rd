@@ -11,11 +11,11 @@ nlp_tokenizer(x, input_cols, output_col, exceptions = NULL,
   infix_patterns = NULL, uid = random_string("tokenizer_"))
 }
 \arguments{
-\item{x}{A Spark connection, pipeline object, or a Spark data frame.}
+\item{x}{A \code{spark_connection}, \code{ml_pipeline}, or a \code{tbl_spark}.}
 
-\item{input_cols}{Input columns. String array Required.}
+\item{input_cols}{Input columns. String array.}
 
-\item{output_col}{Output column. String. Required.}
+\item{output_col}{Output column. String.}
 
 \item{exceptions}{String array. List of tokens to not alter at all. Allows composite tokens like two worded tokens that the user may not want to split.}
 
@@ -35,12 +35,30 @@ nlp_tokenizer(x, input_cols, output_col, exceptions = NULL,
 
 \item{infix_patterns}{String array. extension pattern regex with groups to the top of the rules (will target first, from more specific to the more general).}
 
-\item{uid}{UID}
+\item{uid}{A character string used to uniquely identify the ML estimator.}
+
+\item{...}{Optional arguments, see Details.}
 }
 \value{
-When \code{x} is a \code{spark_connection} the function returns a Tokenizer estimator. When
-\code{x} is a \code{ml_pipeline} a Pipeline with the Tokenizer stage added. When \code{x} is a 
-\code{tbl_spark} a transformed \code{tbl_spark} (note that you must make sure the Dataframe contains the input_cols specified).
+The object returned depends on the class of \code{x}.
+
+\itemize{
+  \item \code{spark_connection}: When \code{x} is a \code{spark_connection}, the function returns an instance of a \code{ml_estimator} object. The object contains a pointer to
+  a Spark \code{Estimator} object and can be used to compose
+  \code{Pipeline} objects.
+
+  \item \code{ml_pipeline}: When \code{x} is a \code{ml_pipeline}, the function returns a \code{ml_pipeline} with
+  the NLP estimator appended to the pipeline.
+
+  \item \code{tbl_spark}: When \code{x} is a \code{tbl_spark}, an estimator is constructed then
+  immediately fit with the input \code{tbl_spark}, returning an NLP model.
+
+  \item \code{tbl_spark}, with \code{formula} or \code{features} specified: When \code{formula}
+    is specified, the input \code{tbl_spark} is first transformed using a
+    \code{RFormula} transformer before being fit by
+    the estimator. The object returned in this case is a \code{ml_model} which is a
+    wrapper of a \code{ml_pipeline_model}. This signature does not apply to \code{ml_lda()}.
+}
 }
 \description{
 Spark ML estimator that identifies tokens with tokenization open standards. A few rules will help customizing

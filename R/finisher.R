@@ -1,21 +1,15 @@
 #' Spark NLP Finisher
 #'
-#' Spark ML transformer that 
+#' Spark ML transformer that outputs annotation(s) values into string.
 #' See \url{https://nlp.johnsnowlabs.com/docs/en/annotators#finisher}
-#' 
-#' @param x A Spark connection, pipeline object, or a Spark data frame.
-#' @param input_cols Input column. Required.
-#' @param output_cols Optional. Names for output columns.
+#'
+#' @template roxlate-nlp-algo
+#' @template roxlate-inputs-outputs-params 
 #' @param clean_annotations Boolean. Whether to remove intermediate annotations
 #' @param value_split_symbol String. Optional. Split values within an annotation character
 #' @param annotation_split_symbol String. Optional. Split values between annotations character
 #' @param include_metadata Boolean. Optional. Whether to include metadata keys. Sometimes useful in some annotations
 #' @param output_as_array Boolean. Optional. Whether to output as Array. Useful as input for other Spark transformers
-#' @param uid Optional. UID
-#' 
-#' @return When \code{x} is a \code{spark_connection} the function returns a Finisher transformer.
-#' When \code{x} is a \code{ml_pipeline} the pipeline with the Finisher added. When \code{x}
-#' is a \code{tbl_spark} a transformed \code{tbl_spark}  (note that the Dataframe passed in must have the input_cols specified).
 #' 
 #' @export
 nlp_finisher <- function(x, input_cols, output_cols,

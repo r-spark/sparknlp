@@ -2,19 +2,12 @@
 #' 
 #' Spark ML Transformer that finds sentence bounds in raw text. Applies rule from Pragmatic Segmenter
 #' See \url{https://nlp.johnsnowlabs.com/docs/en/annotators#sentencedetector}
-#' 
-#' @param x A Spark connection, pipeline object, or a Spark data frame.
-#' @param input_cols Input columns. Required.
-#' @param output_col Output column. Required.
+#' @template roxlate-nlp-algo
+#' @template roxlate-inputs-output-params
 #' @param custom_bounds Custom sentence separator text. Optional.
 #' @param use_custom_only Use only custom bounds without considering those of Pragmatic Segmenter. Defaults to false. Needs customBounds.
 #' @param use_abbreviations Whether to consider abbreviation strategies for better accuracy but slower performance. Defaults to true.
 #' @param explode_sentences Whether to split sentences into different Dataset rows. Useful for higher parallelism in fat rows. Defaults to false.
-#' @param uid UID
-#' 
-#' @return When \code{x} is a \code{spark_connection} the function returns a SentenceDetector Transformer. When
-#' \code{x} is a \code{ml_pipeline} the pipeline with the SentenceDetector added. When \code{x} is a 
-#' \code{tbl_spark} a transformed \code{tbl_spark} (note that the Dataframe passed in must contain the input_cols specified).
 #' 
 #' @export
 nlp_sentence_detector <- function(x, input_cols, output_col,

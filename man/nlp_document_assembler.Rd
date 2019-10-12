@@ -9,11 +9,11 @@ nlp_document_assembler(x, input_col, output_col, id_col = NULL,
   uid = random_string("document_assembler_"))
 }
 \arguments{
-\item{x}{A Spark connection, pipeline object, or a Spark data frame.}
+\item{x}{A \code{spark_connection}, \code{ml_pipeline}, or a \code{tbl_spark}.}
 
-\item{input_col}{Input column. Required.}
+\item{input_col}{Input column. String.}
 
-\item{output_col}{Output column. Required.}
+\item{output_col}{Output column. String.}
 
 \item{id_col}{String type column with id information. Optional.}
 
@@ -28,12 +28,30 @@ shrink \tab removes new lines and tabs, plus merging multiple spaces and blank l
 shrink_full \tab removews new lines and tabs, including stringified values, plus shrinking spaces and blank lines. \cr
  }}
 
-\item{uid}{UID}
+\item{uid}{A character string used to uniquely identify the ML estimator.}
+
+\item{...}{Optional arguments, see Details.}
 }
 \value{
-When \code{x} is a \code{spark_connection} the function returns a DocumentAssembler Transformer. When
-\code{x} is a \code{ml_pipeline} the pipeline with the DocumentAssembler added. When \code{x} is a 
-\code{tbl_spark} a transformed \code{tbl_spark} (note that the Dataframe passed in must have the input_col specified).
+The object returned depends on the class of \code{x}.
+
+\itemize{
+  \item \code{spark_connection}: When \code{x} is a \code{spark_connection}, the function returns an instance of a \code{ml_estimator} object. The object contains a pointer to
+  a Spark \code{Estimator} object and can be used to compose
+  \code{Pipeline} objects.
+
+  \item \code{ml_pipeline}: When \code{x} is a \code{ml_pipeline}, the function returns a \code{ml_pipeline} with
+  the NLP estimator appended to the pipeline.
+
+  \item \code{tbl_spark}: When \code{x} is a \code{tbl_spark}, an estimator is constructed then
+  immediately fit with the input \code{tbl_spark}, returning an NLP model.
+
+  \item \code{tbl_spark}, with \code{formula} or \code{features} specified: When \code{formula}
+    is specified, the input \code{tbl_spark} is first transformed using a
+    \code{RFormula} transformer before being fit by
+    the estimator. The object returned in this case is a \code{ml_model} which is a
+    wrapper of a \code{ml_pipeline_model}. This signature does not apply to \code{ml_lda()}.
+}
 }
 \description{
 Spark ML transformer that creates the first annotation of type Document. Can read a column containing either
