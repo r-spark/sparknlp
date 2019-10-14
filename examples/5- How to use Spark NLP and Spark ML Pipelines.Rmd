@@ -73,17 +73,17 @@ tokenizer <- nlp_tokenizer(sc, input_cols = c("sentence"), output_col = "token")
 
 pos_tagger <- nlp_perceptron_pretrained(sc, input_cols = c("sentence", "token"), output_col = "pos")
 
-#chunker <- nlp_chunker(sc, input_cols = c("sentence", "pos"), 
-#                       output_col = "chunk", 
-#                       regex_parsers = c("<NNP>+", "<DT>?<JJ>*<NN>"))
+chunker <- nlp_chunker(sc, input_cols = c("sentence", "pos"), 
+                       output_col = "chunk", 
+                       regex_parsers = c("<NNP>+", "<DT>?<JJ>*<NN>"))
 
-finisher <- nlp_finisher(sc, input_cols = c("pos"), include_metadata = FALSE)
+finisher <- nlp_finisher(sc, input_cols = c("chunk"), include_metadata = FALSE)
 
 nlp_pipeline <- ml_pipeline(document_assembler, 
                             sentence_detector, 
                             tokenizer, 
                             pos_tagger,
-                            #chunker, 
+                            chunker, 
                             finisher)
 ```
 
@@ -135,8 +135,49 @@ head(ml_describe_topics(lda_model, max_terms_per_topic = 3))
 
 ### Let's look at our topics
 NOTE: More cleaning, filtering, playing around with CountVectorizer, and more iterations in LDA will result in better Topic Modelling results.
+
+
+
+
+topics = ldaModel.describeTopics(50)
+topics_rdd = topics.rdd
+
+vocab = mlModel.stages[0].vocabulary
+
+topics_words = topics_rdd\
+       .map(lambda row: row['termIndices'])\
+       .map(lambda idx_list: [vocab[idx] for idx in idx_list])\
+       .collect()
+
+for idx, topic in enumerate(topics_words):
+    print("topic: ", idx)
+    print("----------")
+    for word in topic:
+       print(word)
+    print("----------")
+
 ```{r}
-# TODO: translate the Python code here
+# Output topics. Each is a distribution over words (matching word count vectors)
+print(paste("Learned topics (as distributions over vocab of", lda_model$vocab_size,"words):"))
+
+topics <- lda_model$describe_topics(50)
+
+vocab <- ml_stage(ml_model, 1)$vocabulary
+
+topics_words <- topics %>% 
+  collect() %>%
+  mutate(topic_words = purrr::map(termIndices, function(i) {purrr::map(i, function(x) {vocab[[x + 1]]})}))
+
+words <- NULL
+cnames <- NULL
+for (i in 1:nrow(topics_words)) {
+  cnames <- c(cnames, paste0("Topic ", i))
+  df <- data.frame(as.character(topics_words[i,]$topic_words[[1]]))
+  words <- bind_cols(words, df)
+}
+colnames(words) <- cnames
+
+words
 ```
 
 

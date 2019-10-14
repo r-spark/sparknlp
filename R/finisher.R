@@ -12,7 +12,7 @@
 #' @param output_as_array Boolean. Optional. Whether to output as Array. Useful as input for other Spark transformers
 #' 
 #' @export
-nlp_finisher <- function(x, input_cols, output_cols,
+nlp_finisher <- function(x, input_cols, output_cols = NULL,
                  clean_annotations = NULL, value_split_symbol = NULL, annotation_split_symbol = NULL, include_metadata = NULL, output_as_array = NULL,
                  uid = random_string("finisher_")) {
   UseMethod("nlp_finisher")

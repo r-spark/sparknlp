@@ -21,5 +21,6 @@
   "includeMetadata": "include_metadata",
   "outputAsArray": "output_as_array",
   "nIterations": "n_interations",
-  "posColumn": "pos_column"
+  "posColumn": "pos_column",
+  "regexParsers": "regex_parsers"
 }
