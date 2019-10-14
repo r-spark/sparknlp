@@ -22,21 +22,34 @@ teardown({
 })
 
 test_that("nlp_perceptron spark_connection", {
-  test_annotator <- nlp_perceptron(sc, input_cols = c("token", "sentence"), output_col = "pos")
-  print(class(test_annotator))
-  pos_model <- ml_fit(test_annotator, test_data)
+ test_annotator <- nlp_perceptron(sc, input_cols = c("token", "sentence"), output_col = "pos")
+ pos_dataset <- nlp_pos(sc, here::here("tests", "testthat", "data", "pos_corpus.txt"))
+ pos_model <- ml_fit(test_annotator, pos_dataset)
+ transformed_data <- ml_transform(pos_model, test_data)
+ expect_true("pos" %in% colnames(transformed_data))
+})
+
+test_that("nlp_perceptron ml_pipeline", {
+   test_annotator <- nlp_perceptron(pipeline, input_cols = c("token", "sentence"), output_col = "pos")
+   transformed_data <- ml_fit_and_transform(test_annotator, test_data)
+   expect_true("pos" %in% colnames(transformed_data))
+})
+
+test_that("nlp_perceptron tbl_spark", {
+  pos_dataset <- nlp_pos(sc, here::here("tests", "testthat", "data", "pos_corpus.txt"))
+  pos_model <- nlp_perceptron(pos_dataset, input_cols = c("token", "sentence"), output_col = "pos")
   transformed_data <- ml_transform(pos_model, test_data)
   expect_true("pos" %in% colnames(transformed_data))
 })
 
-# test_that("nlp_perceptron ml_pipeline", {
-#   test_annotator <- nlp_perceptron(pipeline, input_cols = c("token", "sentence"), output_col = "pos")
-#   transformed_data <- ml_fit_and_transform(test_annotator, test_data)
-#   expect_true("pos" %in% colnames(transformed_data))
-# })
-# 
-# test_that("nlp_perceptron tbl_spark", {
-#   transformed_data <- nlp_perceptron(test_data, input_cols = c("token", "sentence"), output_col = "pos")
-#   expect_true("pos" %in% colnames(transformed_data))
-# })
+test_that("nlp_perceptron pretrained model", {
+  model <- nlp_perceptron_pretrained(sc, input_cols = c("token", "sentence"), output_col = "pos")
+  pipeline <- ml_add_stage(pipeline, model)
+  transformed_data <- ml_fit_and_transform(pipeline, test_data)
+  expect_true("pos" %in% colnames(transformed_data))
+})
 
+test_that("nlp_pos read pos training dataset", {
+  pos_dataset <- nlp_pos(sc, here::here("tests", "testthat", "data", "pos_corpus.txt"))
+  expect_true("tags" %in% colnames(pos_dataset))
+})

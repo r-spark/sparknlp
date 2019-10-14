@@ -71,18 +71,18 @@ sentence_detector <- nlp_sentence_detector(sc, input_cols = c("document"), outpu
 
 tokenizer <- nlp_tokenizer(sc, input_cols = c("sentence"), output_col = "token")
 
-pos_tagger <- nlp_perceptron_model(sc, input_cols = c("sentence", "token"), output_col = "pos")
+pos_tagger <- nlp_perceptron_pretrained(sc, input_cols = c("sentence", "token"), output_col = "pos")
 
 #chunker <- nlp_chunker(sc, input_cols = c("sentence", "pos"), 
 #                       output_col = "chunk", 
 #                       regex_parsers = c("<NNP>+", "<DT>?<JJ>*<NN>"))
 
-finisher <- nlp_finisher(sc, input_cols = c("token"), include_metadata = FALSE)
+finisher <- nlp_finisher(sc, input_cols = c("pos"), include_metadata = FALSE)
 
 nlp_pipeline <- ml_pipeline(document_assembler, 
                             sentence_detector, 
                             tokenizer, 
-                            #pos_tagger, 
+                            pos_tagger,
                             #chunker, 
                             finisher)
 ```

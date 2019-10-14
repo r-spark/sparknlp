@@ -4,11 +4,15 @@
 \alias{nlp_perceptron_pretrained}
 \title{Load a pretrained Spark NLP model}
 \usage{
-nlp_perceptron_pretrained(sc, name = NULL, lang = NULL,
-  remote_loc = NULL)
+nlp_perceptron_pretrained(sc, input_cols, output_col, name = NULL,
+  lang = NULL, remote_loc = NULL)
 }
 \arguments{
 \item{sc}{A Spark connection}
+
+\item{input_cols}{Input columns. String array.}
+
+\item{output_col}{Output column. String.}
 
 \item{name}{the name of the model to load. If NULL will use the default value}
 

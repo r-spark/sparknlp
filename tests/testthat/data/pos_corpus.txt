@@ -1,0 +1,2 @@
+the|DT cats|NNS are|VBP laying|VBG in|IN front|JJ of|IN the|DT fireplace|NN .|. the|DT dogs|NNS are|VBP
+staying|VBG cool|NN in|IN the|DT kitchen|NN .|.
