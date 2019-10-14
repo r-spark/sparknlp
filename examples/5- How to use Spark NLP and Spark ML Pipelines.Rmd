@@ -135,27 +135,6 @@ head(ml_describe_topics(lda_model, max_terms_per_topic = 3))
 
 ### Let's look at our topics
 NOTE: More cleaning, filtering, playing around with CountVectorizer, and more iterations in LDA will result in better Topic Modelling results.
-
-
-
-
-topics = ldaModel.describeTopics(50)
-topics_rdd = topics.rdd
-
-vocab = mlModel.stages[0].vocabulary
-
-topics_words = topics_rdd\
-       .map(lambda row: row['termIndices'])\
-       .map(lambda idx_list: [vocab[idx] for idx in idx_list])\
-       .collect()
-
-for idx, topic in enumerate(topics_words):
-    print("topic: ", idx)
-    print("----------")
-    for word in topic:
-       print(word)
-    print("----------")
-
 ```{r}
 # Output topics. Each is a distribution over words (matching word count vectors)
 print(paste("Learned topics (as distributions over vocab of", lda_model$vocab_size,"words):"))
