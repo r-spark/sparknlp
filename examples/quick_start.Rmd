@@ -1,0 +1,69 @@
+---
+title: "Spark NLP Quick Start"
+output: html_notebook
+---
+
+
+This notebook is adapted from John Snow Labs Jupyter/Python getting started notebook. See https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/quick_start.ipynb for that version.
+
+# Spark NLP Quick Start
+## How to use Spark NLP pretrained pipelines
+Make sure you have already installed sparklyr and sparklnlp
+
+```{r}
+library(dplyr)
+library(sparklyr)
+library(sparknlp)
+```
+
+### Let's create a Spark Session for our app
+```{r}
+version <- Sys.getenv("SPARK_VERSION", unset = "2.4.0")
+
+config <- sparklyr::spark_config()
+    
+options(sparklyr.sanitize.column.names.verbose = TRUE)
+options(sparklyr.verbose = TRUE)
+options(sparklyr.na.omit.verbose = TRUE)
+options(sparklyr.na.action.verbose = TRUE)
+sc <- sparklyr::spark_connect(master = "local", version = version, config = config)
+```
+
+Let's use Spark NLP pre-trained pipeline for named entity recognition
+```{r}
+pipeline <- nlp_pretrained_pipeline(sc, "recognize_entities_dl", lang = "en")
+```
+
+```{r}
+result <- nlp_annotate(pipeline, "Google has announced the release of a beta version of the popular TensorFlow machine learning library.")
+```
+
+```{r}
+ner_list <- result %>% pull(ner)
+unlist(purrr::map(ner_list, function(l1) purrr::map(l1, function(l) l[[4]])))
+```
+```{r}
+entities_list <- result %>% pull(entities)
+unlist(purrr::map(entities_list, function(l1) purrr::map(l1, function(l) l[[4]])))
+```
+
+Let's use Spark NLP pre-trained pipeline for sentiment analysis
+```{r}
+pipeline <- nlp_pretrained_pipeline(sc, "analyze_sentiment", "en")
+```
+
+```{r}
+result <- nlp_annotate(pipeline, "This is a very boring movie. I recommend others to awoid this movie is not good..")
+```
+
+```{r}
+sent_list <- result %>% pull(sentiment)
+unlist(purrr::map(sent_list, function(l1) purrr::map(l1, function(l) l[[4]])))
+```
+
+```{r}
+checked_list <- result %>% pull(checked)
+unlist(purrr::map(checked_list, function(l1) purrr::map(l1, function(l) l[[4]])))
+```
+
+The word awoid has been corrected to avoid by spell checker inside this pipeline
