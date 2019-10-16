@@ -126,6 +126,10 @@ new_nlp_perceptron <- function(jobj) {
 #' 
 #' @param sc Spark connection
 #' @param file_path path to the text file with the training data
+#' @param delimiter the delimiter used in the training data 
+#' @param output_pos_col the pos column name for the output data frame
+#' @param output_document_col the document column name for the output data frame
+#' @param output_text_col the text column name for the output data frame
 #' 
 #' @return Spark dataframe containing the data
 #' 

@@ -14,7 +14,7 @@ nlp_chunker(x, input_cols, output_col, regex_parsers = NULL,
 
 \item{output_col}{Output column. String.}
 
-\item{regex_parsers}{}
+\item{regex_parsers}{the regular expression parsers to use for the chunking}
 
 \item{uid}{A character string used to uniquely identify the ML estimator.}
 

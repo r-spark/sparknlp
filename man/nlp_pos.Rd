@@ -11,6 +11,14 @@ nlp_pos(sc, file_path, delimiter = NULL, output_pos_col = NULL,
 \item{sc}{Spark connection}
 
 \item{file_path}{path to the text file with the training data}
+
+\item{delimiter}{the delimiter used in the training data}
+
+\item{output_pos_col}{the pos column name for the output data frame}
+
+\item{output_document_col}{the document column name for the output data frame}
+
+\item{output_text_col}{the text column name for the output data frame}
 }
 \value{
 Spark dataframe containing the data

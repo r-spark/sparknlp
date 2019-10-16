@@ -5,7 +5,7 @@
 #' 
 #' @template roxlate-nlp-algo
 #' @template roxlate-inputs-output-params
-#' @param regex_parsers 
+#' @param regex_parsers the regular expression parsers to use for the chunking
 #' @export
 nlp_chunker <- function(x, input_cols, output_col,
                  regex_parsers = NULL,

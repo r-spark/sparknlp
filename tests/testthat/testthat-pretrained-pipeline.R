@@ -23,6 +23,6 @@ test_that("nlp_pretrained_pipeline() spark_connection", {
 
 test_that("nlp_pretrained_pipeline annotate", {
   pipeline <- nlp_pretrained_pipeline(sc, "recognize_entities_dl")
-  annotations <- nlp_annotate(pipeline, text_tbl, input_col = "text")
+  annotations <- nlp_annotate(pipeline, text_tbl)
   expect_true("entities" %in% colnames(annotations))
 })
