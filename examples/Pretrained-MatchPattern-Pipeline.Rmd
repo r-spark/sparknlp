@@ -1,0 +1,66 @@
+---
+title: "Use pretrained match_pattern Pipeline"
+output: html_notebook
+---
+
+This notebook is adapted from John Snow Labs Jupyter/Python getting started notebook. See
+https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/annotation/english/match-pattern-pipeline/Pretrained-MatchPattern-Pipeline.ipynb 
+for that version.
+
+* DocumentAssembler
+* SentenceDetector
+* Tokenizer 
+* RegexMatcher (match phone numbers)
+
+```{r}
+library(sparklyr)
+library(sparknlp)
+library(dplyr)
+```
+
+# Let's create a Spark connection for our app
+```{r}
+version <- Sys.getenv("SPARK_VERSION", unset = "2.4.0")
+
+config <- sparklyr::spark_config()
+    
+options(sparklyr.sanitize.column.names.verbose = TRUE)
+options(sparklyr.verbose = TRUE)
+options(sparklyr.na.omit.verbose = TRUE)
+options(sparklyr.na.action.verbose = TRUE)
+sc <- sparklyr::spark_connect(master = "local", version = version, config = config)
+```
+
+This Pipeline can extract phone numbers in these formats:
+
+0689912549 <br/>
++33698912549 <br/>
++33 6 79 91 25 49 <br/>
++33-6-79-91-25-49 <br/>
+(555)-555-5555 <br/>
+555-555-5555 <br/>
++1-238 6 79 91 25 49 <br/>
++1-555-532-3455 <br/>
++15555323455 <br/>
++7 06 79 91 25 49
+
+```{r}
+pipeline <- nlp_pretrained_pipeline(sc, "match_pattern", lang = "en")
+```
+
+```{r}
+result <- nlp_annotate(pipeline, "You should call Mr. Jon Doe at +33 1 79 01 22 89")
+```
+
+```{r}
+pull(result, regex)[[1]][[1]][[4]]
+```
+```{r}
+result <- nlp_annotate(pipeline, "Ring me up dude! +1-334-179-1466")
+```
+
+```{r}
+pull(result, regex)[[1]][[1]][[4]]
+```
+
+
