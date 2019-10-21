@@ -37,5 +37,8 @@
   "sourcePath": "source_path",
   "dimension": "dimension",
   "embeddingsFormat": "embeddings_format",
-  "caseSensitive": "case_sensitive"
+  "caseSensitive": "case_sensitive",
+  "readAs": "read_as",
+  "path": "path",
+  "options": "options"
 }

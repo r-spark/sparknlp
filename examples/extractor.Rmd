@@ -1,0 +1,89 @@
+---
+title: "Simple Text Matching"
+output: html_notebook
+---
+
+This notebook is adapted from John Snow Labs workshop Jupyter/Python tutorial "extractor.ipynb"
+(https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/annotation/english/text-matcher-pipeline/extractor.ipynb)
+
+In the following example, we walk-through our straight forward Text Matcher Annotator.
+
+This annotator will take a list of sentences from a text file and look them up in the given target dataset.
+
+This annotator is an Annotator Model and hence does not require training.
+
+### 1. Call necessary imports and set the resource path to read local data files
+```{r}
+library(sparklyr)
+library(sparknlp)
+library(dplyr)
+```
+
+### 2. Connect to Spark
+```{r}
+version <- Sys.getenv("SPARK_VERSION", unset = "2.4.0")
+
+config <- sparklyr::spark_config()
+#config$`sparklyr.shell.driver-memory` <- "8g"
+
+options(sparklyr.sanitize.column.names.verbose = TRUE)
+options(sparklyr.verbose = TRUE)
+options(sparklyr.na.omit.verbose = TRUE)
+options(sparklyr.na.action.verbose = TRUE)
+sc <- sparklyr::spark_connect(master = "local[*]", version = version, config = config)
+```
+
+### 3. Create appropriate annotators. We are using Sentence Detection and Tokenizing the sentence. The Finisher will clean the annotations and exclude the metadata
+```{r}
+document_assembler <- nlp_document_assembler(sc, input_col = "text", output_col = "document")
+sentence_detector <- nlp_sentence_detector(sc, input_cols = c("document"), output_col = "sentence")
+tokenizer <- nlp_tokenizer(sc, input_cols = c("document"), output_col = "token")
+extractor <- nlp_text_matcher(sc, input_cols = c("token", "sentence"), output_col = "entities", path = "entities.txt")
+finisher <- nlp_finisher(sc, input_cols = "entities", include_metadata = FALSE, clean_annotations = TRUE)
+
+pipeline <- ml_pipeline(document_assembler,
+                        sentence_detector,
+                        tokenizer,
+                        extractor,
+                        finisher)
+```
+
+### 4. Load the input data to be annotated
+```{r}
+tdir <- tempdir()
+download.file("https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/resources/en/sentiment.parquet.zip", 
+              paste0(tdir, "/sentiment.parquet.zip"))
+unzip(paste0(tdir, "/sentiment.parquet.zip"), exdir = tdir)
+```
+
+```{r}
+data <- spark_read_parquet(sc, "sentiment", paste0(tdir, "/sentiment.parquet")) %>%
+  head(1000)
+
+head(data, n = 20)
+```
+
+### 5. Running the fir for sentence detection and tokenization
+```{r}
+print("Start fitting")
+model <- ml_fit(pipeline, data)
+print("Fitting is ended")
+```
+### 6. Running the transform on data to do text matching. It will append a new column with mathed entities
+```{r}
+extracted <- ml_transform(model, data)
+extracted
+
+extracted %>%
+    filter(size(finished_entities) != 0)
+```
+### 7. The model could be saved locally and reloaded to run again
+```{r}
+ml_save(model, "./extractor.model")
+```
+```{r}
+same_model <- ml_load(sc, "./extractor.model")
+ml_transform(same_model, data) %>%
+  filter(size(finished_entities) != 0)
+```
+
