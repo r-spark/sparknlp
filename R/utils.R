@@ -1,16 +1,3 @@
-# Default scala arguments:
-# Constructor (e.g. new PretrainedPipeline()):
-# model_class <- "com.johnsnowlabs.nlp.pretrained.PretrainedPipeline"
-# module <- invoke_static(x, paste0(model_class, "$"), "MODULE$")
-# default_lang <- invoke(module, "apply$default$2")
-# default_source <- invoke(module, "apply$default$3")
-
-# Static method (e.g. Perceptron.pretrained()):
-# module <- invoke_static(sc, paste0(model_class, "$"), "MODULE$")
-# default_name <- invoke(module, "pretrained$default$1")
-# default_lang <- invoke(module, "pretrained$default$2")
-# default_remote_loc <- invoke(module, "pretrained$default$3")
-
 # Get a pretrained model.
 # The model_class is the Scala class for the model.
 pretrained_model <- function(sc, model_class, name = NULL, lang = NULL, remote_loc = NULL) {
