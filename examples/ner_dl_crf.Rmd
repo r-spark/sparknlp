@@ -1,0 +1,89 @@
+---
+title: "CRF Named Entity Recognition"
+output: html_notebook
+---
+
+This notebook is adapted from John Snow Labs workshop Jupyter/Python tutorial "ner_dl_crf.ipynb"
+(https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/crf-ner/ner_dl_crf.ipynb)
+
+In the following example, we walk-through a Conditional Random Fields NER model training and prediction.
+
+This challenging annotator will require the user to provide either a labeled dataset during fit() stage, or use external CoNLL 2003 resources to train. It may optionally use an external word embeddings set and a list of additional entities.
+
+The CRF Annotator will also require Part-of-speech tags so we add those in the same Pipeline. Also, we could use our special RecursivePipeline, which will tell SparkNLP's NER CRF approach to use the same pipeline for tagging external resources.
+
+1. Call necessary imports and set the resource path to read local data files
+```{r}
+library(sparklyr)
+library(sparknlp)
+```
+
+2. Download training dataset if not already there
+```{r}
+# Download CoNLL dataset
+training_file <- paste0(tempdir(), "/crf-eng.train")
+if (!file.exists(training_file)) {
+  print("File Not found will download it!")
+  download.file(url="https://github.com/patverga/torch-ner-nlp-from-scratch/raw/master/data/conll2003/eng.train",
+                destfile = training_file)
+} else {
+  print("Training file already exist. No need to download it.")
+}
+```
+
+3. Load SparkSession if not already there
+```{r}
+version <- Sys.getenv("SPARK_VERSION", unset = "2.4.0")
+
+config <- sparklyr::spark_config()
+config$`sparklyr.shell.driver-memory` <- "8g"
+
+options(sparklyr.sanitize.column.names.verbose = TRUE)
+options(sparklyr.verbose = TRUE)
+options(sparklyr.na.omit.verbose = TRUE)
+options(sparklyr.na.action.verbose = TRUE)
+sc <- sparklyr::spark_connect(master = "local[*]", version = version, config = config)
+```
+
+4. Create annotator components in the right order, with their training Params. Finisher will output only NER. Put all in pipeline
+```{r}
+ner_tagger <- nlp_ner_crf(sc,
+  input_cols = c("sentence", "token", "pos", "embeddings"),
+  output_col = "ner",
+  label_col = "label",
+  min_epochs = 1,
+  max_epochs = 1,
+  loss_eps = 1e-3,
+  l2 = 1,
+  C0 = 1250000,
+  random_seed = 0,
+  verbose = 0
+)
+```
+
+6. Load a dataset for prediction. Training is not relevant from this dataset.
+```{r}
+data <- nlp_conll_read_dataset(sc, training_file)
+
+embeddings <- nlp_word_embeddings_pretrained(sc, output_col = "embeddings")
+
+ready_data <- ml_transform(embeddings, data)
+
+head(ready_data)
+```
+7. Training the model. Training doesn't really do anything from the dataset itself.
+```{r}
+start = Sys.time()
+print("Start fitting")
+ner_model = ml_fit(ner_tagger, ready_data)
+print("Fitting has ended")
+print (Sys.time() - start)
+```
+8. Save NerCrfModel into disk after training
+```{r}
+ml_save(ner_model, "./pip_wo_embedd", overwrite = TRUE)
+```
+
+
+
+

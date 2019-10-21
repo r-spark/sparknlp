@@ -22,5 +22,20 @@
   "outputAsArray": "output_as_array",
   "nIterations": "n_interations",
   "posColumn": "pos_column",
-  "regexParsers": "regex_parsers"
+  "regexParsers": "regex_parsers",
+  "labelColumn": "label_col",
+  "minEpochs": "min_epochs",
+  "maxEpochs": "max_epochs",
+  "l2": "l2",
+  "c0": "C0",
+  "lLossEps": "loss_eps",
+  "minW": "min_w",
+  "externalFeatures": "external_features",
+  "entities": "entities",
+  "verbose": "verbose",
+  "randomSeed": "random_seed",
+  "sourcePath": "source_path",
+  "dimension": "dimension",
+  "embeddingsFormat": "embeddings_format",
+  "caseSensitive": "case_sensitive"
 }

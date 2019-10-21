@@ -101,6 +101,8 @@ nlp_perceptron_pretrained <- function(sc, input_cols, output_col,
   spark_jobj(model) %>%
     sparklyr::jobj_set_param("setInputCols", args[["input_cols"]]) %>% 
     sparklyr::jobj_set_param("setOutputCol", args[["output_col"]])
+  
+  new_ml_transformer(model)
 }
 
 #' @import forge
