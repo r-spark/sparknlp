@@ -19,7 +19,7 @@ nlp_text_matcher(x, input_cols, output_col, path,
 
 \item{read_as}{the format of the file, can be one of {ReadAs.LINE_BY_LINE, ReadAs.SPARK_DATASET}. Defaults to LINE_BY_LINE.}
 
-\item{options}{a map of additional parameters. Defaults to {“format”: “text”}. NOTE THIS IS CURRENTLY NOT USED. (see
+\item{options}{an named list containing additional parameters. Defaults to {“format”: “text”}. NOTE THIS IS CURRENTLY NOT USED. (see
 \url{https://github.com/rstudio/sparklyr/issues/1058})}
 
 \item{uid}{A character string used to uniquely identify the ML estimator.}

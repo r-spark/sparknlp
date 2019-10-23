@@ -7,7 +7,7 @@
 #' @template roxlate-inputs-output-params
 #' @param path a path to a file that contains the entities in the specified format.
 #' @param read_as the format of the file, can be one of {ReadAs.LINE_BY_LINE, ReadAs.SPARK_DATASET}. Defaults to LINE_BY_LINE.
-#' @param options a map of additional parameters. Defaults to {“format”: “text”}. NOTE THIS IS CURRENTLY NOT USED. (see
+#' @param options an named list containing additional parameters. Defaults to {“format”: “text”}. NOTE THIS IS CURRENTLY NOT USED. (see
 #' \url{https://github.com/rstudio/sparklyr/issues/1058})
 #' 
 #' @return When \code{x} is a \code{spark_connection} the function returns a TextMatcher transformer.
@@ -34,6 +34,10 @@ nlp_text_matcher.spark_connection <- function(x, input_cols, output_col,
     uid = uid
   ) %>%
   validator_nlp_text_matcher()
+  
+  if (!is.null(args[["options"]])) {
+    args[["options"]] <- list2env(args[["options"]])
+  }
 
   jobj <- sparklyr::spark_pipeline_stage(
     x, "com.johnsnowlabs.nlp.annotators.TextMatcher",
@@ -41,7 +45,7 @@ nlp_text_matcher.spark_connection <- function(x, input_cols, output_col,
     output_col = args[["output_col"]],
     uid = args[["uid"]]
   ) %>%
-    sparklyr::invoke("setEntities", args[["path"]], read_as(args[["read_as"]]), NULL)
+    sparklyr::invoke("setEntities", args[["path"]], read_as(args[["read_as"]]), args[["options"]])
 
   new_nlp_text_matcher(jobj)
 }
@@ -78,7 +82,7 @@ nlp_text_matcher.tbl_spark <- function(x, input_cols, output_col,
     uid = uid
   )
 
-  stage %>% sparklyr::ml_fit_and_transform(x)
+  stage %>% sparklyr::ml_fit(x)
 }
 #' @import forge
 validator_nlp_text_matcher <- function(args) {

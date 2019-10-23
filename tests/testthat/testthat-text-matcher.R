@@ -25,7 +25,9 @@ teardown({
 #   test_args <- list(
 #     input_cols = c("string1", "string2"),
 #     output_col = "string1",
-#     options = NULL
+#     path = "/tmp/path",
+#     read_as = read_as("LINE_BY_LINE"),
+#     options = list(format = "text")
 #   )
 # 
 #   test_param_setting(sc, nlp_text_matcher, test_args)
@@ -46,8 +48,9 @@ test_that("nlp_text_matcher ml_pipeline", {
 })
 
 test_that("nlp_text_matcher tbl_spark", {
-  transformed_data <- nlp_text_matcher(test_data, input_cols = c("sentence", "token"), output_col = "entities",
-  path = here::here("tests", "testthat", "data", "entities.txt"))
+  fit_model <- nlp_text_matcher(test_data, input_cols = c("sentence", "token"), output_col = "entities",
+                                       path = here::here("tests", "testthat", "data", "entities.txt"))
+  transformed_data <- ml_transform(fit_model, test_data)
   expect_true("entities" %in% colnames(transformed_data))
 })
 
