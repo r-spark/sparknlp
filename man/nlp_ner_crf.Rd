@@ -6,8 +6,11 @@
 \usage{
 nlp_ner_crf(x, input_cols, output_col, label_col = NULL,
   min_epochs = NULL, max_epochs = NULL, l2 = NULL, C0 = NULL,
-  loss_eps = NULL, min_w = NULL, external_features = NULL,
-  entities = NULL, verbose = NULL, random_seed = NULL,
+  loss_eps = NULL, min_w = NULL, external_features_path = NULL,
+  external_features_delimiter = NULL,
+  external_features_read_as = "LINE_BY_LINE",
+  external_features_options = list(format = "text"), entities = NULL,
+  verbose = NULL, random_seed = NULL,
   uid = random_string("ner_crf_"))
 }
 \arguments{
@@ -31,7 +34,13 @@ nlp_ner_crf(x, input_cols, output_col, label_col = NULL,
 
 \item{min_w}{Features with less weights than this value will be filtered out}
 
-\item{external_features}{Path to file or folder of line separated file that has something like this: Volvo:ORG with such delimiter, readAs LINE_BY_LINE or SPARK_DATASET with options passed to the latter.}
+\item{external_features_path}{Path to file or folder of line separated file}
+
+\item{external_features_delimiter}{something like this: Volvo:ORG with such delimiter}
+
+\item{external_features_read_as}{readAs LINE_BY_LINE or SPARK_DATASET}
+
+\item{external_features_options}{named list of options passed to the latter.}
 
 \item{entities}{Array of entities to recognize}
 
@@ -57,10 +66,6 @@ The object returned depends on the class of \code{x}.
   \item \code{tbl_spark}: When \code{x} is a \code{tbl_spark}, an estimator is constructed then
   immediately fit with the input \code{tbl_spark}, returning an NLP model.
 }
-
-When \code{x} is a \code{spark_connection} the function returns a NerCrfApproach estimator.
-When \code{x} is a \code{ml_pipeline} the pipeline with the NerCrfApproach added. When \code{x}
-is a \code{tbl_spark} a transformed \code{tbl_spark}  (note that the Dataframe passed in must have the input_cols specified).
 }
 \description{
 Spark ML estimator that allows for a generic model to be trained by utilizing a CRF machine learning algorithm. 

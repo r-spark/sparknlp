@@ -28,7 +28,7 @@
   "maxEpochs": "max_epochs",
   "l2": "l2",
   "c0": "C0",
-  "lLossEps": "loss_eps",
+  "lossEps": "loss_eps",
   "minW": "min_w",
   "externalFeatures": "external_features",
   "entities": "entities",
@@ -40,5 +40,10 @@
   "caseSensitive": "case_sensitive",
   "readAs": "read_as",
   "path": "path",
-  "options": "options"
+  "options": "options",
+  "lr": "lr",
+  "po": "po",
+  "batchSize": "batch_size",
+  "dropout": "dropout"
+  
 }

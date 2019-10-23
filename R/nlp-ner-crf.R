@@ -15,19 +15,19 @@
 #' @param C0 c0 defines decay speed for gradient
 #' @param loss_eps If epoch relative improvement lass than this value, training is stopped
 #' @param min_w Features with less weights than this value will be filtered out
-#' @param external_features Path to file or folder of line separated file that has something like this: Volvo:ORG with such delimiter, readAs LINE_BY_LINE or SPARK_DATASET with options passed to the latter.
+#' @param external_features_path Path to file or folder of line separated file 
+#' @param external_features_delimiter something like this: Volvo:ORG with such delimiter
+#' @param external_features_read_as readAs LINE_BY_LINE or SPARK_DATASET 
+#' @param external_features_options named list of options passed to the latter.
 #' @param entities Array of entities to recognize
 #' @param verbose Verbosity level
 #' @param random_seed random seed
 #' 
-#' @return When \code{x} is a \code{spark_connection} the function returns a NerCrfApproach estimator.
-#' When \code{x} is a \code{ml_pipeline} the pipeline with the NerCrfApproach added. When \code{x}
-#' is a \code{tbl_spark} a transformed \code{tbl_spark}  (note that the Dataframe passed in must have the input_cols specified).
-#' 
 #' @export
 nlp_ner_crf <- function(x, input_cols, output_col,
                  label_col = NULL, min_epochs = NULL, max_epochs = NULL, l2 = NULL, C0 = NULL, loss_eps = NULL, 
-                 min_w = NULL, external_features = NULL, entities = NULL, verbose = NULL, random_seed = NULL,
+                 min_w = NULL, external_features_path = NULL, external_features_delimiter = NULL, external_features_read_as = "LINE_BY_LINE", 
+                 external_features_options = list(format = "text"), entities = NULL, verbose = NULL, random_seed = NULL,
                  uid = random_string("ner_crf_")) {
   UseMethod("nlp_ner_crf")
 }
@@ -35,7 +35,8 @@ nlp_ner_crf <- function(x, input_cols, output_col,
 #' @export
 nlp_ner_crf.spark_connection <- function(x, input_cols, output_col,
                  label_col = NULL, min_epochs = NULL, max_epochs = NULL, l2 = NULL, C0 = NULL, loss_eps = NULL, 
-                 min_w = NULL, external_features = NULL, entities = NULL, verbose = NULL, random_seed = NULL,
+                 min_w = NULL, external_features_path = NULL, external_features_delimiter = NULL, external_features_read_as = "LINE_BY_LINE", 
+                 external_features_options = list(format = "text"), entities = NULL, verbose = NULL, random_seed = NULL,
                  uid = random_string("ner_crf_")) {
   args <- list(
     input_cols = input_cols,
@@ -47,13 +48,20 @@ nlp_ner_crf.spark_connection <- function(x, input_cols, output_col,
     C0 = C0,
     loss_eps = loss_eps,
     min_w = min_w,
-    external_features = external_features,
+    external_features_path = external_features_path,
+    external_features_delimiter = external_features_delimiter,
+    external_features_read_as = external_features_read_as,
+    external_features_options = external_features_options,
     entities = entities,
     verbose = verbose,
     random_seed = random_seed,
     uid = uid
   ) %>%
   validator_nlp_ner_crf()
+  
+  if (!is.null(args[["external_features_options"]])) {
+    args[["external_features_options"]] <- list2env(args[["external_features_options"]])
+  }
 
   jobj <- sparklyr::spark_pipeline_stage(
     x, "com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfApproach",
@@ -68,17 +76,23 @@ nlp_ner_crf.spark_connection <- function(x, input_cols, output_col,
     sparklyr::jobj_set_param("setC0", args[["C0"]])  %>%
     sparklyr::jobj_set_param("setLossEps", args[["loss_eps"]])  %>%
     sparklyr::jobj_set_param("setMinW", args[["min_w"]])  %>%
-    sparklyr::jobj_set_param("setExternalFeatures", args[["external_features"]])  %>%
     sparklyr::jobj_set_param("setEntities", args[["entities"]])  %>%
     sparklyr::jobj_set_param("setVerbose", args[["verbose"]])  %>%
-    sparklyr::jobj_set_param("setRandomSeed", args[["random_seed"]]) 
+    sparklyr::jobj_set_param("setRandomSeed", args[["random_seed"]])
 
+    if (!is.null(args[["external_features_path"]])) {
+      sparklyr::invoke(jobj, "setExternalFeatures", args[["external_features_path"]], args[["external_features_delimiter"]],
+                       read_as(args[["external_features_read_as"]]), args[["external_features_options"]])
+    }
+  
   new_nlp_ner_crf(jobj)
 }
 
 #' @export
 nlp_ner_crf.ml_pipeline <- function(x, input_cols, output_col,
-                 label_col = NULL, min_epochs = NULL, max_epochs = NULL, l2 = NULL, C0 = NULL, loss_eps = NULL, min_w = NULL, external_features = NULL, entities = NULL, verbose = NULL, random_seed = NULL,
+                 label_col = NULL, min_epochs = NULL, max_epochs = NULL, l2 = NULL, C0 = NULL, loss_eps = NULL, 
+                 min_w = NULL, external_features_path = NULL,external_features_delimiter = NULL,  external_features_read_as = "LINE_BY_LINE", 
+                 external_features_options = list(format = "text"), entities = NULL, verbose = NULL, random_seed = NULL,
                  uid = random_string("ner_crf_")) {
 
   stage <- nlp_ner_crf.spark_connection(
@@ -92,7 +106,10 @@ nlp_ner_crf.ml_pipeline <- function(x, input_cols, output_col,
     C0 = C0,
     loss_eps = loss_eps,
     min_w = min_w,
-    external_features = external_features,
+    external_features_path = external_features_path,
+    external_features_delimiter = external_features_delimiter,
+    external_features_read_as = external_features_read_as,
+    external_features_options = external_features_options,
     entities = entities,
     verbose = verbose,
     random_seed = random_seed,
@@ -104,7 +121,9 @@ nlp_ner_crf.ml_pipeline <- function(x, input_cols, output_col,
 
 #' @export
 nlp_ner_crf.tbl_spark <- function(x, input_cols, output_col,
-                 label_col = NULL, min_epochs = NULL, max_epochs = NULL, l2 = NULL, C0 = NULL, loss_eps = NULL, min_w = NULL, external_features = NULL, entities = NULL, verbose = NULL, random_seed = NULL,
+                 label_col = NULL, min_epochs = NULL, max_epochs = NULL, l2 = NULL, C0 = NULL, loss_eps = NULL, 
+                 min_w = NULL, external_features_path = NULL, external_features_delimiter = NULL, external_features_read_as = "LINE_BY_LINE", 
+                 external_features_options = list(format = "text"), entities = NULL, verbose = NULL, random_seed = NULL,
                  uid = random_string("ner_crf_")) {
   stage <- nlp_ner_crf.spark_connection(
     x = sparklyr::spark_connection(x),
@@ -117,14 +136,17 @@ nlp_ner_crf.tbl_spark <- function(x, input_cols, output_col,
     C0 = C0,
     loss_eps = loss_eps,
     min_w = min_w,
-    external_features = external_features,
+    external_features_path = external_features_path,
+    external_features_delimiter = external_features_delimiter,
+    external_features_read_as = external_features_read_as,
+    external_features_options = external_features_options,
     entities = entities,
     verbose = verbose,
     random_seed = random_seed,
     uid = uid
   )
 
-  stage %>% sparklyr::ml_fit_and_transform(x)
+  stage %>% sparklyr::ml_fit(x)
 }
 #' @import forge
 validator_nlp_ner_crf <- function(args) {
@@ -137,7 +159,10 @@ validator_nlp_ner_crf <- function(args) {
   args[["C0"]] <- cast_nullable_integer(args[["C0"]])
   args[["loss_eps"]] <- cast_nullable_double(args[["loss_eps"]])
   args[["min_w"]] <- cast_nullable_double(args[["min_w"]])
-  args[["external_features"]] <- cast_nullable_string_list(args[["external_features"]])
+  args[["external_features_path"]] <- cast_nullable_string(args[["external_features_path"]])
+  args[["external_features_delimiter"]] <- cast_nullable_string(args[["external_features_delimiter"]])
+  args[["external_features_read_as"]] <- cast_choice(args[["external_features_read_as"]], choices = c("LINE_BY_LINE", "SPARK_DATASET"))
+  #args[["external_features_options"]] <- cast_string_list(args[["external_features_options"]])
   args[["entities"]] <- cast_nullable_string_list(args[["entities"]])
   args[["verbose"]] <- cast_nullable_integer(args[["verbose"]])
   args[["random_seed"]] <- cast_nullable_integer(args[["random_seed"]])
@@ -146,4 +171,30 @@ validator_nlp_ner_crf <- function(args) {
 
 new_nlp_ner_crf <- function(jobj) {
   sparklyr::new_ml_estimator(jobj, class = "nlp_ner_crf")
+}
+
+#' Load a pretrained Spark NLP NER CRF model
+#' 
+#' Create a pretrained Spark NLP \code{NerCrfModel} model
+#' 
+#' @template roxlate-pretrained-params
+#' @template roxlate-inputs-output-params
+#' @export
+nlp_ner_crf_pretrained <- function(sc, input_cols, output_col,
+                                      name = NULL, lang = NULL, remote_loc = NULL) {
+  args <- list(
+    input_cols = input_cols,
+    output_col = output_col
+  )
+  
+  args[["input_cols"]] <- forge::cast_string_list(args[["input_cols"]])
+  args[["output_col"]] <- forge::cast_string(args[["output_col"]])
+  
+  model_class <- "com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfModel"
+  model <- pretrained_model(sc, model_class, name, lang, remote_loc)
+  spark_jobj(model) %>%
+    sparklyr::jobj_set_param("setInputCols", args[["input_cols"]]) %>% 
+    sparklyr::jobj_set_param("setOutputCol", args[["output_col"]])
+  
+  new_ml_transformer(model)
 }
