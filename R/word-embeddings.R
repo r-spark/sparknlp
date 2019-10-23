@@ -89,7 +89,7 @@ nlp_word_embeddings.tbl_spark <- function(x, input_cols, output_col,
     uid = uid
   )
 
-  stage %>% sparklyr::ml_fit_and_transform(x)
+  stage %>% sparklyr::ml_fit(x)
 }
 
 #' @import forge

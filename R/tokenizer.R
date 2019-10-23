@@ -114,7 +114,7 @@ nlp_tokenizer.tbl_spark <- function(x, input_cols, output_col,
   )
   
   stage %>% 
-    sparklyr::ml_fit_and_transform(x)
+    sparklyr::ml_fit(x)
 }
 
 #' @import forge

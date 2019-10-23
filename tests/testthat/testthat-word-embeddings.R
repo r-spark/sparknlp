@@ -54,9 +54,10 @@ test_that("nlp_word_embeddings ml_pipeline", {
 })
 
 test_that("nlp_word_embeddings tbl_spark", {
-  transformed_data <- nlp_word_embeddings(test_data, input_cols = c("document", "token"), output_col = "word_embeddings",
+  fit_model <- nlp_word_embeddings(test_data, input_cols = c("document", "token"), output_col = "word_embeddings",
                                           source_path = here::here("tests", "testthat", "data", "random_embeddings_dim4.txt"),
                                           embeddings_format = "text", dimension = 4)
+  transformed_data <- ml_transform(fit_model, test_data)
   expect_true("word_embeddings" %in% colnames(transformed_data))
 })
 

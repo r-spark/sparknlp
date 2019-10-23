@@ -49,6 +49,7 @@ test_that("nlp_tokenizer() ml_pipeline", {
 
 
 test_that("nlp_tokenizer() tbl_spark", {
-  transformed_data <- nlp_tokenizer(sentence_data, input_cols = c("sentence"), output_col = "token")
+  fit_model <- nlp_tokenizer(sentence_data, input_cols = c("sentence"), output_col = "token")
+  transformed_data <- ml_transform(fit_model, sentence_data)
   expect_true("token" %in% colnames(transformed_data))
 })
