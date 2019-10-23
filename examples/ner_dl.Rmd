@@ -1,0 +1,121 @@
+---
+title: "Deep Learning NER"
+output: html_notebook
+---
+
+This notebook is adapted from John Snow Labs workshop Jupyter/Python tutorial "ner_dl_crf.ipynb"
+(https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/dl-ner/ner_dl.ipynb)
+
+In the following example, we walk-through a LSTM NER model training and prediction. This annotator is implemented on top of TensorFlow.
+
+This annotator will take a series of word embedding vectors, training CoNLL dataset, plus a validation dataset. We include our own predefined Tensorflow Graphs, but it will train all layers during fit() stage.
+
+DL NER will compute several layers of BI-LSTM in order to auto generate entity extraction, and it will leverage batch-based distributed calls to native TensorFlow libraries during prediction.
+
+1. Call necessary imports and set the resource path to read local data files
+```{r}
+library(sparklyr)
+library(sparknlp)
+```
+
+2. Download CoNLL 2003 data if not present
+```{r}
+# Download CoNLL dataset
+training_file_url <- "https://github.com/patverga/torch-ner-nlp-from-scratch/raw/master/data/conll2003/"
+file_train <- "eng.train"
+file_testa <- "eng.testa"
+file_testb <- "eng.testb"
+
+training_file <- paste0(tempdir(), "/eng.train")
+if (!file.exists(training_file)) {
+  print("File Not found will download it!")
+  download.file(url = paste0(training_file_url, file_train), destfile = training_file)
+} else {
+  print("Training file already exist. No need to download it.")
+}
+```
+
+4. Load SparkSession if not already there
+```{r}
+version <- Sys.getenv("SPARK_VERSION", unset = "2.4.0")
+
+config <- sparklyr::spark_config()
+config$`sparklyr.shell.driver-memory` <- "8g"
+
+options(sparklyr.sanitize.column.names.verbose = TRUE)
+options(sparklyr.verbose = TRUE)
+options(sparklyr.na.omit.verbose = TRUE)
+options(sparklyr.na.action.verbose = TRUE)
+sc <- sparklyr::spark_connect(master = "local[*]", version = version, config = config)
+```
+
+6. Load parquet dataset and cache into memory
+```{r}
+training_data <- nlp_conll_read_dataset(sc, 
+                               training_file, 
+                               document_col = "document", 
+                               sentence_col = "sentence", 
+                               token_col = "token", 
+                               pos_col = "pos")
+
+embeddings <- nlp_word_embeddings_pretrained(sc, output_col = "embeddings")
+
+ready_data <- ml_transform(embeddings, training_data)
+
+head(ready_data)
+```
+
+5. Create annotator components with appropriate params and in the right order. The finisher will output only NER. Put everything in Pipeline
+```{r}
+ner_tagger <- nlp_ner_dl(sc,
+  input_cols = c("sentence", "token", "embeddings"),
+  output_col = "ner",
+  label_col = "label",
+  max_epochs = 1,
+  random_seed = 0,
+  verbose = 0,
+  include_confidence = TRUE
+)
+```
+
+7. Training the model. Training doesn't really do anything from the dataset itself.
+```{r}
+start = Sys.time()
+print("Start fitting")
+ner_model = ml_fit(ner_tagger, ready_data)
+print("Fitting has ended")
+print (Sys.time() - start)
+```
+
+8. Let's predict with the model
+```{r}
+document <- nlp_document_assembler(sc, input_col = "text", output_col = "document")
+sentence <- nlp_sentence_detector(sc, input_cols = c("document"), output_col = "sentence")
+token <- nlp_tokenizer(sc, input_cols = c("sentence"), output_col = "token")
+embeddings <- nlp_word_embeddings_pretrained(sc, output_col = "embeddings")
+
+prediction_pipeline <- ml_pipeline(
+  document,
+  sentence,
+  token,
+  embeddings,
+  ner_model
+)
+```
+
+```{r}
+prediction_data <- sdf_copy_to(sc, data.frame(text = c("Maria is a nice place.")), "prediction_data")
+prediction_data
+```
+```{r}
+prediction_model <- ml_fit(prediction_pipeline, prediction_data)
+ml_transform(prediction_model, prediction_data)
+```
+
+```{r}
+# We can be fast!
+
+
+```
+
+
