@@ -7,7 +7,7 @@
 nlp_light_pipeline(pipeline_model)
 }
 \arguments{
-\item{pipelineModel}{a trained (fitted) pipeline}
+\item{pipeline_model}{a trained (fitted) pipeline}
 }
 \value{
 a LightPipeline object

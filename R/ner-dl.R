@@ -150,6 +150,7 @@ new_nlp_ner_dl <- function(jobj) {
 #' 
 #' @template roxlate-pretrained-params
 #' @template roxlate-inputs-output-params
+#' @param include_confidence whether to include confidence values
 #' @export
 nlp_ner_dl_pretrained <- function(sc, input_cols, output_col, include_confidence = NULL,
                                    name = NULL, lang = NULL, remote_loc = NULL) {

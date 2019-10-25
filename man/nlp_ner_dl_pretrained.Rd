@@ -15,6 +15,8 @@ nlp_ner_dl_pretrained(sc, input_cols, output_col,
 
 \item{output_col}{Output column. String.}
 
+\item{include_confidence}{whether to include confidence values}
+
 \item{name}{the name of the model to load. If NULL will use the default value}
 
 \item{lang}{the language of the model to be loaded. If NULL will use the default value}

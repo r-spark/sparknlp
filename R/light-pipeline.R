@@ -4,7 +4,7 @@
 #' 10x times faster for smaller amounts of data (small is relative, but 50k sentences is roughly a good maximum).
 #' To use them, simply plug in a trained (fitted) pipeline.
 #' 
-#' @param pipelineModel a trained (fitted) pipeline
+#' @param pipeline_model a trained (fitted) pipeline
 #' 
 #' @return a LightPipeline object
 #'  

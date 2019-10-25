@@ -82,7 +82,7 @@ nlp_ner_crf.spark_connection <- function(x, input_cols, output_col,
 
     if (!is.null(args[["external_features_path"]])) {
       sparklyr::invoke(jobj, "setExternalFeatures", args[["external_features_path"]], args[["external_features_delimiter"]],
-                       read_as(args[["external_features_read_as"]]), args[["external_features_options"]])
+                       read_as(x, args[["external_features_read_as"]]), args[["external_features_options"]])
     }
   
   new_nlp_ner_crf(jobj)
