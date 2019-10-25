@@ -36,7 +36,9 @@ if (!file.exists(training_file)) {
 version <- Sys.getenv("SPARK_VERSION", unset = "2.4.0")
 
 config <- sparklyr::spark_config()
-config$`sparklyr.shell.driver-memory` <- "8g"
+#config$spark.driver.memory <- "6G"
+config$spark.executor.memory <- "2G"
+#config$spark.serializer <- "org.apache.spark.serializer.KryoSerializer"
 
 options(sparklyr.sanitize.column.names.verbose = TRUE)
 options(sparklyr.verbose = TRUE)
@@ -68,6 +70,10 @@ data <- nlp_conll_read_dataset(sc, training_file)
 embeddings <- nlp_word_embeddings_pretrained(sc, output_col = "embeddings")
 
 ready_data <- ml_transform(embeddings, data)
+
+sdf_persist(ready_data)
+#ready_data <- sdf_register(ready_data, "ready_data")
+#tbl_cache(sc, "ready_data")
 
 head(ready_data)
 ```

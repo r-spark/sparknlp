@@ -112,8 +112,15 @@ prediction_model <- ml_fit(prediction_pipeline, prediction_data)
 ml_transform(prediction_model, prediction_data)
 ```
 
+p = LightPipeline(prediction_model)
+result = lp.annotate("International Business Machines Corporation (IBM) is an American multinational information technology company headquartered in Armonk.")
+list(zip(result['token'], result['ner']))
 ```{r}
 # We can be fast!
+lp = nlp_light_pipeline(prediction_model)
+result = nlp_annotate(lp, "International Business Machines Corporation (IBM) is an American multinational information technology company headquartered in Armonk.")
+
+result
 
 
 ```
