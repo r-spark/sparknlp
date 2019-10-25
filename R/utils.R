@@ -13,23 +13,6 @@ pretrained_model <- function(sc, model_class, name = NULL, lang = NULL, remote_l
   invoke_static(sc, model_class, "pretrained", name, lang, remote_loc)
 }
 
-#' Annotate some text
-#' 
-#' Use SparkNLP to annotate some text. 
-#' 
-#' @param x some SparkNLP object that has an annotate method that takes a Spark data frame as argument
-#' @param text the text to annotate
-#' 
-#' @return a Spark data frame containing the annotations
-#' 
-#' @export
-nlp_annotate <- function(x, text) {
-  sc <- spark_connection(x)
-  text_frame <- dplyr::copy_to(sc, data.frame(text = text))
-  
-  sdf_register(invoke(spark_jobj(x), "annotate", spark_dataframe(text_frame), "text"))
-}
-
 #' Transform CoNLL format text file to Spark dataframe
 #' 
 #' In order to train a Named Entity Recognition DL annotator, we need to get CoNLL format data as a spark dataframe. 

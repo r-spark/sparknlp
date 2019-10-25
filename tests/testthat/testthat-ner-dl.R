@@ -35,10 +35,10 @@ test_that("ner_dl param setting", {
     output_col = "string1",
     label_col = "string1",
     max_epochs = 5,
-    #lr = 0.001,
-    #po = 0.001,
+    lr = 0.1,
+    po = 0.1,
     batch_size = 100,
-    #dropout = 0.6,
+    dropout = 0.5,
     verbose = 0,
     include_confidence = TRUE,
     random_seed = 100

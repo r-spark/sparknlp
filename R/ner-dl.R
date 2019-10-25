@@ -50,8 +50,6 @@ nlp_ner_dl.spark_connection <- function(x, input_cols, output_col,
   ) %>%
   validator_nlp_ner_dl()
 
-  # TODO: there is a bug in sparklyr that hinders passing arguments to methods that require Float types.
-  # (https://github.com/rstudio/sparklyr/issues/2151)
   jobj <- sparklyr::spark_pipeline_stage(
     x, "com.johnsnowlabs.nlp.annotators.ner.dl.NerDLApproach",
     input_cols = args[["input_cols"]],
@@ -60,14 +58,23 @@ nlp_ner_dl.spark_connection <- function(x, input_cols, output_col,
   ) %>%
     sparklyr::jobj_set_param("setLabelColumn", args[["label_col"]])  %>%
     sparklyr::jobj_set_param("setMaxEpochs", args[["max_epochs"]])  %>%
-    #sparklyr::jobj_set_param("setLr", args[["lr"]])  %>%
-    #sparklyr::jobj_set_param("setPo", args[["po"]])  %>%
     sparklyr::jobj_set_param("setBatchSize", args[["batch_size"]])  %>%
-    #sparklyr::jobj_set_param("setDropout", args[["dropout"]])  %>%
     sparklyr::jobj_set_param("setVerbose", args[["verbose"]])  %>%
     sparklyr::jobj_set_param("setIncludeConfidence", args[["include_confidence"]]) %>%
     sparklyr::jobj_set_param("setRandomSeed", args[["random_seed"]]) 
-
+  
+  if (!is.null(args[["lr"]])) {
+    jobj <- sparklyr::invoke_static(x, "sparknlp.Utils", "setLrParam", jobj, args[["lr"]])
+  }
+  
+  if (!is.null(args[["po"]])) {
+    jobj <- sparklyr::invoke_static(x, "sparknlp.Utils", "setPoParam", jobj, args[["po"]])
+  }
+  
+  if (!is.null(args[["dropout"]])) {
+    jobj <- sparklyr::invoke_static(x, "sparknlp.Utils", "setDropoutParam", jobj, args[["dropout"]])
+  }
+  
   new_nlp_ner_dl(jobj)
 }
 

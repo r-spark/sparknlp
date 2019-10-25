@@ -6,8 +6,8 @@
 \usage{
 nlp_ner_dl(x, input_cols, output_col, label_col = NULL,
   max_epochs = NULL, lr = NULL, po = NULL, batch_size = NULL,
-  dropout = NULL, verbose = NULL, random_seed = NULL,
-  uid = random_string("ner_dl_"))
+  dropout = NULL, verbose = NULL, include_confidence = NULL,
+  random_seed = NULL, uid = random_string("ner_dl_"))
 }
 \arguments{
 \item{x}{A \code{spark_connection}, \code{ml_pipeline}, or a \code{tbl_spark}.}
@@ -29,6 +29,8 @@ nlp_ner_dl(x, input_cols, output_col, label_col = NULL,
 \item{dropout}{Dropout coefficient}
 
 \item{verbose}{Verbosity level}
+
+\item{include_confidence}{whether to include confidence values}
 
 \item{random_seed}{Random seed}
 
