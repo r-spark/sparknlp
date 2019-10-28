@@ -9,5 +9,6 @@
   "com.johnsnowlabs.nlp.annotator.TextMatcher": "nlp_text_matcher",
   "com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfApproach": "nlp_ner_crf",
   "com.johnsnowlabs.nlp.annotators.ner.dl.NerDLApproach": "nlp_ner_dl",
-  "com.johnsnowlabs.nlp.LightPipeline": "nlp_light_pipeline"
+  "com.johnsnowlabs.nlp.LightPipeline": "nlp_light_pipeline",
+  "com.johnsnowlabsnlp.annotators.Lemmatizer": "nlp_lemmatizer"
 }
