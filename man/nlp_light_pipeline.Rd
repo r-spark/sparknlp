@@ -4,7 +4,7 @@
 \alias{nlp_light_pipeline}
 \title{Spark NLP Light pipeline}
 \usage{
-nlp_light_pipeline(pipeline_model)
+nlp_light_pipeline(pipeline_model, parse_embeddings = FALSE)
 }
 \arguments{
 \item{pipeline_model}{a trained (fitted) pipeline}

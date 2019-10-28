@@ -45,10 +45,5 @@
   "po": "po",
   "batchSize": "batch_size",
   "dropout": "dropout",
-  "includeConfidence": "include_confidence",
-  "dictionary_path": "dictionary_path",
-  "dictionary_read_as": "dictionary_read_as",
-  "dictionary_options": "dictionary_options",
-  "dictionary_key_delimiter": "dictionary_value_delimiter"
-  
+  "includeConfidence": "include_confidence"
 }
