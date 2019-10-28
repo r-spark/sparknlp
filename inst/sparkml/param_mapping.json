@@ -46,5 +46,7 @@
   "batchSize": "batch_size",
   "dropout": "dropout",
   "includeConfidence": "include_confidence",
-  "language": "language"
+  "language": "language",
+  "locale": "locale",
+  "stopWords": "stop_words"
 }
