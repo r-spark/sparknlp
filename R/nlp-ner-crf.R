@@ -59,9 +59,6 @@ nlp_ner_crf.spark_connection <- function(x, input_cols, output_col,
   ) %>%
   validator_nlp_ner_crf()
   
-  if (!is.null(args[["external_features_options"]])) {
-    args[["external_features_options"]] <- list2env(args[["external_features_options"]])
-  }
 
   jobj <- sparklyr::spark_pipeline_stage(
     x, "com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfApproach",
