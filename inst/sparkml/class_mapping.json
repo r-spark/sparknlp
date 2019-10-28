@@ -11,5 +11,6 @@
   "com.johnsnowlabs.nlp.annotators.ner.dl.NerDLApproach": "nlp_ner_dl",
   "com.johnsnowlabs.nlp.LightPipeline": "nlp_light_pipeline",
   "com.johnsnowlabs.nlp.annotators.Lemmatizer": "nlp_lemmatizer",
-  "com.johnsnowlabs.nlp.annotators.Normalizer": "nlp_normalizer"
+  "com.johnsnowlabs.nlp.annotators.Normalizer": "nlp_normalizer",
+  "com.johnsnowlabs.nlp.annotators.Stemmer": "nlp_stemmer"
 }

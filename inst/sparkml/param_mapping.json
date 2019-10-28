@@ -45,5 +45,6 @@
   "po": "po",
   "batchSize": "batch_size",
   "dropout": "dropout",
-  "includeConfidence": "include_confidence"
+  "includeConfidence": "include_confidence",
+  "language": "language"
 }
