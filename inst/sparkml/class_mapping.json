@@ -13,5 +13,8 @@
   "com.johnsnowlabs.nlp.annotators.Lemmatizer": "nlp_lemmatizer",
   "com.johnsnowlabs.nlp.annotators.Normalizer": "nlp_normalizer",
   "com.johnsnowlabs.nlp.annotators.Stemmer": "nlp_stemmer",
-  "com.johnsnowlabs.nlp.annotators.StopWordsCleaner": "nlp_stop_words_cleaner"
+  "com.johnsnowlabs.nlp.annotators.StopWordsCleaner": "nlp_stop_words_cleaner",
+  "com.johnsnowlabs.nlp.annotators.RegexMatcher": "nlp_regex_matcher",
+  "com.johnsnowlabs.nlp.annotators.NGramGenerator": "nlp_ngram_generator",
+  "com.johnsnowlabs.nlp.annotators.DateMatcher": "nlp_date_matcher"
 }
