@@ -22,7 +22,6 @@ teardown({
 })
 
 test_that("stop_words_cleaner param setting", {
-# TODO: edit these to make them legal values for the parameters
   test_args <- list(
     input_cols = c("string1"),
     output_col = "string1",

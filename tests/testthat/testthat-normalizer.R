@@ -21,17 +21,16 @@ teardown({
   rm(test_data, envir = .GlobalEnv)
 })
 
-# test_that("normalizer param setting", {
-# # TODO: edit these to make them legal values for the parameters
-#   test_args <- list(
-#     input_cols = c("string1"),
-#     output_col = "string1",
-#     cleanup_patterns = c("string1", "string2"),
-#     lowercase = FALSE
-#   )
-# 
-#   test_param_setting(sc, nlp_normalizer, test_args)
-# })
+test_that("normalizer param setting", {
+  test_args <- list(
+    input_cols = c("string1"),
+    output_col = "string1",
+    cleanup_patterns = c("string1", "string2"),
+    lowercase = FALSE
+  )
+
+  test_param_setting(sc, nlp_normalizer, test_args)
+})
 
 test_that("nlp_normalizer spark_connection", {
   test_annotator <- nlp_normalizer(sc, input_cols = c("token"), output_col = "normalized")

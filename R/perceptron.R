@@ -57,10 +57,13 @@ nlp_perceptron.ml_pipeline <- function(x, input_cols, output_col,
   ) %>%
     validator_nlp_perceptron()
   
-  stage <- nlp_perceptron_pretrained(
-    sc = sparklyr::spark_connection(x), 
+  stage <- nlp_perceptron.spark_connection(
+    x = sparklyr::spark_connection(x), 
     input_cols = input_cols,
-    output_col = output_col)
+    output_col = output_col,
+    n_iterations = n_iterations,
+    pos_column = pos_column,
+    uid = uid)
 
   sparklyr::ml_add_stage(x, stage)
 }

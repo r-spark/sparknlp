@@ -19,20 +19,15 @@ teardown({
   rm(test_data, envir = .GlobalEnv)
 })
 
-# test_that("regex_matcher param setting", {
-# # TODO: edit these to make them legal values for the parameters
-#   test_args <- list(
-#     input_cols = c("string1", "string2"),
-#     output_col = "string1",
-#     strategy = "string1",
-#     rules_path = "string1",
-#     rules_path_delimiter = "string1",
-#     rules_path_read_as = c("string1", "string2"),
-#     rules_path_options = c("string1", "string2")
-#   )
-# 
-#   test_param_setting(sc, nlp_regex_matcher, test_args)
-# })
+test_that("regex_matcher param setting", {
+  test_args <- list(
+    input_cols = c("string1"),
+    output_col = "string1",
+    strategy = "MATCH_ALL"
+  )
+
+  test_param_setting(sc, nlp_regex_matcher, test_args)
+})
 
 test_that("nlp_regex_matcher spark_connection", {
   test_annotator <- nlp_regex_matcher(sc, input_cols = c("document"), output_col = "regex", rules_path = here::here("tests", "testthat", "data", "regex_match.txt"))

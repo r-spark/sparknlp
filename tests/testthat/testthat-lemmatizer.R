@@ -21,19 +21,19 @@ teardown({
   rm(test_data, envir = .GlobalEnv)
 })
 
-# test_that("lemmatizer param setting", {
-#   test_args <- list(
-#     input_cols = c("string1"),
-#     output_col = "string1",
-#     dictionary_path = "string1",
-#     dictionary_key_delimiter = "string1",
-#     dictionary_value_delimiter = "string1",
-#     dictionary_read_as = "LINE_BY_LINE",
-#     dictionary_options = list("option1" = "value1")
-#   )
-# 
-#   test_param_setting(sc, nlp_lemmatizer, test_args)
-# })
+test_that("lemmatizer param setting", {
+  test_args <- list(
+    input_cols = c("string1"),
+    output_col = "string1"
+    #dictionary_path = "string1",
+    #dictionary_key_delimiter = "string1",
+    #dictionary_value_delimiter = "string1",
+    #dictionary_read_as = "LINE_BY_LINE",
+    #dictionary_options = list("option1" = "value1")
+  )
+
+  test_param_setting(sc, nlp_lemmatizer, test_args)
+})
 
 test_that("nlp_lemmatizer spark_connection", {
   test_annotator <- nlp_lemmatizer(sc, input_cols = c("token"), output_col = "lemma", 

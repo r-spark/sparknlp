@@ -7,6 +7,8 @@
 #' @template roxlate-inputs-output-params
 #' @param exceptions String array. List of tokens to not alter at all. Allows composite tokens like two worded tokens that the user may not want to split.
 #' @param exceptions_path NOTE: NOT IMPLEMENTED. String. Path to txt file with list of token exceptions
+#' @param exceptions_path_read_as LINE_BY_LINE or SPARK_DATASET
+#' @param exceptions_path_options Options to pass to the Spark reader. Defaults to {"format" = "text"}
 #' @param case_sensitive_exceptions Boolean. Whether to follow case sensitiveness for matching exceptions in text
 #' @param context_chars String array. Whether to follow case sensitiveness for matching exceptions in text
 #' @param split_chars String array.  List of 1 character string to rip off from tokens, such as parenthesis or question marks. Ignored if using prefix, infix or suffix patterns.
@@ -17,7 +19,9 @@
 #' 
 #' @export
 nlp_tokenizer <- function(x, input_cols, output_col,
-                 exceptions = NULL, exceptions_path = NULL, case_sensitive_exceptions = NULL, context_chars = NULL,
+                 exceptions = NULL, exceptions_path = NULL, exceptions_path_read_as = "LINE_BY_LINE", 
+                 exceptions_path_options = list("format" = "text"),
+                 case_sensitive_exceptions = NULL, context_chars = NULL,
                  split_chars = NULL, target_pattern = NULL, suffix_pattern = NULL, prefix_pattern = NULL, 
                  infix_patterns = NULL,
                  uid = random_string("tokenizer_")) {
@@ -26,7 +30,9 @@ nlp_tokenizer <- function(x, input_cols, output_col,
 
 #' @export
 nlp_tokenizer.spark_connection <- function(x, input_cols, output_col,
-                                           exceptions = NULL, exceptions_path = NULL, case_sensitive_exceptions = NULL, context_chars = NULL,
+                                           exceptions = NULL, exceptions_path = NULL, exceptions_path_read_as = "LINE_BY_LINE", 
+                                           exceptions_path_options = list("format" = "text"),
+                                           case_sensitive_exceptions = NULL, context_chars = NULL,
                                            split_chars = NULL, target_pattern = NULL, suffix_pattern = NULL, prefix_pattern = NULL, 
                                            infix_patterns = NULL,
                                            uid = random_string("tokenizer_")) {
@@ -35,6 +41,8 @@ nlp_tokenizer.spark_connection <- function(x, input_cols, output_col,
     output_col = output_col,
     exceptions = exceptions,
     exceptions_path = exceptions_path,
+    exceptions_path_read_as = exceptions_path_read_as,
+    exceptions_path_options = exceptions_path_options,
     case_sensitive_exceptions = case_sensitive_exceptions,
     context_chars = context_chars,
     split_chars = split_chars,
@@ -46,6 +54,11 @@ nlp_tokenizer.spark_connection <- function(x, input_cols, output_col,
   ) %>% 
    validator_nlp_tokenizer()
 
+  
+  if (!is.null(args[["exceptions_path_options"]])) {
+    args[["exception_path_options"]] <- list2env(args[["exceptions_path_options"]])
+  }
+  
   jobj <- sparklyr::spark_pipeline_stage(
     x, "com.johnsnowlabs.nlp.annotators.Tokenizer",
     input_cols = args[["input_cols"]],
@@ -53,7 +66,6 @@ nlp_tokenizer.spark_connection <- function(x, input_cols, output_col,
     uid = args[["uid"]]
   ) %>%
     sparklyr::jobj_set_param("setExceptions", args[["exceptions"]]) %>%
-    #sparklyr::jobj_set_param("setExceptionsPath", args[["exceptions_path"]]) %>%
     sparklyr::jobj_set_param("setCaseSensitiveExceptions", args[["case_sensitive_exceptions"]]) %>%
     sparklyr::jobj_set_param("setContextChars", args[["context_chars"]]) %>%
     sparklyr::jobj_set_param("setSplitChars", args[["split_chars"]]) %>%
@@ -61,13 +73,19 @@ nlp_tokenizer.spark_connection <- function(x, input_cols, output_col,
     sparklyr::jobj_set_param("setSuffixPattern", args[["suffix_pattern"]]) %>%
     sparklyr::jobj_set_param("setPrefixPattern", args[["prefix_pattern"]]) %>%
     sparklyr::jobj_set_param("setInfixPatterns", args[["infix_patterns"]])
+  
+  if (!is.null(args[["exceptions_path"]])) {
+    sparklyr::invoke(jobj, "setExceptionsPath", args[["exceptions_path"]], read_as(x, args[["exceptions_path_read_as"]]), args[["options"]])
+  }
 
   new_nlp_tokenizer(jobj)
 }
 
 #' @export
 nlp_tokenizer.ml_pipeline <- function(x, input_cols, output_col,
-                             exceptions = NULL, exceptions_path = NULL, case_sensitive_exceptions = NULL, context_chars = NULL,
+                             exceptions = NULL, exceptions_path = NULL, exceptions_path_read_as = "LINE_BY_LINE",
+                             exceptions_path_options = list("format" = "text"),
+                             case_sensitive_exceptions = NULL, context_chars = NULL,
                              split_chars = NULL, target_pattern = NULL, suffix_pattern = NULL, prefix_pattern = NULL, 
                              infix_patterns = NULL,
                              uid = random_string("tokenizer_")) {
@@ -77,7 +95,9 @@ nlp_tokenizer.ml_pipeline <- function(x, input_cols, output_col,
     input_cols = input_cols,
     output_col = output_col,
     exceptions = exceptions,
-    #exceptions_path = exceptions_path,
+    exceptions_path = exceptions_path,
+    exceptions_path_read_as = exceptions_path_read_as,
+    exceptions_path_options = exceptions_path_options,
     case_sensitive_exceptions = case_sensitive_exceptions,
     context_chars = context_chars,
     split_chars = split_chars,
@@ -93,7 +113,9 @@ nlp_tokenizer.ml_pipeline <- function(x, input_cols, output_col,
 
 #' @export
 nlp_tokenizer.tbl_spark <- function(x, input_cols, output_col,
-                           exceptions = NULL, exceptions_path = NULL, case_sensitive_exceptions = NULL, context_chars = NULL,
+                           exceptions = NULL, exceptions_path = NULL, exceptions_path_read_as = "LINE_BY_LINE", 
+                           exceptions_path_options = list("format" = "text"),
+                           case_sensitive_exceptions = NULL, context_chars = NULL,
                            split_chars = NULL, target_pattern = NULL, suffix_pattern = NULL, prefix_pattern = NULL, 
                            infix_patterns = NULL,
                            uid = random_string("tokenizer_")) {
@@ -102,7 +124,9 @@ nlp_tokenizer.tbl_spark <- function(x, input_cols, output_col,
     input_cols = input_cols,
     output_col = output_col,
     exceptions = exceptions,
-    #exceptions_path = exceptions_path,
+    exceptions_path = exceptions_path,
+    exceptions_path_read_as = exceptions_path_read_as,
+    exceptions_path_options = exceptions_path_options,
     case_sensitive_exceptions = case_sensitive_exceptions,
     context_chars = context_chars,
     split_chars = split_chars,
@@ -125,6 +149,7 @@ validator_nlp_tokenizer <- function(args) {
   args[["output_col"]] <- cast_string(args[["output_col"]])
   args[["exceptions"]] <- cast_nullable_string_list(args[["exceptions"]])
   args[["exceptions_path"]] <- cast_nullable_string(args[["exceptions_path"]])
+  args[["exceptions_path_read_as"]] <- cast_choice(args[["exceptions_path_read_as"]], choices = c("LINE_BY_LINE", "SPARK_DATASET"))
   args[["case_sensitive_exceptions"]] <- cast_nullable_logical(args[["case_sensitive_exceptions"]])
   args[["context_chars"]] <- cast_nullable_string_list(args[["context_chars"]])
   args[["split_chars"]] <- cast_nullable_string_list(args[["split_chars"]])

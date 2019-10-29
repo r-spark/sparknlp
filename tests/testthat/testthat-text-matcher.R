@@ -24,10 +24,10 @@ teardown({
 # test_that("text_matcher param setting", {
 #   test_args <- list(
 #     input_cols = c("string1", "string2"),
-#     output_col = "string1",
-#     path = "/tmp/path",
-#     read_as = read_as("LINE_BY_LINE"),
-#     options = list(format = "text")
+#     output_col = "string1"
+#     #path = "/tmp/path"
+#     #read_as = "LINE_BY_LINE"
+#     #options = list(format = "text")
 #   )
 # 
 #   test_param_setting(sc, nlp_text_matcher, test_args)

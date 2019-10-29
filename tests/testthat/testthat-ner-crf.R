@@ -29,27 +29,28 @@ teardown({
   rm(train_data, envir = .GlobalEnv)
 })
 
-# test_that("nlp_ner_crf param setting", {
-#   test_args <- list(
-#     input_cols = c("string1", "string2", "string3", "string4"),
-#     output_col = "string1",
-#     label_col = "string1",
-#     min_epochs = 1,
-#     max_epochs = 10,
-#     l2 = 3.0,
-#     C0 = 12150000,
-#     loss_eps = 0.001,
-#     min_w = 0.6,
-#     external_features_path = "string1",
-#     external_features_delimiter = ":",
-#     external_features_read_as = "LINE_BY_LINE",
-#     external_features_options = c("format"="text")
-#     entities = c("ORG"),
-#     verbose = 2,
-#     random_seed = 0
-#   )
-#   test_param_setting(sc, nlp_ner_crf, test_args)
-# })
+test_that("nlp_ner_crf param setting", {
+  test_args <- list(
+    input_cols = c("string1", "string2", "string3", "string4"),
+    output_col = "string1",
+    label_col = "string1",
+    min_epochs = 1,
+    max_epochs = 10,
+    l2 = 3.0,
+    C0 = 12150000,
+    loss_eps = 0.001,
+    min_w = 0.6,
+    #external_features_path = "string1",
+    #external_features_delimiter = ":",
+    #external_features_read_as = "LINE_BY_LINE",
+    #external_features_options = c("format"="text")
+    entities = c("ORG"),
+    verbose = 2,
+    random_seed = 0
+  )
+  
+  test_param_setting(sc, nlp_ner_crf, test_args)
+})
 
 test_that("nlp_ner_crf spark_connection", {
   test_annotator <- nlp_ner_crf(sc, input_cols = c("sentence", "token", "pos", "embeddings"), output_col = "ner", label_col = "label")

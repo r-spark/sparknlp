@@ -45,7 +45,7 @@ nlp_text_matcher.spark_connection <- function(x, input_cols, output_col,
     output_col = args[["output_col"]],
     uid = args[["uid"]]
   ) %>%
-    sparklyr::invoke("setEntities", args[["path"]], read_as(args[["read_as"]]), args[["options"]])
+    sparklyr::invoke("setEntities", args[["path"]], read_as(x, args[["read_as"]]), args[["options"]])
 
   new_nlp_text_matcher(jobj)
 }
@@ -89,7 +89,7 @@ validator_nlp_text_matcher <- function(args) {
   args[["input_cols"]] <- cast_string_list(args[["input_cols"]])
   args[["output_col"]] <- cast_string(args[["output_col"]])
   args[["path"]] <- cast_string(args[["path"]])
-  args[["read_as"]] <- cast_choice(args[["read_as"]], choices = c("LINE_BY_LINE", "SPARK_DATASET"), allow_null = TRUE)
+  args[["read_as"]] <- cast_choice(args[["read_as"]], choices = c("LINE_BY_LINE", "SPARK_DATASET"))
   args[["options"]] <- cast_nullable_string_list(args[["options"]])
   args
 }

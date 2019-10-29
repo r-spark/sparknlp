@@ -22,14 +22,13 @@ teardown({
   rm(test_data, envir = .GlobalEnv)
 })
 
-# # TODO: This is failing on source_path and embeddings_format for some reason I can't figure out
 # test_that("word_embeddings param setting", {
 #   test_args <- list(
 #     input_cols = c("string1", "string2"),
 #     output_col = "string1",
-#     source_path = "/tmp/embeddings",
+#     source_path = "/tmp/embeddings", # sourcePath doesn't exist as a val
 #     dimension = 300,
-#     embeddings_format = "TEXT",
+#     embeddings_format = "TEXT", # embeddingsFormat val is an integer, but setEmbeddingsFormat takes a string
 #     case_sensitive  = TRUE
 #   )
 # 

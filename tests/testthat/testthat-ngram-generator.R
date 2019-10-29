@@ -21,6 +21,17 @@ teardown({
   rm(test_data, envir = .GlobalEnv)
 })
 
+test_that("nlp_ngram_generator param setting", {
+  test_args <- list(
+    input_cols = c("string1"),
+    output_col = "string1",
+    n = 2,
+    enable_cumulative = TRUE
+  )
+  
+  test_param_setting(sc, nlp_ngram_generator, test_args)
+})
+
 test_that("nlp_ngram_generator spark_connection", {
   test_annotator <- nlp_ngram_generator(sc, input_cols = c("token"), output_col = "ngrams", n = 2)
   transformed_data <- ml_transform(test_annotator, test_data)
