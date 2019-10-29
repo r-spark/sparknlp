@@ -1,0 +1,1 @@
+the\\s\\w+, followed by ‘the'
