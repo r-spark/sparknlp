@@ -5,10 +5,12 @@
 \title{Spark NLP Tokenizer approach}
 \usage{
 nlp_tokenizer(x, input_cols, output_col, exceptions = NULL,
-  exceptions_path = NULL, case_sensitive_exceptions = NULL,
-  context_chars = NULL, split_chars = NULL, target_pattern = NULL,
-  suffix_pattern = NULL, prefix_pattern = NULL,
-  infix_patterns = NULL, uid = random_string("tokenizer_"))
+  exceptions_path = NULL, exceptions_path_read_as = "LINE_BY_LINE",
+  exceptions_path_options = list(format = "text"),
+  case_sensitive_exceptions = NULL, context_chars = NULL,
+  split_chars = NULL, target_pattern = NULL, suffix_pattern = NULL,
+  prefix_pattern = NULL, infix_patterns = NULL,
+  uid = random_string("tokenizer_"))
 }
 \arguments{
 \item{x}{A \code{spark_connection}, \code{ml_pipeline}, or a \code{tbl_spark}.}
@@ -20,6 +22,10 @@ nlp_tokenizer(x, input_cols, output_col, exceptions = NULL,
 \item{exceptions}{String array. List of tokens to not alter at all. Allows composite tokens like two worded tokens that the user may not want to split.}
 
 \item{exceptions_path}{NOTE: NOT IMPLEMENTED. String. Path to txt file with list of token exceptions}
+
+\item{exceptions_path_read_as}{LINE_BY_LINE or SPARK_DATASET}
+
+\item{exceptions_path_options}{Options to pass to the Spark reader. Defaults to {"format" = "text"}}
 
 \item{case_sensitive_exceptions}{Boolean. Whether to follow case sensitiveness for matching exceptions in text}
 
