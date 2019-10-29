@@ -108,7 +108,7 @@ validator_nlp_normalizer <- function(args) {
   args[["lowercase"]] <- cast_nullable_logical(args[["lowercase"]])
   args[["dictionary_path"]] <- cast_nullable_string(args[["dictionary_path"]])
   args[["dictionary_delimiter"]] <- cast_nullable_string(args[["dictionary_delimiter"]])
-  args[["dictionary_read_as"]] <- cast_choice(args[["dictionary_read_as"]], choice = c("LINE_BY_LINE", "SPARK_DATASET"))
+  args[["dictionary_read_as"]] <- cast_choice(args[["dictionary_read_as"]], choices = c("LINE_BY_LINE", "SPARK_DATASET"))
   args[["dictionary_options"]] <- cast_nullable_string_list(args[["dictionary_options"]])
   args
 }
