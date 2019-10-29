@@ -48,5 +48,8 @@
   "includeConfidence": "include_confidence",
   "language": "language",
   "locale": "locale",
-  "stopWords": "stop_words"
+  "stopWords": "stop_words",
+  "dateFormat": "format",
+  "n": "n",
+  "enableCumulative": "enable_cumulative"
 }
