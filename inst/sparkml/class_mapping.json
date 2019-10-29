@@ -16,5 +16,6 @@
   "com.johnsnowlabs.nlp.annotators.StopWordsCleaner": "nlp_stop_words_cleaner",
   "com.johnsnowlabs.nlp.annotators.RegexMatcher": "nlp_regex_matcher",
   "com.johnsnowlabs.nlp.annotators.NGramGenerator": "nlp_ngram_generator",
-  "com.johnsnowlabs.nlp.annotators.DateMatcher": "nlp_date_matcher"
+  "com.johnsnowlabs.nlp.annotators.DateMatcher": "nlp_date_matcher",
+  "com.johnsnowlabs.nlp.annotators.DeepSentenceDetector": "nlp_deep_sentence_detector"
 }

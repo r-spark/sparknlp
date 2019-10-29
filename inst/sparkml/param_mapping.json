@@ -54,5 +54,9 @@
   "enableCumulative": "enable_cumulative",
   "strategy": "strategy",
   "cleanupPatterns": "cleanup_patterns",
-  "lowercase": "lowercase"
+  "lowercase": "lowercase",
+  "includesPragmaticSegmenter": "include_pragmatic_segmenter",
+  "endPunctuation": "end_punctuation",
+  "maxLength": "max_length"
+  
 }
