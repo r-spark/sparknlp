@@ -57,6 +57,13 @@
   "lowercase": "lowercase",
   "includesPragmaticSegmenter": "include_pragmatic_segmenter",
   "endPunctuation": "end_punctuation",
-  "maxLength": "max_length"
+  "maxLength": "max_length",
+  "doubleVariants": "double_variants",
+  "shortCircuit": "short_circuit",
+  "wordSizeIgnore": "word_size_ignore",
+  "dupsLimit": "dups_limit",
+  "reductLimit": "reduct_limit",
+  "intersections": "intersections",
+  "vowelSwapLimit": "vowel_swap_limit"
   
 }
