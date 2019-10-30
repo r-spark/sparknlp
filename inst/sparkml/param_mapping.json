@@ -69,6 +69,12 @@
   "unimportantFeatureStep": "unimportant_feature_step",
   "importantFeatureRatio": "important_feature_ratio",
   "featureLimit": "feature_limit",
-  "pruneCorpus": "prune_corpus"
+  "pruneCorpus": "prune_corpus",
+  "decrementMultiplier": "decrement_multiplier",
+  "enableScore": "enable_score",
+  "incrementMultiplier": "increment_multiplier",
+  "negativeMultiplier": "negative_multiplier",
+  "positiveMultiplier": "positive_multiplier",
+  "reverseMultiplier": "reverse_multiplier"
   
 }

@@ -19,5 +19,6 @@
   "com.johnsnowlabs.nlp.annotators.DateMatcher": "nlp_date_matcher",
   "com.johnsnowlabs.nlp.annotators.DeepSentenceDetector": "nlp_deep_sentence_detector",
   "com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentApproach": "nlp_vivekn_sentiment_detector",
-  "com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingApproach": "nlp_norvig_spell_checker"
+  "com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingApproach": "nlp_norvig_spell_checker",
+  "com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetector": "nlp_sentiment_detector"
 }

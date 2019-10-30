@@ -1,0 +1,5 @@
+superb,positive
+bad,negative
+lack of, revert
+very,increment
+barely,decrement
