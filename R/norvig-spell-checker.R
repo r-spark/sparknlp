@@ -157,7 +157,7 @@ nlp_norvig_spell_checker_pretrained <- function(sc, input_cols, output_col,
     input_cols = input_cols,
     output_col = output_col
   ) %>%
-    validator_nlp_lemmatizer()
+    validator_nlp_norvig_spell_checker()
   
   model_class <- "com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingModel"
   model <- pretrained_model(sc, model_class, name, lang, remote_loc)
