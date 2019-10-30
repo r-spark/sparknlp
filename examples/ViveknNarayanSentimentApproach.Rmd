@@ -1,0 +1,139 @@
+---
+title: "Vivekn Sentiment Analysis"
+output: html_notebook
+---
+
+This notebook is adapted from John Snow Labs workshop Jupyter/Python tutorial "ViveknNarayanSentimentApproach.ipynb"
+(https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/vivekn-sentiment/VivekNarayanSentimentApproach.ipynb)
+
+In the following example, we walk-through Sentiment Analysis training and prediction using Spark NLP Annotators.
+
+The ViveknSentimentApproach annotator will compute Vivek Narayanan algorithm with either a column in training dataset 
+with rows labelled 'positive' or 'negative' or a folder full of positive text and a folder with negative text. Using 
+n-grams and negation of sequences, this statistical model can achieve high accuracy if trained properly.
+
+Spark can be leveraged in training by utilizing ReadAs.Dataset setting. Spark will be used during prediction by default.
+
+We also include in this pipeline a spell checker which shall correct our sentences for better Sentiment Analysis accuracy.
+
+### 1. Call necessary imports and set the resource path to read local data files¶
+```{r}
+library(sparklyr)
+library(sparknlp)
+library(dplyr)
+```
+
+### 2. Load SparkSession if not already there
+```{r}
+version <- Sys.getenv("SPARK_VERSION", unset = "2.4.0")
+
+config <- sparklyr::spark_config()
+config$`sparklyr.shell.driver-memory` <- "8g"
+
+options(sparklyr.sanitize.column.names.verbose = TRUE)
+options(sparklyr.verbose = TRUE)
+options(sparklyr.na.omit.verbose = TRUE)
+options(sparklyr.na.action.verbose = TRUE)
+sc <- sparklyr::spark_connect(master = "local[*]", version = version, config = config)
+```
+
+```{r}
+temp_dir <- tempdir()
+
+download.file("https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/resources/en/spell/words.txt", destfile = paste0(temp_dir, "/words.txt"))
+download.file("https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/resources/en/sentiment.parquet.zip", destfile = paste0(temp_dir, "/sentiment_parquet.zip"))
+unzip(paste0(temp_dir, "/sentiment_parquet.zip"), exdir = temp_dir)
+```
+
+### 3. Load a spark dataset and put it in memory
+```{r}
+data <- spark_read_parquet(sc, paste0(temp_dir, "/sentiment.parquet")) %>%
+  mutate(sentiment_label = if_else(sentiment == 0, "negative", "positive")) %>%
+  head(1000) %>%
+  sdf_register(name = "data")
+
+tbl_cache(sc, "data")
+
+head(data)
+```
+### 4. Create the document assembler, which will put target text column into Annotation form
+```{r}
+document_assembler <- nlp_document_assembler(sc, input_col = "text", output_col = "document")
+assembled = ml_transform(document_assembler, data)
+head(assembled, n = 5)
+```
+### 5. Create Sentence detector to parse sub sentences in every document
+```{r}
+sentence_detector <- nlp_sentence_detector(sc, input_cols = c("document"), output_col = "sentence")
+sentence_data <- ml_transform(sentence_detector, assembled)
+head(sentence_data, n = 5)
+```
+### 6. The tokenizer will match standard tokens
+```{r}
+tokenizer <- nlp_tokenizer(sc, input_cols = c("sentence"), output_col = "token")
+tokenized <- ml_fit_and_transform(tokenizer, sentence_data)
+head(tokenized, n = 5)
+```
+### 7. Normalizer will clean out the tokens
+```{r}
+normalizer <- nlp_normalizer(sc, input_cols = c("token"), output_col = "normal")
+```
+### 8. The spell checker will correct normalized tokens, this trains with a dictionary of english words
+```{r}
+spell_checker <- nlp_norvig_spell_checker(sc, input_cols = c("normal"), output_col = "spell", dictionary_path = paste0(temp_dir, "/words.txt"))
+```
+### 9. Create the ViveknSentimentApproach and set resources to train it
+```{r}
+sentiment_detector <- nlp_vivekn_sentiment_detector(sc, input_cols = c("spell", "sentence"), output_col = "sentiment", 
+                                           sentiment_col = "sentiment_label", prune_corpus = 0)
+```
+### 10. The finisher will utilize sentiment analysis output
+```{r}
+finisher = nlp_finisher(sc, input_cols = c("sentiment"), include_metadata = FALSE)
+```
+### 11. Fit and predict over data
+```{r}
+pipeline <- ml_pipeline(
+  document_assembler,
+  sentence_detector,
+  tokenizer,
+  normalizer,
+  spell_checker,
+  sentiment_detector,
+  finisher
+)
+
+start <- Sys.time()
+sentiment_data <- ml_fit_and_transform(pipeline, data)
+end <- Sys.time()
+print(paste0("Time elapsed pipeline process:", end - start))
+```
+### 13. Check the result
+```{r}
+head(sentiment_data, n = 5)
+```
+```{r}
+class(sentiment_data)
+```
+```{r}
+# Negative sentiments
+negatives <- sentiment_data %>%
+  filter(array_contains(finished_sentiment, "negative")) %>%
+  head(n = 5) %>%
+  collect()
+
+negatives %>%
+  mutate(finished_sentiment = purrr::map_chr(finished_sentiment, function(s) paste(s, collapse = ", "))) %>%
+  select(text, finished_sentiment)
+```
+```{r}
+# Positive sentiments
+positives <- sentiment_data %>%
+  filter(array_contains(finished_sentiment, "positive")) %>%
+  head(n = 5) %>%
+  collect()
+
+positives %>%
+  mutate(finished_sentiment = purrr::map_chr(finished_sentiment, function(s) paste(s, collapse = ", "))) %>%
+  select(text, finished_sentiment)
+```

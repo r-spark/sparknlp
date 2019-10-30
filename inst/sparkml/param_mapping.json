@@ -64,6 +64,11 @@
   "dupsLimit": "dups_limit",
   "reductLimit": "reduct_limit",
   "intersections": "intersections",
-  "vowelSwapLimit": "vowel_swap_limit"
+  "vowelSwapLimit": "vowel_swap_limit",
+  "sentimentCol": "sentiment_col",
+  "unimportantFeatureStep": "unimportant_feature_step",
+  "importantFeatureRatio": "important_feature_ratio",
+  "featureLimit": "feature_limit",
+  "pruneCorpus": "prune_corpus"
   
 }
