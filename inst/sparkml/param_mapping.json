@@ -75,6 +75,10 @@
   "incrementMultiplier": "increment_multiplier",
   "negativeMultiplier": "negative_multiplier",
   "positiveMultiplier": "positive_multiplier",
-  "reverseMultiplier": "reverse_multiplier"
-  
+  "reverseMultiplier": "reverse_multiplier",
+  "configProtoBytes": "config_proto_bytes",
+  "dimension": "dimension",
+  "maxSentenceLength": "max_sentence_length",
+  "poolingLayer": "pooling_layer",
+  "vocabulary": "vocabulary"
 }

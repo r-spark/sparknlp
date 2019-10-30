@@ -1,3 +1,24 @@
+#' Set the input column names
+#' 
+#' @param jobj the object setting the input columns on
+#' @param input_cols the input column names
+#' 
+#' @export
+nlp_set_input_cols <- function(jobj, input_cols) {
+  invoke(jobj, "setInputCols", input_cols)
+}
+
+#' Set the output column name
+#' 
+#' @param jobj the object setting the input columns on
+#' @param output_col the input column names
+#' 
+#' @export
+nlp_set_output_col <- function(jobj, output_col) {
+  invoke(jobj, "setOutputCol", output_col)
+}
+
+
 # Get a pretrained model.
 # The model_class is the Scala class for the model.
 pretrained_model <- function(sc, model_class, name = NULL, lang = NULL, remote_loc = NULL) {
