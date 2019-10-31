@@ -100,7 +100,8 @@ nlp_vivekn_sentiment_pretrained <- function(sc, input_cols, output_col,
   args <- list(
     input_cols = input_cols,
     output_col = output_col
-  ) 
+  ) %>%
+    validator_nlp_vivekn_sentiment_detector()
 
   model_class <- "com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentModel"
   model <- pretrained_model(sc, model_class, name, lang, remote_loc)
@@ -115,7 +116,7 @@ nlp_vivekn_sentiment_pretrained <- function(sc, input_cols, output_col,
 validator_nlp_vivekn_sentiment_detector <- function(args) {
   args[["input_cols"]] <- cast_string_list(args[["input_cols"]])
   args[["output_col"]] <- cast_string(args[["output_col"]])
-  args[["sentiment_col"]] <- cast_string(args[["sentiment_col"]])
+  args[["sentiment_col"]] <- cast_nullable_string(args[["sentiment_col"]])
   args[["prune_corpus"]] <- cast_nullable_integer(args[["prune_corpus"]])
   args[["feature_limit"]] <- cast_nullable_integer(args[["feature_limit"]])
   args[["unimportant_feature_step"]] <- cast_nullable_double(args[["unimportant_feature_step"]])
