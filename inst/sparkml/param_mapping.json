@@ -80,5 +80,6 @@
   "dimension": "dimension",
   "maxSentenceLength": "max_sentence_length",
   "poolingLayer": "pooling_layer",
-  "vocabulary": "vocabulary"
+  "vocabulary": "vocabulary",
+  "poolingStrategy": "pooling_strategy"
 }
