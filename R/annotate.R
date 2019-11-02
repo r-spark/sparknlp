@@ -14,7 +14,8 @@ nlp_annotate <- function(x, text) {
 
 #' @export
 nlp_annotate.nlp_light_pipeline <- function(x, text) {
-  invoke(x$.jobj, "annotate", text)
+  #invoke(x$.jobj, "annotateJava", text)
+  invoke_static(spark_connection(x$.jobj), "sparknlp.Utils", "annotateJava", x$.jobj, text)
 }
 
 #' @export

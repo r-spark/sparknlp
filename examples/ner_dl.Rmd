@@ -37,16 +37,16 @@ if (!file.exists(training_file)) {
 
 4. Load SparkSession if not already there
 ```{r}
-version <- Sys.getenv("SPARK_VERSION", unset = "2.4.0")
-
-config <- sparklyr::spark_config()
-config$`sparklyr.shell.driver-memory` <- "8g"
-
-options(sparklyr.sanitize.column.names.verbose = TRUE)
-options(sparklyr.verbose = TRUE)
-options(sparklyr.na.omit.verbose = TRUE)
-options(sparklyr.na.action.verbose = TRUE)
-sc <- sparklyr::spark_connect(master = "local[*]", version = version, config = config)
+  version <- Sys.getenv("SPARK_VERSION", unset = "2.4.0")
+  
+  config <- sparklyr::spark_config()
+  config$`sparklyr.shell.driver-memory` <- "8g"
+  
+  options(sparklyr.sanitize.column.names.verbose = TRUE)
+  options(sparklyr.verbose = TRUE)
+  options(sparklyr.na.omit.verbose = TRUE)
+  options(sparklyr.na.action.verbose = TRUE)
+  sc <- sparklyr::spark_connect(master = "local[*]", version = version, config = config)
 ```
 
 6. Load parquet dataset and cache into memory
