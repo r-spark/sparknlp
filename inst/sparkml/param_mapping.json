@@ -81,5 +81,11 @@
   "maxSentenceLength": "max_sentence_length",
   "poolingLayer": "pooling_layer",
   "vocabulary": "vocabulary",
-  "poolingStrategy": "pooling_strategy"
+  "poolingStrategy": "pooling_strategy",
+  "deletesThreshold": "deletes_threshold",
+  "frequencyThreshold": "frequency_threshold",
+  "longestWordLength": "longest_word_length",
+  "maxEditDistance": "max_edit_distance",
+  "maxFrequency": "max_frequency",
+  "minFrequency": "min_frequency"
 }

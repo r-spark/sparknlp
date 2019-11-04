@@ -21,8 +21,9 @@
   "com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentApproach": "nlp_vivekn_sentiment_detector",
   "com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingApproach": "nlp_norvig_spell_checker",
   "com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetector": "nlp_sentiment_detector",
-  "com.johnsnowlabs.nlp.embeddings.BertEmbeddings": "bert_embeddings",
-  "com.johnsnowlabs.nlp.embeddings.SentenceEmbeddings": "sentence_embeddings",
-  "com.johnsnowlabs.nlp.embeddings.ChunkEmbeddings": "chunk_embeddings"
+  "com.johnsnowlabs.nlp.embeddings.BertEmbeddings": "nlp_bert_embeddings",
+  "com.johnsnowlabs.nlp.embeddings.SentenceEmbeddings": "nlp_sentence_embeddings",
+  "com.johnsnowlabs.nlp.embeddings.ChunkEmbeddings": "nlp_chunk_embeddings",
+  "com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteApproach": "nlp_symmetric_delete"
   
 }

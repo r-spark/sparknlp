@@ -11,7 +11,7 @@ test_text <- data.frame(text = c("The cats are laying in front of the fireplace.
 # helper functions from sparklyr tests
 # https://github.com/rstudio/sparklyr/blob/master/tests/testthat/helper-initialize.R
 testthat_spark_connection <- function() {
-  version <- Sys.getenv("SPARK_VERSION", unset = "2.4.0")
+  version <- Sys.getenv("SPARK_VERSION", unset = "2.4.3")
   
   spark_installed <- sparklyr::spark_installed_versions()
   if (nrow(spark_installed[spark_installed$spark == version, ]) == 0) {
