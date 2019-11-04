@@ -87,5 +87,7 @@
   "longestWordLength": "longest_word_length",
   "maxEditDistance": "max_edit_distance",
   "maxFrequency": "max_frequency",
-  "minFrequency": "min_frequency"
+  "minFrequency": "min_frequency",
+  "conllU": "conll_u",
+  "numberOfIterations": "n_iterations"
 }

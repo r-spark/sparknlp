@@ -55,7 +55,7 @@ test_that("nlp_symmetric_delete tbl_spark", {
   expect_true("spell" %in% colnames(transformed_data))
 })
 
-test_that("nlp_norvig_spell_checker pretrained", {
+test_that("nlp_symmetric_delete pretrained", {
   model <- nlp_norvig_spell_checker_pretrained(sc, input_cols = c("token"), output_col = "spell")
   transformed_data <- ml_transform(model, test_data)
   expect_true("spell" %in% colnames(transformed_data))
