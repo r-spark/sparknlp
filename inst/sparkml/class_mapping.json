@@ -25,6 +25,7 @@
   "com.johnsnowlabs.nlp.embeddings.SentenceEmbeddings": "nlp_sentence_embeddings",
   "com.johnsnowlabs.nlp.embeddings.ChunkEmbeddings": "nlp_chunk_embeddings",
   "com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteApproach": "nlp_symmetric_delete",
-  "com.johnsnowlabs.nlp.annotators.parser.dep.DependencyParserApproach": "nlp_dependency_parser"
+  "com.johnsnowlabs.nlp.annotators.parser.dep.DependencyParserApproach": "nlp_dependency_parser",
+  "com.johnsnowlabs.nlp.annotators.parser.typdep.TypedDependencyParserApproach": "nlp_typed_dependency_parser"
   
 }

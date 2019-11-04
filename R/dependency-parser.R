@@ -46,6 +46,10 @@ nlp_dependency_parser.spark_connection <- function(x, input_cols, output_col,
   if (!is.null(args[["tree_bank_options"]])) {
     args[["tree_bank_options"]] = list2env(args[["tree_bank_options"]])
   }
+  
+  if (!is.null(args[["conll_u_options"]])) {
+    args[["conll_u_options"]] = list2env(args[["conll_u_options"]])
+  }
 
   jobj <- sparklyr::spark_pipeline_stage(
     x, "com.johnsnowlabs.nlp.annotators.parser.dep.DependencyParserApproach",
