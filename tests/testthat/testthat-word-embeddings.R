@@ -6,7 +6,6 @@ setup({
   assembler <- nlp_document_assembler(sc, input_col = "text", output_col = "document")
   sentdetect <- nlp_sentence_detector(sc, input_cols = c("document"), output_col = "sentence")
   tokenizer <- nlp_tokenizer(sc, input_cols = c("sentence"), output_col = "token")
-  # TODO: put other annotators here as needed
 
   pipeline <- ml_pipeline(assembler, sentdetect, tokenizer)
   test_data <- ml_fit_and_transform(pipeline, text_tbl)
@@ -28,7 +27,9 @@ teardown({
 #     output_col = "string1",
 #     source_path = "/tmp/embeddings", # sourcePath doesn't exist as a val
 #     dimension = 300,
+#     include_embeddings = FALSE,
 #     embeddings_format = "TEXT", # embeddingsFormat val is an integer, but setEmbeddingsFormat takes a string
+#     embeddings_ref = "string1",
 #     case_sensitive  = TRUE
 #   )
 # 

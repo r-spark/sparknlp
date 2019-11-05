@@ -97,5 +97,7 @@
   "startColByTokenIndex": "start_col_by_token_index",
   "failOnMissing": "fail_on_missing",
   "cleanAnnotations": "clean_annotations",
-  "outputAsVector": "output_as_vector"
+  "outputAsVector": "output_as_vector",
+  "includeEmbeddings": "include_embeddings",
+  "embeddingsRef": "embeddings_ref"
 }

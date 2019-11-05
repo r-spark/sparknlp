@@ -5,8 +5,8 @@
 \title{Spark NLP WordEmbeddings}
 \usage{
 nlp_word_embeddings(x, input_cols, output_col, source_path, dimension,
-  embeddings_format, case_sensitive = NULL,
-  uid = random_string("word_embeddings_"))
+  include_embeddings = NULL, embeddings_ref = NULL, embeddings_format,
+  case_sensitive = NULL, uid = random_string("word_embeddings_"))
 }
 \arguments{
 \item{x}{A \code{spark_connection}, \code{ml_pipeline}, or a \code{tbl_spark}.}
@@ -18,6 +18,11 @@ nlp_word_embeddings(x, input_cols, output_col, source_path, dimension,
 \item{source_path}{word embeddings file}
 
 \item{dimension}{number of word embeddings dimensions}
+
+\item{include_embeddings}{whether or not to include word embeddings when saving this annotator to disk (single or within pipeline)}
+
+\item{embeddings_ref}{whether to use annotators under the provided name. This means these embeddings will be lookup
+from the cache by the ref name. This allows multiple annotators to utilize same word embeddings by ref name.}
 
 \item{embeddings_format}{format of word embeddings files. One of:
 \itemize{

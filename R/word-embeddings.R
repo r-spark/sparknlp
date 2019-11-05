@@ -7,6 +7,9 @@
 #' @template roxlate-inputs-output-params
 #' @param source_path word embeddings file
 #' @param dimension number of word embeddings dimensions
+#' @param include_embeddings whether or not to include word embeddings when saving this annotator to disk (single or within pipeline)
+#' @param embeddings_ref whether to use annotators under the provided name. This means these embeddings will be lookup
+#'  from the cache by the ref name. This allows multiple annotators to utilize same word embeddings by ref name.
 #' @param embeddings_format format of word embeddings files. One of:
 #' \itemize{
 #' \item text -> this format is usually used by Glove
@@ -21,21 +24,23 @@
 #' 
 #' @export
 nlp_word_embeddings <- function(x, input_cols, output_col,
-                 source_path, dimension, embeddings_format, case_sensitive = NULL,
+                 source_path, dimension, include_embeddings = NULL, embeddings_ref = NULL, embeddings_format, case_sensitive = NULL,
                  uid = random_string("word_embeddings_")) {
   UseMethod("nlp_word_embeddings")
 }
 
 #' @export
 nlp_word_embeddings.spark_connection <- function(x, input_cols, output_col,
-                 source_path, dimension, embeddings_format, case_sensitive = NULL,
-                 uid = random_string("word_embeddings_")) {
+                                                 source_path, dimension, include_embeddings = NULL, embeddings_ref = NULL, embeddings_format, case_sensitive = NULL,
+                                                 uid = random_string("word_embeddings_")) {
   args <- list(
     input_cols = input_cols,
     output_col = output_col,
     source_path = source_path,
     dimension = dimension,
+    include_embeddings = include_embeddings,
     embeddings_format = embeddings_format,
+    embeddings_ref = embeddings_ref,
     case_sensitive = case_sensitive,
     uid = uid
   ) %>%
@@ -50,15 +55,17 @@ nlp_word_embeddings.spark_connection <- function(x, input_cols, output_col,
     sparklyr::jobj_set_param("setSourcePath", args[["source_path"]])  %>%
     sparklyr::jobj_set_param("setDimension", args[["dimension"]])  %>%
     sparklyr::jobj_set_param("setEmbeddingsFormat", args[["embeddings_format"]])  %>%
-    sparklyr::jobj_set_param("setCaseSensitive", args[["case_sensitive"]]) 
+    sparklyr::jobj_set_param("setCaseSensitive", args[["case_sensitive"]]) %>%
+    sparklyr::jobj_set_param("setIncludeEmbeddings", args[["include_embeddings"]]) %>%
+    sparklyr::jobj_set_param("setEmbeddingsRef", args[["embeddings_ref"]])
 
   new_nlp_word_embeddings(jobj)
 }
 
 #' @export
 nlp_word_embeddings.ml_pipeline <- function(x, input_cols, output_col,
-                 source_path, dimension, embeddings_format, case_sensitive = NULL,
-                 uid = random_string("word_embeddings_")) {
+                                            source_path, dimension, include_embeddings = NULL, embeddings_ref = NULL, embeddings_format, case_sensitive = NULL,
+                                            uid = random_string("word_embeddings_"))  {
 
   stage <- nlp_word_embeddings.spark_connection(
     x = sparklyr::spark_connection(x),
@@ -66,7 +73,9 @@ nlp_word_embeddings.ml_pipeline <- function(x, input_cols, output_col,
     output_col = output_col,
     source_path = source_path,
     dimension = dimension,
+    include_embeddings = include_embeddings,
     embeddings_format = embeddings_format,
+    embeddings_ref = embeddings_ref,
     case_sensitive = case_sensitive,
     uid = uid
   )
@@ -76,15 +85,17 @@ nlp_word_embeddings.ml_pipeline <- function(x, input_cols, output_col,
 
 #' @export
 nlp_word_embeddings.tbl_spark <- function(x, input_cols, output_col,
-                 source_path, dimension, embeddings_format, case_sensitive = NULL,
-                 uid = random_string("word_embeddings_")) {
+                                          source_path, dimension, include_embeddings = NULL, embeddings_ref = NULL, embeddings_format, case_sensitive = NULL,
+                                          uid = random_string("word_embeddings_"))  {
   stage <- nlp_word_embeddings.spark_connection(
     x = sparklyr::spark_connection(x),
     input_cols = input_cols,
     output_col = output_col,
     source_path = source_path,
     dimension = dimension,
+    include_embeddings = include_embeddings,
     embeddings_format = embeddings_format,
+    embeddings_ref = embeddings_ref,
     case_sensitive = case_sensitive,
     uid = uid
   )
@@ -98,7 +109,9 @@ validator_nlp_word_embeddings <- function(args) {
   args[["output_col"]] <- cast_string(args[["output_col"]])
   args[["source_path"]] <- cast_string(args[["source_path"]])
   args[["dimension"]] <- cast_integer(args[["dimension"]])
+  args[["include_embeddings"]] <- cast_nullable_logical(args[["include_embeddings"]])
   args[["embeddings_format"]] <- cast_string(args[["embeddings_format"]])
+  args[["embeddings_ref"]] <- cast_nullable_string(args[["embeddings_ref"]])
   args[["case_sensitive"]] <- cast_nullable_logical(args[["case_sensitive"]])
   args
 }
