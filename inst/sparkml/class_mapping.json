@@ -29,6 +29,6 @@
   "com.johnsnowlabs.nlp.annotators.parser.typdep.TypedDependencyParserApproach": "nlp_typed_dependency_parser",
   "com.johnsnowlabs.nlp.TokenAssembler": "nlp_token_assembler",
   "com.johnsnowlabs.nlp.Doc2Chunk": "nlp_doc2chunk",
-  "com.johnsnowlabs.nlp.Chunk2Doc": "nlp_chunk2doc"
-  
+  "com.johnsnowlabs.nlp.Chunk2Doc": "nlp_chunk2doc",
+  "com.johnsnowlabs.nlp.EmbeddingsFinisher": "nlp_embeddings_finisher"
 }
