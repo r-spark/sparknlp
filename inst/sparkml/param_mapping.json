@@ -55,6 +55,7 @@
   "strategy": "strategy",
   "cleanupPatterns": "cleanup_patterns",
   "lowercase": "lowercase",
+  "lowerCase": "lowercase",
   "includesPragmaticSegmenter": "include_pragmatic_segmenter",
   "endPunctuation": "end_punctuation",
   "maxLength": "max_length",
@@ -89,5 +90,10 @@
   "maxFrequency": "max_frequency",
   "minFrequency": "min_frequency",
   "conllU": "conll_u",
-  "numberOfIterations": "n_iterations"
+  "numberOfIterations": "n_iterations",
+  "isArray": "is_array",
+  "chunkCol": "chunk_col",
+  "startCol": "start_col",
+  "startColByTokenIndex": "start_col_by_token_index",
+  "failOnMissing": "fail_on_missing"
 }
