@@ -27,7 +27,7 @@ nlp_light_pipeline.tbl_spark <- function(x, parse_embeddings = FALSE) {
 }
 
 new_nlp_light_pipeline <- function(jobj) {
-  structure(list(.jobj = jobj), class = c("nlp_light_pipeline", "ml_transformer"))
+  structure(list(.jobj = jobj), class = c("nlp_light_pipeline", "ml_pipeline_model", "ml_transformer"))
 }
 
 #' @export
