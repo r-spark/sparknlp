@@ -4,7 +4,8 @@
 \alias{nlp_pretrained_pipeline}
 \title{Spark NLP Pretrained pipeline}
 \usage{
-nlp_pretrained_pipeline(x, download_name, lang = NULL, source = NULL)
+nlp_pretrained_pipeline(x, download_name, lang = "en",
+  source = "public/models", parse_embeddings_vectors = FALSE)
 }
 \arguments{
 \item{x}{a Spark connection, Spark dataframe or string or character vector}
@@ -14,6 +15,8 @@ nlp_pretrained_pipeline(x, download_name, lang = NULL, source = NULL)
 \item{lang}{the language of the pipeline}
 
 \item{source}{the source for the pipeline file}
+
+\item{parse_embeddings_vectors}{whether to parse the embeddings vectors or not}
 }
 \value{
 The object returned depends on the class of \code{x}.

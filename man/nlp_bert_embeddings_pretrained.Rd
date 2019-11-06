@@ -2,7 +2,7 @@
 % Please edit documentation in R/bert-embeddings.R
 \name{nlp_bert_embeddings_pretrained}
 \alias{nlp_bert_embeddings_pretrained}
-\title{Spark NLP BertEmbeddings}
+\title{Load a pretrained Spark NLP BertEmbeddings model}
 \usage{
 nlp_bert_embeddings_pretrained(sc, input_cols, output_col, name = NULL,
   lang = NULL, remote_loc = NULL)
@@ -19,51 +19,10 @@ nlp_bert_embeddings_pretrained(sc, input_cols, output_col, name = NULL,
 \item{lang}{the language of the model to be loaded. If NULL will use the default value}
 
 \item{remote_loc}{the remote location of the model. If NULL will use the default value}
-
-\item{x}{A \code{spark_connection}, \code{ml_pipeline}, or a \code{tbl_spark}.}
-
-\item{uid}{A character string used to uniquely identify the ML estimator.}
-
-\item{...}{Optional arguments, see Details.}
-
-\item{batch_size}{}
-
-\item{case_sensitive}{}
-
-\item{config_proto_bytes}{}
-
-\item{dimension}{}
-
-\item{max_sentence_length}{}
-
-\item{model_if_not_set}{}
-
-\item{pooling_layer}{}
-
-\item{vocabulary}{}
-
-\item{input_cols}{Input columns. String array.}
-
-\item{output_col}{Output column. String.}
 }
 \value{
-The object returned depends on the class of \code{x}.
-
-\itemize{
-  \item \code{spark_connection}: When \code{x} is a \code{spark_connection}, the function returns an instance of a \code{ml_estimator} object. The object contains a pointer to
-  a Spark \code{Estimator} object and can be used to compose
-  \code{Pipeline} objects.
-
-  \item \code{ml_pipeline}: When \code{x} is a \code{ml_pipeline}, the function returns a \code{ml_pipeline} with
-  the NLP estimator appended to the pipeline.
-
-  \item \code{tbl_spark}: When \code{x} is a \code{tbl_spark}, an estimator is constructed then
-  immediately fit with the input \code{tbl_spark}, returning an NLP model.
-}
-
 The Spark NLP model with the pretrained model loaded
 }
 \description{
-Spark ML transformer that 
-See \url{https://nlp.johnsnowlabs.com/docs/en/annotators#bert-embeddings}
+Create a pretrained Spark NLP \code{BertEmbeddings} model
 }
