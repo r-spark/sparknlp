@@ -8,6 +8,7 @@
 #' @param download_name the name of the pretrained pipeline to download and create
 #' @param lang the language of the pipeline
 #' @param source the source for the pipeline file
+#' @param parse_embeddings_vectors whether to parse the embeddings vectors or not
 #' 
 #' @return The object returned depends on the class of \code{x}.
 #'
@@ -20,31 +21,32 @@
 #' }
 #' 
 #' @export
-nlp_pretrained_pipeline <- function(x, download_name, lang = NULL, source = NULL) {
+nlp_pretrained_pipeline <- function(x, download_name, lang = "en", source = "public/models", parse_embeddings_vectors = FALSE) {
   UseMethod("nlp_pretrained_pipeline")
 }
 
 # Returns a pipeline
 #' @export
-nlp_pretrained_pipeline.spark_connection <- function(x, download_name, lang = NULL, source = NULL) {
+nlp_pretrained_pipeline.spark_connection <- function(x, download_name, lang = "en", source = "public/models", parse_embeddings_vectors = FALSE) {
   model_class <- "com.johnsnowlabs.nlp.pretrained.PretrainedPipeline"
-  module <- invoke_static(x, paste0(model_class, "$"), "MODULE$")
-  default_lang <- invoke(module, "apply$default$2")
-  default_source <- invoke(module, "apply$default$3")
+  #module <- invoke_static(x, paste0(model_class, "$"), "MODULE$")
+  #default_lang <- invoke(module, "apply$default$2")
+  #default_source <- invoke(module, "apply$default$3")
   
-  if (is.null(lang)) lang = default_lang
-  if (is.null(source)) source = default_source
   
-  jobj <- invoke_new(x, model_class, download_name, lang, source)
+  #if (is.null(lang)) lang = default_lang
+  #if (is.null(source)) source = default_source
+  
+  jobj <- invoke_new(x, model_class, download_name, lang, source, parse_embeddings_vectors)
   #new_nlp_pretrained_pipeline(jobj)
   jobj
 }
 
 # Runs the pipeline on the data frame
 #' @export
-nlp_pretrained_pipeline.tbl_spark <- function(x, download_name, lang = NULL, source = NULL) {
+nlp_pretrained_pipeline.tbl_spark <- function(x, download_name, lang = "en", source = "public/models", parse_embeddings_vectors = FALSE) {
   sc <- spark_connection(x)
-  pipeline <- nlp_pretrained_pipeline.spark_connection(sc, download_name, lang, source)
+  pipeline <- nlp_pretrained_pipeline.spark_connection(sc, download_name, lang, source, parse_embeddings_vectors)
   sdf_register(invoke(pipeline, "transform", spark_dataframe(x)))
 }
 
