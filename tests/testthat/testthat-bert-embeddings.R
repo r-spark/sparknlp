@@ -1,5 +1,8 @@
 setup({
   sc <- testthat_spark_connection()
+  # config <- spark_config()
+  # config$`sparklyr.shell.driver-memory` <- "8G"
+  # sc <- spark_connect(master = "local", version = "2.4.3", config = config)
   text_tbl <- testthat_tbl("test_text")
 
   # These lines should set a pipeline that will ultimately create the columns needed for testing the annotator
@@ -16,24 +19,10 @@ setup({
 })
 
 teardown({
+  spark_disconnect(sc)
   rm(sc, envir = .GlobalEnv)
   rm(pipeline, envir = .GlobalEnv)
   rm(test_data, envir = .GlobalEnv)
-})
-
-test_that("bert_embeddings param setting", {
-  test_args <- list(
-    input_cols = c("string1", "string2"),
-    output_col = "string1",
-    batch_size = 100,
-    case_sensitive = FALSE,
-    config_proto_bytes = c(1,3),
-    dimension = 300,
-    max_sentence_length = 10,
-    pooling_layer = 0
-  )
-
-  test_param_setting(sc, nlp_bert_embeddings, test_args)
 })
 
 test_that("nlp_bert_embeddings pretrained", {
@@ -47,21 +36,3 @@ test_that("nlp_bert_embeddings load", {
   transformed_data <- ml_transform(model, test_data)
   expect_true("bert" %in% colnames(transformed_data))
 })
-
-# test_that("nlp_bert_embeddings spark_connection", {
-#   test_annotator <- nlp_bert_embeddings(sc, input_cols = c("sentence", "token"), output_col = "bert")
-#   transformed_data <- ml_transform(test_annotator, test_data)
-#   expect_true("bert" %in% colnames(transformed_data))
-# })
-# 
-# test_that("nlp_bert_embeddings ml_pipeline", {
-#   test_annotator <- nlp_bert_embeddings(pipeline, input_cols = c("sentence", "token"), output_col = "bert")
-#   transformed_data <- ml_fit_and_transform(test_annotator, test_data)
-#   expect_true("bert" %in% colnames(transformed_data))
-# })
-# 
-# test_that("nlp_bert_embeddings tbl_spark", {
-#   transformed_data <- nlp_bert_embeddings(test_data, input_cols = c("sentence", "token"), output_col = "bert")
-#   expect_true("bert" %in% colnames(transformed_data))
-# })
-

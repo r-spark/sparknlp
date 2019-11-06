@@ -24,18 +24,17 @@ teardown({
 })
 
 test_that("typed_dependency_parser param setting", {
-# TODO: edit these to make them legal values for the parameters
   test_args <- list(
     input_cols = c("string1", "string2", "string3"),
     output_col = "string1",
-    n_iterations = 100
+    n_iterations = 100L
   )
 
   test_param_setting(sc, nlp_typed_dependency_parser, test_args)
 })
 
 test_that("nlp_typed_dependency_parser spark_connection", {
-  test_annotator <- nlp_typed_dependency_parser(sc, input_cols = token, output_col = "labdep", 
+  test_annotator <- nlp_typed_dependency_parser(sc, input_cols = c("dependency", "pos", "token"), output_col = "labdep", 
                                                 conll_2009_path = here::here("tests", "testthat", "data", "train.conll2009.txt"))
   fit_model <- ml_fit(test_annotator, test_data)
   transformed_data <- ml_transform(fit_model, test_data)
@@ -43,20 +42,20 @@ test_that("nlp_typed_dependency_parser spark_connection", {
 })
 
 test_that("nlp_typed_dependency_parser ml_pipeline", {
-  test_annotator <- nlp_typed_dependency_parser(pipeline, input_cols = dependency, output_col = "labdep",
+  test_annotator <- nlp_typed_dependency_parser(pipeline, input_cols = c("dependency", "pos", "token"), output_col = "labdep",
                                                 conll_2009_path = here::here("tests", "testthat", "data", "train.conll2009.txt"))
   transformed_data <- ml_fit_and_transform(test_annotator, test_data)
   expect_true("labdep" %in% colnames(transformed_data))
 })
 
 test_that("nlp_typed_dependency_parser tbl_spark", {
-  transformed_data <- nlp_typed_dependency_parser(test_data, input_cols = token, output_col = "labdep",
+  transformed_data <- nlp_typed_dependency_parser(test_data, input_cols = c("dependency", "pos", "token"), output_col = "labdep",
                                                   conll_2009_path = here::here("tests", "testthat", "data", "train.conll2009.txt"))
   expect_true("labdep" %in% colnames(transformed_data))
 })
 
 test_that("nlp_typed_dependency_parser pretrained", {
-  model <- nlp_typed_dependency_parser_pretrained(sc, input_cols = c("dependency", "pos", "token"), output_col = "dependency")
+  model <- nlp_typed_dependency_parser_pretrained(sc, input_cols = c("dependency", "pos", "token"), output_col = "labdep")
   transformed_data <- ml_transform(model, test_data)
   expect_true("labdep" %in% colnames(transformed_data))
 })

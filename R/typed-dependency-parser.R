@@ -152,7 +152,7 @@ nlp_typed_dependency_parser_pretrained <- function(sc, input_cols, output_col,
 validator_nlp_typed_dependency_parser <- function(args) {
   args[["input_cols"]] <- cast_string_list(args[["input_cols"]])
   args[["output_col"]] <- cast_string(args[["output_col"]])
-  args[["n_iterations"]] <- cast_nullable_string_list(args[["n_iterations"]])
+  args[["n_iterations"]] <- cast_nullable_integer(args[["n_iterations"]])
   args[["conll_u_path"]] <- cast_nullable_string(args[["conll_u_path"]])
   args[["conll_u_read_as"]] <- cast_choice(args[["conll_u_read_as"]], choices = c("LINE_BY_LINE", "SPARK_DATASET"), allow_null = TRUE)
   args[["conll_2009_path"]] <- cast_nullable_string(args[["conll_2009_path"]])

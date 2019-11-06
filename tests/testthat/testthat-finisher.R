@@ -38,7 +38,6 @@ test_that("finisher param setting", {
 test_that("nlp_finisher spark_connection", {
   test_annotator <- nlp_finisher(sc, input_cols = c("token"))
   transformed_data <- ml_transform(test_annotator, test_data)
-  print(colnames(transformed_data))
   expect_true("finished_token" %in% colnames(transformed_data))
 })
 

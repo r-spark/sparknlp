@@ -40,10 +40,6 @@ test_that("nlp_ner_crf param setting", {
     C0 = 12150000,
     loss_eps = 0.001,
     min_w = 0.6,
-    #external_features_path = "string1",
-    #external_features_delimiter = ":",
-    #external_features_read_as = "LINE_BY_LINE",
-    #external_features_options = c("format"="text")
     entities = c("ORG"),
     verbose = 2,
     random_seed = 0

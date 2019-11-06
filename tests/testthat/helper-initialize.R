@@ -28,6 +28,7 @@ testthat_spark_connection <- function() {
   
   if (!connected) {
     config <- sparklyr::spark_config()
+    config$`sparklyr.shell.driver-memory` <- "8G"
     
     options(sparklyr.sanitize.column.names.verbose = TRUE)
     options(sparklyr.verbose = TRUE)

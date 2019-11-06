@@ -8,7 +8,7 @@ setup({
 
 teardown({
   rm(sc, envir = .GlobalEnv)
-  rm(test_text, envir = .GlobalEnv)
+  rm(text_tbl, envir = .GlobalEnv)
 })
 
 test_that("nlp_pretrained_pipeline() tbl_spark", {
