@@ -68,3 +68,15 @@ test_that("nlp_word_embeddings pretrained model", {
   expect_true("word_embeddings" %in% colnames(transformed_data))
 })
 
+test_that("nlp_word_embeddings_model", {
+  assembler <- nlp_document_assembler(sc, input_col = "text", output_col = "document")
+  sentdetect <- nlp_sentence_detector(sc, input_cols = c("document"), output_col = "sentence")
+  tokenizer <- nlp_tokenizer(sc, input_cols = c("sentence"), output_col = "token")
+  embeddings_path <- here::here("tests", "testthat", "data", "random_embeddings_dim4.txt")
+  embeddings_helper <- nlp_load_embeddings(sc, path = embeddings_path, format = "TEXT", dims = 4, reference = "embeddings_ref")
+  embeddings <- nlp_word_embeddings_model(sc, input_cols = c("sentence", "token"), output_col = "embeddings",embeddings_ref = "embeddings_ref", dimension = 4)
+  emb_pipeline <- ml_pipeline(assembler, sentdetect, tokenizer, embeddings)
+  transformed_data <- ml_fit_and_transform(emb_pipeline, test_data)
+  expect_true("embeddings" %in% colnames(transformed_data))
+})
+

@@ -151,3 +151,39 @@ nlp_word_embeddings_pretrained <- function(sc, input_cols = NULL, output_col,
   new_ml_transformer(model)
 }
 
+#' Create a Spark NLP WordEmbeddingsModel
+#' 
+#' This function creates a WordEmbeddingsModel which uses the provided embeddings_ref.
+#' 
+#' @param Spark connection
+#' @template roxlate-inputs-output-params
+#' @param embeddings_ref the reference name for the embeddings cache that the model will use
+#' @param dimension number of word embeddings dimensions
+#' @param uid unique identifier for this instance
+#' 
+#' @return a Spark transformer WordEmbeddingsModel
+#' 
+#' @export
+#' @import forge
+nlp_word_embeddings_model <- function(sc, input_cols, output_col, embeddings_ref, dimension, uid = random_string("word_embeddings_")) {
+  args <- list(
+    input_cols = cast_string_list(input_cols),
+    output_col = cast_string(output_col),
+    dimension = cast_integer(dimension),
+    embeddings_ref = cast_string(embeddings_ref),
+    include_embeddings = cast_logical(FALSE),
+    uid = cast_string(uid)
+  )
+  
+  jobj <- sparklyr::spark_pipeline_stage(sc, 
+                                         "com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel", 
+                                         uid) %>%
+    jobj_set_param("setEmbeddingsRef", args[["embeddings_ref"]]) %>%
+    jobj_set_param("setInputCols", args[["input_cols"]]) %>%
+    jobj_set_param("setOutputCol", args[["output_col"]]) %>%
+    jobj_set_param("setDimension", args[["dimension"]]) %>%
+    jobj_set_param("setIncludeEmbeddings", args[["include_embeddings"]])
+  
+  new_ml_transformer(jobj)
+
+}
