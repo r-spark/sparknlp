@@ -22,7 +22,7 @@ nlp_set_output_col <- function(jobj, output_col) {
 # Get a pretrained model.
 # The model_class is the Scala class for the model.
 pretrained_model <- function(sc, model_class, name = NULL, lang = NULL, remote_loc = NULL) {
-  default_name <- invoke_static(sc, model_class, "defaultModelName")
+  default_name <- invoke(invoke_static(sc, model_class, "defaultModelName"), "x")
   default_lang <- invoke_static(sc, model_class, "defaultLang")
   default_remote_loc <- invoke_static(sc, model_class, "defaultLoc")
   
