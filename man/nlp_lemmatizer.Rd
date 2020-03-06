@@ -6,8 +6,8 @@
 \usage{
 nlp_lemmatizer(x, input_cols, output_col, dictionary_path = NULL,
   dictionary_key_delimiter = "->", dictionary_value_delimiter = "\\t",
-  dictionary_read_as = "LINE_BY_LINE", dictionary_options = list(format
-  = "text"), uid = random_string("lemmatizer_"))
+  dictionary_read_as = "TEXT", dictionary_options = list(format =
+  "text"), uid = random_string("lemmatizer_"))
 }
 \arguments{
 \item{x}{A \code{spark_connection}, \code{ml_pipeline}, or a \code{tbl_spark}.}
@@ -22,7 +22,7 @@ nlp_lemmatizer(x, input_cols, output_col, dictionary_path = NULL,
 
 \item{dictionary_value_delimiter}{value delimiter in the dictionary file}
 
-\item{dictionary_read_as}{readAs LINE_BY_LINE or SPARK_DATASET}
+\item{dictionary_read_as}{readAs TEXT or SPARK_DATASET}
 
 \item{dictionary_options}{options passed to the spark reader if read_as is SPARK_DATASET}
 

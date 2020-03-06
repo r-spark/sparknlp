@@ -6,8 +6,8 @@
 \usage{
 nlp_norvig_spell_checker(x, input_cols, output_col,
   dictionary_path = NULL, dictionary_token_pattern = "\\\\S+",
-  dictionary_read_as = "LINE_BY_LINE", dictionary_options = list(format
-  = "text"), case_sensitive = NULL, double_variants = NULL,
+  dictionary_read_as = "TEXT", dictionary_options = list(format =
+  "text"), case_sensitive = NULL, double_variants = NULL,
   short_circuit = NULL, word_size_ignore = NULL, dups_limit = NULL,
   reduct_limit = NULL, intersections = NULL, vowel_swap_limit = NULL,
   uid = random_string("norvig_spell_checker_"))
@@ -23,7 +23,7 @@ nlp_norvig_spell_checker(x, input_cols, output_col,
 
 \item{dictionary_token_pattern}{tokenPattern is the regex pattern to identify them in text,}
 
-\item{dictionary_read_as}{LINE_BY_LINE or SPARK_DATASET}
+\item{dictionary_read_as}{TEXT or SPARK_DATASET}
 
 \item{dictionary_options}{options passed to Spark reader}
 

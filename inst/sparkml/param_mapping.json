@@ -78,7 +78,6 @@
   "positiveMultiplier": "positive_multiplier",
   "reverseMultiplier": "reverse_multiplier",
   "configProtoBytes": "config_proto_bytes",
-  "dimension": "dimension",
   "maxSentenceLength": "max_sentence_length",
   "poolingLayer": "pooling_layer",
   "vocabulary": "vocabulary",
@@ -96,8 +95,11 @@
   "startCol": "start_col",
   "startColByTokenIndex": "start_col_by_token_index",
   "failOnMissing": "fail_on_missing",
-  "cleanAnnotations": "clean_annotations",
   "outputAsVector": "output_as_vector",
-  "includeEmbeddings": "include_embeddings",
-  "embeddingsRef": "embeddings_ref"
+  "storagePath": "storage_path",
+  "storageRef": "storage_ref",
+  "includeStorage": "include_storage",
+  "lazyAnnotator": "lazy_annotator",
+  "readCacheSize": "read_cache_size",
+  "writeBufferSize": "write_buffer_size"
 }

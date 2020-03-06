@@ -6,7 +6,7 @@
 \usage{
 nlp_sentiment_detector(x, input_cols, output_col,
   decrement_multiplier = NULL, dictionary_path,
-  dictionary_delimiter = ",", dictionary_read_as = "LINE_BY_LINE",
+  dictionary_delimiter = ",", dictionary_read_as = "TEXT",
   dictionary_options = list(format = "text"), enable_score = NULL,
   increment_multiplier = NULL, negative_multiplier = NULL,
   positive_multiplier = NULL, reverse_multiplier = NULL,
@@ -25,7 +25,7 @@ nlp_sentiment_detector(x, input_cols, output_col,
 
 \item{dictionary_delimiter}{delimiter in dictionary file}
 
-\item{dictionary_read_as}{LINE_BY_LINE or SPARK_DATASET}
+\item{dictionary_read_as}{TEXT or SPARK_DATASET}
 
 \item{dictionary_options}{options to pass to the Spark reader. Defaults to {"format" = "text"}}
 

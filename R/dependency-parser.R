@@ -8,16 +8,16 @@
 #' @template roxlate-inputs-output-params
 #' @param n_iterations Number of iterations in training, converges to better accuracy
 #' @param tree_bank_path Dependency treebank folder with files in Penn Treebank format
-#' @param tree_bank_read_as LINE_BY_LINE or SPARK_DATASET
+#' @param tree_bank_read_as TEXT or SPARK_DATASET
 #' @param tree_bank_options options to pass to Spark reader
 #' @param conll_u_path Path to a file in CoNLL-U format
-#' @param conll_u_read_as LINE_BY_LINE or SPARK_DATASET
+#' @param conll_u_read_as TEXT or SPARK_DATASET
 #' @param conll_u_optiopns options to pass to Spark reader
 #' 
 #' @export
 nlp_dependency_parser <- function(x, input_cols, output_col,
-                 n_iterations = NULL, tree_bank_path = NULL, tree_bank_read_as = "LINE_BY_LINE", 
-                 tree_bank_options = list("format" = "text"), conll_u_path = NULL, conll_u_read_as = "LINE_BY_LINE",
+                 n_iterations = NULL, tree_bank_path = NULL, tree_bank_read_as = "TEXT", 
+                 tree_bank_options = list("format" = "text"), conll_u_path = NULL, conll_u_read_as = "TEXT",
                  conll_u_options = list("format" = "text"),
                  uid = random_string("dependency_parser_")) {
   UseMethod("nlp_dependency_parser")
@@ -25,8 +25,8 @@ nlp_dependency_parser <- function(x, input_cols, output_col,
 
 #' @export
 nlp_dependency_parser.spark_connection <- function(x, input_cols, output_col,
-                                                   n_iterations = NULL, tree_bank_path = NULL, tree_bank_read_as = "LINE_BY_LINE", 
-                                                   tree_bank_options = list("format" = "text"), conll_u_path = NULL, conll_u_read_as = "LINE_BY_LINE",
+                                                   n_iterations = NULL, tree_bank_path = NULL, tree_bank_read_as = "TEXT", 
+                                                   tree_bank_options = list("format" = "text"), conll_u_path = NULL, conll_u_read_as = "TEXT",
                                                    conll_u_options = list("format" = "text"),
                                                    uid = random_string("dependency_parser_")) {
   args <- list(
@@ -74,8 +74,8 @@ nlp_dependency_parser.spark_connection <- function(x, input_cols, output_col,
 
 #' @export
 nlp_dependency_parser.ml_pipeline <- function(x, input_cols, output_col,
-                                              n_iterations = NULL, tree_bank_path = NULL, tree_bank_read_as = "LINE_BY_LINE", 
-                                              tree_bank_options = list("format" = "text"), conll_u_path = NULL, conll_u_read_as = "LINE_BY_LINE",
+                                              n_iterations = NULL, tree_bank_path = NULL, tree_bank_read_as = "TEXT", 
+                                              tree_bank_options = list("format" = "text"), conll_u_path = NULL, conll_u_read_as = "TEXT",
                                               conll_u_options = list("format" = "text"),
                                               uid = random_string("dependency_parser_")) {
 
@@ -98,8 +98,8 @@ nlp_dependency_parser.ml_pipeline <- function(x, input_cols, output_col,
 
 #' @export
 nlp_dependency_parser.tbl_spark <- function(x, input_cols, output_col,
-                                            n_iterations = NULL, tree_bank_path = NULL, tree_bank_read_as = "LINE_BY_LINE", 
-                                            tree_bank_options = list("format" = "text"), conll_u_path = NULL, conll_u_read_as = "LINE_BY_LINE",
+                                            n_iterations = NULL, tree_bank_path = NULL, tree_bank_read_as = "TEXT", 
+                                            tree_bank_options = list("format" = "text"), conll_u_path = NULL, conll_u_read_as = "TEXT",
                                             conll_u_options = list("format" = "text"),
                                             uid = random_string("dependency_parser_")) {
   stage <- nlp_dependency_parser.spark_connection(
@@ -149,9 +149,9 @@ validator_nlp_dependency_parser <- function(args) {
   args[["output_col"]] <- cast_string(args[["output_col"]])
   args[["n_iterations"]] <- cast_nullable_integer(args[["n_iterations"]])
   args[["tree_bank_path"]] <- cast_nullable_string(args[["tree_bank_path"]])
-  args[["tree_bank_read_as"]] <- cast_choice(args[["tree_bank_read_as"]], choices = c("LINE_BY_LINE", "SPARK_DATASET"), allow_null = TRUE)
+  args[["tree_bank_read_as"]] <- cast_choice(args[["tree_bank_read_as"]], choices = c("TEXT", "SPARK_DATASET"), allow_null = TRUE)
   args[["conll_u_path"]] <- cast_nullable_string(args[["conll_u_path"]])
-  args[["conll_u_read_as"]] <- cast_choice(args[["conll_u_read_as"]], choices = c("LINE_BY_LINE", "SPARK_DATASET"), allow_null = TRUE)  
+  args[["conll_u_read_as"]] <- cast_choice(args[["conll_u_read_as"]], choices = c("TEXT", "SPARK_DATASET"), allow_null = TRUE)  
   args
 }
 

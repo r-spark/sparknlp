@@ -5,11 +5,10 @@
 \title{Spark NLP TypedDependencyParserApproach}
 \usage{
 nlp_typed_dependency_parser(x, input_cols, output_col,
-  n_iterations = NULL, conll_u_path = NULL,
-  conll_u_read_as = "LINE_BY_LINE", conll_u_options = list(format =
-  "text"), conll_2009_path = NULL, conll_2009_read_as = "LINE_BY_LINE",
-  conll_2009_options = list(format = "text"),
-  uid = random_string("typed_dependency_parser_"))
+  n_iterations = NULL, conll_u_path = NULL, conll_u_read_as = "TEXT",
+  conll_u_options = list(format = "text"), conll_2009_path = NULL,
+  conll_2009_read_as = "TEXT", conll_2009_options = list(format =
+  "text"), uid = random_string("typed_dependency_parser_"))
 }
 \arguments{
 \item{x}{A \code{spark_connection}, \code{ml_pipeline}, or a \code{tbl_spark}.}
@@ -22,13 +21,13 @@ nlp_typed_dependency_parser(x, input_cols, output_col,
 
 \item{conll_u_path}{path to a file in CoNLL-U format}
 
-\item{conll_u_read_as}{LINE_BY_LINE or SPARK_DATASET}
+\item{conll_u_read_as}{TEXT or SPARK_DATASET}
 
 \item{conll_u_options}{options to pass to the Spark reader}
 
 \item{conll_2009_path}{path to a file in CoNLL 2009 format}
 
-\item{conll_2009_read_as}{LINE_BY_LINE or SPARK_DATASET}
+\item{conll_2009_read_as}{TEXT or SPARK_DATASET}
 
 \item{conll_2009_options}{options to pass to the Spark reader}
 

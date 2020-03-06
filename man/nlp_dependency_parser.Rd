@@ -5,10 +5,10 @@
 \title{Spark NLP DependencyParserApproach}
 \usage{
 nlp_dependency_parser(x, input_cols, output_col, n_iterations = NULL,
-  tree_bank_path = NULL, tree_bank_read_as = "LINE_BY_LINE",
+  tree_bank_path = NULL, tree_bank_read_as = "TEXT",
   tree_bank_options = list(format = "text"), conll_u_path = NULL,
-  conll_u_read_as = "LINE_BY_LINE", conll_u_options = list(format =
-  "text"), uid = random_string("dependency_parser_"))
+  conll_u_read_as = "TEXT", conll_u_options = list(format = "text"),
+  uid = random_string("dependency_parser_"))
 }
 \arguments{
 \item{x}{A \code{spark_connection}, \code{ml_pipeline}, or a \code{tbl_spark}.}
@@ -21,13 +21,13 @@ nlp_dependency_parser(x, input_cols, output_col, n_iterations = NULL,
 
 \item{tree_bank_path}{Dependency treebank folder with files in Penn Treebank format}
 
-\item{tree_bank_read_as}{LINE_BY_LINE or SPARK_DATASET}
+\item{tree_bank_read_as}{TEXT or SPARK_DATASET}
 
 \item{tree_bank_options}{options to pass to Spark reader}
 
 \item{conll_u_path}{Path to a file in CoNLL-U format}
 
-\item{conll_u_read_as}{LINE_BY_LINE or SPARK_DATASET}
+\item{conll_u_read_as}{TEXT or SPARK_DATASET}
 
 \item{uid}{A character string used to uniquely identify the ML estimator.}
 

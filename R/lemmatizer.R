@@ -8,14 +8,14 @@
 #' @param dictionary_path Path to lemma dictionary, in lemma vs possible words format.
 #' @param dictionary_key_delimiter key delimiter in the dictionary file
 #' @param dictionary_value_delimiter value delimiter in the dictionary file
-#' @param dictionary_read_as readAs LINE_BY_LINE or SPARK_DATASET 
+#' @param dictionary_read_as readAs TEXT or SPARK_DATASET 
 #' @param dictionary_options options passed to the spark reader if read_as is SPARK_DATASET
 #' 
 #' 
 #' @export
 nlp_lemmatizer <- function(x, input_cols, output_col,
                  dictionary_path = NULL, dictionary_key_delimiter = "->", dictionary_value_delimiter = "\t", 
-                 dictionary_read_as = "LINE_BY_LINE", dictionary_options = list(format = "text"),
+                 dictionary_read_as = "TEXT", dictionary_options = list(format = "text"),
                  uid = random_string("lemmatizer_")) {
   UseMethod("nlp_lemmatizer")
 }
@@ -23,7 +23,7 @@ nlp_lemmatizer <- function(x, input_cols, output_col,
 #' @export
 nlp_lemmatizer.spark_connection <- function(x, input_cols, output_col,
                  dictionary_path = NULL, dictionary_key_delimiter = "->", dictionary_value_delimiter = "\t", 
-                 dictionary_read_as = "LINE_BY_LINE", dictionary_options = list(format = "text"),
+                 dictionary_read_as = "TEXT", dictionary_options = list(format = "text"),
                  uid = random_string("lemmatizer_")) {
   
   args <- list(
@@ -60,7 +60,7 @@ nlp_lemmatizer.spark_connection <- function(x, input_cols, output_col,
 #' @export
 nlp_lemmatizer.ml_pipeline <- function(x, input_cols, output_col,
                  dictionary_path = NULL, dictionary_key_delimiter = "->", dictionary_value_delimiter = "\t", 
-                 dictionary_read_as = "LINE_BY_LINE", dictionary_options = list(format = "text"),
+                 dictionary_read_as = "TEXT", dictionary_options = list(format = "text"),
                  uid = random_string("lemmatizer_")) {
 
   stage <- nlp_lemmatizer.spark_connection(
@@ -81,7 +81,7 @@ nlp_lemmatizer.ml_pipeline <- function(x, input_cols, output_col,
 #' @export
 nlp_lemmatizer.tbl_spark <- function(x, input_cols, output_col,
                  dictionary_path = NULL, dictionary_key_delimiter = "->", dictionary_value_delimiter = "\t", 
-                 dictionary_read_as = "LINE_BY_LINE", dictionary_options = list(format = "text"),
+                 dictionary_read_as = "TEXT", dictionary_options = list(format = "text"),
                  uid = random_string("lemmatizer_")) {
   stage <- nlp_lemmatizer.spark_connection(
     x = sparklyr::spark_connection(x),

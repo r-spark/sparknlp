@@ -8,16 +8,16 @@
 #' @template roxlate-inputs-output-params
 #' @param n_iterations 
 #' @param conll_u_path path to a file in CoNLL-U format
-#' @param conll_u_read_as LINE_BY_LINE or SPARK_DATASET
+#' @param conll_u_read_as TEXT or SPARK_DATASET
 #' @param conll_u_options options to pass to the Spark reader
 #' @param conll_2009_path path to a file in CoNLL 2009 format
-#' @param conll_2009_read_as LINE_BY_LINE or SPARK_DATASET
+#' @param conll_2009_read_as TEXT or SPARK_DATASET
 #' @param conll_2009_options options to pass to the Spark reader
 #' 
 #' @export
 nlp_typed_dependency_parser <- function(x, input_cols, output_col,
-                 n_iterations = NULL, conll_u_path = NULL, conll_u_read_as = "LINE_BY_LINE", conll_u_options = list("format" = "text"), 
-                 conll_2009_path = NULL, conll_2009_read_as = "LINE_BY_LINE", conll_2009_options = list("format" = "text"),
+                 n_iterations = NULL, conll_u_path = NULL, conll_u_read_as = "TEXT", conll_u_options = list("format" = "text"), 
+                 conll_2009_path = NULL, conll_2009_read_as = "TEXT", conll_2009_options = list("format" = "text"),
                  uid = random_string("typed_dependency_parser_")) {
   UseMethod("nlp_typed_dependency_parser")
 }
@@ -25,9 +25,9 @@ nlp_typed_dependency_parser <- function(x, input_cols, output_col,
 #' @export
 nlp_typed_dependency_parser.spark_connection <- function(x, input_cols, output_col,
                                                          n_iterations = NULL, conll_u_path = NULL, 
-                                                         conll_u_read_as = "LINE_BY_LINE", 
+                                                         conll_u_read_as = "TEXT", 
                                                          conll_u_options = list("format" = "text"), 
-                                                         conll_2009_path = NULL, conll_2009_read_as = "LINE_BY_LINE", 
+                                                         conll_2009_path = NULL, conll_2009_read_as = "TEXT", 
                                                          conll_2009_options = list("format" = "text"),
                                                          uid = random_string("typed_dependency_parser_")) {
   args <- list(
@@ -76,9 +76,9 @@ nlp_typed_dependency_parser.spark_connection <- function(x, input_cols, output_c
 #' @export
 nlp_typed_dependency_parser.ml_pipeline <- function(x, input_cols, output_col, 
                                                     n_iterations = NULL, conll_u_path = NULL, 
-                                                    conll_u_read_as = "LINE_BY_LINE", 
+                                                    conll_u_read_as = "TEXT", 
                                                     conll_u_options = list("format" = "text"), 
-                                                    conll_2009_path = NULL, conll_2009_read_as = "LINE_BY_LINE", 
+                                                    conll_2009_path = NULL, conll_2009_read_as = "TEXT", 
                                                     conll_2009_options = list("format" = "text"),
                                                     uid = random_string("typed_dependency_parser_")) {
 
@@ -102,9 +102,9 @@ nlp_typed_dependency_parser.ml_pipeline <- function(x, input_cols, output_col,
 #' @export
 nlp_typed_dependency_parser.tbl_spark <- function(x, input_cols, output_col,
                                                   n_iterations = NULL, conll_u_path = NULL, 
-                                                  conll_u_read_as = "LINE_BY_LINE", 
+                                                  conll_u_read_as = "TEXT", 
                                                   conll_u_options = list("format" = "text"), 
-                                                  conll_2009_path = NULL, conll_2009_read_as = "LINE_BY_LINE", 
+                                                  conll_2009_path = NULL, conll_2009_read_as = "TEXT", 
                                                   conll_2009_options = list("format" = "text"),
                                                   uid = random_string("typed_dependency_parser_")) {
   stage <- nlp_typed_dependency_parser.spark_connection(
@@ -154,9 +154,9 @@ validator_nlp_typed_dependency_parser <- function(args) {
   args[["output_col"]] <- cast_string(args[["output_col"]])
   args[["n_iterations"]] <- cast_nullable_integer(args[["n_iterations"]])
   args[["conll_u_path"]] <- cast_nullable_string(args[["conll_u_path"]])
-  args[["conll_u_read_as"]] <- cast_choice(args[["conll_u_read_as"]], choices = c("LINE_BY_LINE", "SPARK_DATASET"), allow_null = TRUE)
+  args[["conll_u_read_as"]] <- cast_choice(args[["conll_u_read_as"]], choices = c("TEXT", "SPARK_DATASET"), allow_null = TRUE)
   args[["conll_2009_path"]] <- cast_nullable_string(args[["conll_2009_path"]])
-  args[["conll_2009_read_as"]] <- cast_choice(args[["conll_2009_read_as"]], choices = c("LINE_BY_LINE", "SPARK_DATASET"), allow_null = TRUE)
+  args[["conll_2009_read_as"]] <- cast_choice(args[["conll_2009_read_as"]], choices = c("TEXT", "SPARK_DATASET"), allow_null = TRUE)
   args
 }
 

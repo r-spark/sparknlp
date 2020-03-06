@@ -7,7 +7,7 @@
 #' @template roxlate-inputs-output-params
 #' @param dictionary_path path to file with properly spelled words
 #' @param dictionary_token_pattern tokenPattern is the regex pattern to identify them in text,
-#' @param dictionary_read_as LINE_BY_LINE or SPARK_DATASET
+#' @param dictionary_read_as TEXT or SPARK_DATASET
 #' @param dictionary_options options passed to Spark reader 
 #' @param case_sensitive defaults to false. Might affect accuracy
 #' @param double_variants enables extra check for word combinations, more accuracy at performance
@@ -20,7 +20,7 @@
 #' 
 #' @export
 nlp_norvig_spell_checker <- function(x, input_cols, output_col,
-                 dictionary_path = NULL, dictionary_token_pattern = "\\S+", dictionary_read_as = "LINE_BY_LINE", 
+                 dictionary_path = NULL, dictionary_token_pattern = "\\S+", dictionary_read_as = "TEXT", 
                  dictionary_options = list("format" = "text"), 
                  case_sensitive = NULL, double_variants = NULL,
                  short_circuit = NULL, word_size_ignore = NULL, dups_limit = NULL, reduct_limit = NULL, 
@@ -31,7 +31,7 @@ nlp_norvig_spell_checker <- function(x, input_cols, output_col,
 
 #' @export
 nlp_norvig_spell_checker.spark_connection <- function(x, input_cols, output_col,
-                                                      dictionary_path = NULL, dictionary_token_pattern = "\\S+", dictionary_read_as = "LINE_BY_LINE", 
+                                                      dictionary_path = NULL, dictionary_token_pattern = "\\S+", dictionary_read_as = "TEXT", 
                                                       dictionary_options = list("format" = "text"), 
                                                       case_sensitive = NULL, double_variants = NULL,
                                                       short_circuit = NULL, word_size_ignore = NULL, dups_limit = NULL, reduct_limit = NULL, 
@@ -85,7 +85,7 @@ nlp_norvig_spell_checker.spark_connection <- function(x, input_cols, output_col,
 
 #' @export
 nlp_norvig_spell_checker.ml_pipeline <- function(x, input_cols, output_col,
-                                                 dictionary_path = NULL, dictionary_token_pattern = "\\S+", dictionary_read_as = "LINE_BY_LINE", 
+                                                 dictionary_path = NULL, dictionary_token_pattern = "\\S+", dictionary_read_as = "TEXT", 
                                                  dictionary_options = list("format" = "text"), 
                                                  case_sensitive = NULL, double_variants = NULL,
                                                  short_circuit = NULL, word_size_ignore = NULL, dups_limit = NULL, reduct_limit = NULL, 
@@ -116,7 +116,7 @@ nlp_norvig_spell_checker.ml_pipeline <- function(x, input_cols, output_col,
 
 #' @export
 nlp_norvig_spell_checker.tbl_spark <- function(x, input_cols, output_col,
-                                               dictionary_path = NULL, dictionary_token_pattern = "\\S+", dictionary_read_as = "LINE_BY_LINE", 
+                                               dictionary_path = NULL, dictionary_token_pattern = "\\S+", dictionary_read_as = "TEXT", 
                                                dictionary_options = list("format" = "text"), 
                                                case_sensitive = NULL, double_variants = NULL,
                                                short_circuit = NULL, word_size_ignore = NULL, dups_limit = NULL, reduct_limit = NULL, 

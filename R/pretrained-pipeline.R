@@ -9,6 +9,7 @@
 #' @param lang the language of the pipeline
 #' @param source the source for the pipeline file
 #' @param parse_embeddings_vectors whether to parse the embeddings vectors or not
+#' @param disk_location optional location on disk that the pipeline should be loaded from
 #' 
 #' @return The object returned depends on the class of \code{x}.
 #'
@@ -21,32 +22,23 @@
 #' }
 #' 
 #' @export
-nlp_pretrained_pipeline <- function(x, download_name, lang = "en", source = "public/models", parse_embeddings_vectors = FALSE) {
+nlp_pretrained_pipeline <- function(x, download_name, lang = "en", source = "public/models", parse_embeddings_vectors = FALSE, disk_location = NULL) {
   UseMethod("nlp_pretrained_pipeline")
 }
 
 # Returns a pipeline
 #' @export
-nlp_pretrained_pipeline.spark_connection <- function(x, download_name, lang = "en", source = "public/models", parse_embeddings_vectors = FALSE) {
-  model_class <- "com.johnsnowlabs.nlp.pretrained.PretrainedPipeline"
-  #module <- invoke_static(x, paste0(model_class, "$"), "MODULE$")
-  #default_lang <- invoke(module, "apply$default$2")
-  #default_source <- invoke(module, "apply$default$3")
-  
-  
-  #if (is.null(lang)) lang = default_lang
-  #if (is.null(source)) source = default_source
-  
-  jobj <- invoke_new(x, model_class, download_name, lang, source, parse_embeddings_vectors)
-  #new_nlp_pretrained_pipeline(jobj)
-  jobj
+nlp_pretrained_pipeline.spark_connection <- function(x, download_name, lang = "en", source = "public/models", 
+                                                     parse_embeddings_vectors = FALSE, disk_location = NULL) {
+  jobj <- invoke_static(sc, "sparknlp.Utils", "pretrainedPipeline", download_name, lang, source, parse_embeddings_vectors, disk_location)
 }
 
 # Runs the pipeline on the data frame
 #' @export
-nlp_pretrained_pipeline.tbl_spark <- function(x, download_name, lang = "en", source = "public/models", parse_embeddings_vectors = FALSE) {
+nlp_pretrained_pipeline.tbl_spark <- function(x, download_name, lang = "en", source = "public/models", 
+                                              parse_embeddings_vectors = FALSE, disk_location = NULL) {
   sc <- spark_connection(x)
-  pipeline <- nlp_pretrained_pipeline.spark_connection(sc, download_name, lang, source, parse_embeddings_vectors)
+  pipeline <- nlp_pretrained_pipeline.spark_connection(sc, download_name, lang, source, parse_embeddings_vectors, disk_location)
   sdf_register(invoke(pipeline, "transform", spark_dataframe(x)))
 }
 

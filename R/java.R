@@ -1,6 +1,6 @@
 #' @import forge
 read_as <- function(sc, value) {
-  value <- forge::cast_choice(value, c("LINE_BY_LINE", "SPARK_DATASET"))
+  value <- forge::cast_choice(value, c("TEXT", "BINARY", "SPARK"))
   invoke_static(sc, "com.johnsnowlabs.nlp.util.io.ReadAs", value)
 }
 

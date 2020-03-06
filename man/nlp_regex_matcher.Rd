@@ -6,8 +6,8 @@
 \usage{
 nlp_regex_matcher(x, input_cols, output_col, strategy = NULL,
   rules_path = NULL, rules_path_delimiter = ",",
-  rules_path_read_as = "LINE_BY_LINE", rules_path_options = list(format
-  = "text"), uid = random_string("regex_matcher_"))
+  rules_path_read_as = "TEXT", rules_path_options = list(format =
+  "text"), uid = random_string("regex_matcher_"))
 }
 \arguments{
 \item{x}{A \code{spark_connection}, \code{ml_pipeline}, or a \code{tbl_spark}.}
@@ -22,7 +22,7 @@ nlp_regex_matcher(x, input_cols, output_col, strategy = NULL,
 
 \item{rules_path_delimiter}{delimiter between regex and key in the file}
 
-\item{rules_path_read_as}{LINE_BY_LINE or SPARK_DATASET}
+\item{rules_path_read_as}{TEXT or SPARK_DATASET}
 
 \item{rules_path_options}{options passed to Spark reader if read_as is SPARK_DATASET}
 

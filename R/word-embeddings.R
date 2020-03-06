@@ -5,43 +5,51 @@
 #' 
 #' @template roxlate-nlp-algo
 #' @template roxlate-inputs-output-params
-#' @param source_path word embeddings file
+#' @param storage_ref binding to NerDLModel trained by that embeddings
 #' @param dimension number of word embeddings dimensions
-#' @param include_embeddings whether or not to include word embeddings when saving this annotator to disk (single or within pipeline)
-#' @param embeddings_ref whether to use annotators under the provided name. This means these embeddings will be lookup
-#'  from the cache by the ref name. This allows multiple annotators to utilize same word embeddings by ref name.
-#' @param embeddings_format format of word embeddings files. One of:
+#' @param case_sensitive whether to ignore case in tokens for embeddings matching
+#' @param lazy_annotator boolean for laziness
+#' @param read_cache_size size for the read cache
+#' @param write_buffer_size size for the write cache
+#' @param include_storage whether or not to include word embeddings when saving this annotator to disk (single or within pipeline)
+#' @param storage_path word embeddings file
+#' @param storage_path_format format of word embeddings files. One of:
 #' \itemize{
 #' \item text -> this format is usually used by Glove
 #' \item binary -> this format is usually used by Word2Vec
 #' \item spark-nlp -> internal format for already serialized embeddings. Use this only when resaving embeddings with Spark NLP
 #' }
-#' @param case_sensitive whether to ignore case in tokens for embeddings matching
 #' 
 #' @return When \code{x} is a \code{spark_connection} the function returns a WordEmbeddings estimator.
 #' When \code{x} is a \code{ml_pipeline} the pipeline with the WordEmbeddings added. When \code{x}
 #' is a \code{tbl_spark} a transformed \code{tbl_spark}  (note that the Dataframe passed in must have the input_cols specified).
 #' 
 #' @export
-nlp_word_embeddings <- function(x, input_cols, output_col,
-                 source_path, dimension, include_embeddings = NULL, embeddings_ref = NULL, embeddings_format, case_sensitive = NULL,
-                 uid = random_string("word_embeddings_")) {
+nlp_word_embeddings <- function(x, input_cols, output_col, storage_path, storage_path_format = "TEXT",
+                                storage_ref, dimension, case_sensitive = NULL,
+                                lazy_annotator = NULL, read_cache_size = NULL, write_buffer_size = NULL,
+                                include_storage = FALSE, uid = random_string("word_embeddings_")) {
   UseMethod("nlp_word_embeddings")
 }
 
 #' @export
-nlp_word_embeddings.spark_connection <- function(x, input_cols, output_col,
-                                                 source_path, dimension, include_embeddings = NULL, embeddings_ref = NULL, embeddings_format, case_sensitive = NULL,
-                                                 uid = random_string("word_embeddings_")) {
+nlp_word_embeddings.spark_connection <- function(x, input_cols, output_col, storage_path, storage_path_format = "TEXT",
+                                                 storage_ref, dimension, case_sensitive = NULL,
+                                                 lazy_annotator = NULL, read_cache_size = NULL, write_buffer_size = NULL,
+                                                 include_storage = FALSE, uid = random_string("word_embeddings_")) {
+
   args <- list(
     input_cols = input_cols,
     output_col = output_col,
-    source_path = source_path,
+    storage_path = storage_path,
+    storage_path_format = storage_path_format,
+    storage_ref = storage_ref,
     dimension = dimension,
-    include_embeddings = include_embeddings,
-    embeddings_format = embeddings_format,
-    embeddings_ref = embeddings_ref,
     case_sensitive = case_sensitive,
+    lazy_annotator = lazy_annotator,
+    read_cache_size = read_cache_size,
+    write_buffer_size = write_buffer_size,
+    include_storage = include_storage,
     uid = uid
   ) %>%
   validator_nlp_word_embeddings()
@@ -52,31 +60,38 @@ nlp_word_embeddings.spark_connection <- function(x, input_cols, output_col,
     output_col = args[["output_col"]],
     uid = args[["uid"]]
   ) %>%
-    sparklyr::jobj_set_param("setSourcePath", args[["source_path"]])  %>%
+    sparklyr::jobj_set_param("setStorageRef", args[["storage_ref"]]) %>% 
     sparklyr::jobj_set_param("setDimension", args[["dimension"]])  %>%
-    sparklyr::jobj_set_param("setEmbeddingsFormat", args[["embeddings_format"]])  %>%
     sparklyr::jobj_set_param("setCaseSensitive", args[["case_sensitive"]]) %>%
-    sparklyr::jobj_set_param("setIncludeEmbeddings", args[["include_embeddings"]]) %>%
-    sparklyr::jobj_set_param("setEmbeddingsRef", args[["embeddings_ref"]])
+    sparklyr::jobj_set_param("setLazyAnnotator", args[["lazy_annotator"]]) %>%
+    sparklyr::jobj_set_param("setReadCacheSize", args[["read_cache_size"]]) %>%
+    sparklyr::jobj_set_param("setWriteBufferSize", args[["write_buffer_size"]]) %>%
+    sparklyr::jobj_set_param("setIncludeStorage", args[["include_storage"]])
+    
+  jobj <- invoke_static(x, "sparknlp.Utils", "setStoragePath", jobj, args[["storage_path"]], args[["storage_path_format"]])
 
   new_nlp_word_embeddings(jobj)
 }
 
 #' @export
-nlp_word_embeddings.ml_pipeline <- function(x, input_cols, output_col,
-                                            source_path, dimension, include_embeddings = NULL, embeddings_ref = NULL, embeddings_format, case_sensitive = NULL,
-                                            uid = random_string("word_embeddings_"))  {
+nlp_word_embeddings.ml_pipeline <- function(x, input_cols, output_col, storage_path, storage_path_format = "TEXT",
+                                            storage_ref, dimension, case_sensitive = NULL,
+                                            lazy_annotator = NULL, read_cache_size = NULL, write_buffer_size = NULL,
+                                            include_storage = NULL, uid = random_string("word_embeddings_"))  {
 
   stage <- nlp_word_embeddings.spark_connection(
     x = sparklyr::spark_connection(x),
     input_cols = input_cols,
     output_col = output_col,
-    source_path = source_path,
+    storage_path = storage_path,
+    storage_path_format = storage_path_format,
+    storage_ref = storage_ref,
     dimension = dimension,
-    include_embeddings = include_embeddings,
-    embeddings_format = embeddings_format,
-    embeddings_ref = embeddings_ref,
     case_sensitive = case_sensitive,
+    lazy_annotator = lazy_annotator,
+    read_cache_size = read_cache_size,
+    write_buffer_size = write_buffer_size,
+    include_storage = include_storage,
     uid = uid
   )
 
@@ -84,19 +99,23 @@ nlp_word_embeddings.ml_pipeline <- function(x, input_cols, output_col,
 }
 
 #' @export
-nlp_word_embeddings.tbl_spark <- function(x, input_cols, output_col,
-                                          source_path, dimension, include_embeddings = NULL, embeddings_ref = NULL, embeddings_format, case_sensitive = NULL,
-                                          uid = random_string("word_embeddings_"))  {
+nlp_word_embeddings.tbl_spark <- function(x, input_cols, output_col, storage_path, storage_path_format = "TEXT",
+                                          storage_ref, dimension, case_sensitive = NULL,
+                                          lazy_annotator = NULL, read_cache_size = NULL, write_buffer_size = NULL,
+                                          include_storage = NULL, uid = random_string("word_embeddings_"))  {
   stage <- nlp_word_embeddings.spark_connection(
     x = sparklyr::spark_connection(x),
     input_cols = input_cols,
     output_col = output_col,
-    source_path = source_path,
+    storage_path = storage_path,
+    storage_path_format = storage_path_format,
+    storage_ref = storage_ref,
     dimension = dimension,
-    include_embeddings = include_embeddings,
-    embeddings_format = embeddings_format,
-    embeddings_ref = embeddings_ref,
     case_sensitive = case_sensitive,
+    lazy_annotator = lazy_annotator,
+    read_cache_size = read_cache_size,
+    write_buffer_size = write_buffer_size,
+    include_storage = include_storage,
     uid = uid
   )
 
@@ -107,12 +126,15 @@ nlp_word_embeddings.tbl_spark <- function(x, input_cols, output_col,
 validator_nlp_word_embeddings <- function(args) {
   args[["input_cols"]] <- cast_string_list(args[["input_cols"]])
   args[["output_col"]] <- cast_string(args[["output_col"]])
-  args[["source_path"]] <- cast_string(args[["source_path"]])
+  args[["storage_path"]] <- cast_string(args[["storage_path"]])
+  args[["storage_path_format"]] <- cast_choice(args[["storage_path_format"]], c("TEXT", "SPARK", "BINARY"))
+  args[["storage_ref"]] <- cast_string(args[["storage_ref"]])
   args[["dimension"]] <- cast_integer(args[["dimension"]])
-  args[["include_embeddings"]] <- cast_nullable_logical(args[["include_embeddings"]])
-  args[["embeddings_format"]] <- cast_string(args[["embeddings_format"]])
-  args[["embeddings_ref"]] <- cast_nullable_string(args[["embeddings_ref"]])
   args[["case_sensitive"]] <- cast_nullable_logical(args[["case_sensitive"]])
+  args[["lazy_annotator"]] <- cast_nullable_logical(args[["lazy_annotator"]])
+  args[["read_cache_size"]] <- cast_nullable_integer(args[["read_cache_size"]])
+  args[["write_buffer_size"]] <- cast_nullable_integer(args[["write_buffer_size"]])
+  args[["include_storage"]] <- cast_nullable_logical(args[["include_storage"]])
   args
 }
 
@@ -165,25 +187,33 @@ nlp_word_embeddings_pretrained <- function(sc, input_cols = NULL, output_col,
 #' 
 #' @export
 #' @import forge
-nlp_word_embeddings_model <- function(sc, input_cols, output_col, embeddings_ref, dimension, uid = random_string("word_embeddings_")) {
+nlp_word_embeddings_model <- function(sc, input_cols, output_col, storage_ref, dimension, case_sensitive = NULL,
+                                      include_storage = NULL, lazy_annotator = NULL, read_cache_size = NULL, include_embeddings = NULL,
+                                      uid = random_string("word_embeddings_")) {
   args <- list(
     input_cols = cast_string_list(input_cols),
     output_col = cast_string(output_col),
+    case_sensitive = cast_nullable_string(case_sensitive),
     dimension = cast_integer(dimension),
-    embeddings_ref = cast_string(embeddings_ref),
-    include_embeddings = cast_logical(FALSE),
+    include_storage = cast_nullable_logical(include_storage),
+    lazy_annotator = cast_nullable_logical(lazy_annotator),
+    read_cache_size = cast_nullable_integer(read_cache_size),
+    storage_ref = cast_string(storage_ref),
     uid = cast_string(uid)
   )
   
   jobj <- sparklyr::spark_pipeline_stage(sc, 
                                          "com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel", 
                                          uid) %>%
-    jobj_set_param("setEmbeddingsRef", args[["embeddings_ref"]]) %>%
-    jobj_set_param("setInputCols", args[["input_cols"]]) %>%
-    jobj_set_param("setOutputCol", args[["output_col"]]) %>%
-    jobj_set_param("setDimension", args[["dimension"]]) %>%
-    jobj_set_param("setIncludeEmbeddings", args[["include_embeddings"]])
-  
+    sparklyr::jobj_set_param("setInputCols", args[["input_cols"]]) %>%
+    sparklyr::jobj_set_param("setOutputCol", args[["output_col"]]) %>%
+    sparklyr::jobj_set_param("setStorageRef", args[["storage_ref"]]) %>% 
+    sparklyr::jobj_set_param("setDimension", args[["dimension"]])  %>%
+    sparklyr::jobj_set_param("setCaseSensitive", args[["case_sensitive"]]) %>%
+    sparklyr::jobj_set_param("setLazyAnnotator", args[["lazy_annotator"]]) %>%
+    sparklyr::jobj_set_param("setReadCacheSize", args[["read_cache_size"]]) %>%
+    sparklyr::jobj_set_param("setIncludeStorage", args[["include_storage"]])
+
   new_ml_transformer(jobj)
 
 }

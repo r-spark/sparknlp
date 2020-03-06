@@ -8,7 +8,7 @@
 #' @param decrement_multiplier defaults to -2.0
 #' @param dictionary_path path to file with list of inputs and their content
 #' @param dictionary_delimiter delimiter in dictionary file
-#' @param dictionary_read_as LINE_BY_LINE or SPARK_DATASET
+#' @param dictionary_read_as TEXT or SPARK_DATASET
 #' @param dictionary_options options to pass to the Spark reader. Defaults to {"format" = "text"}
 #' @param enable_score 
 #' @param increment_multiplier defaults to 2.0
@@ -19,7 +19,7 @@
 #' @export
 nlp_sentiment_detector <- function(x, input_cols, output_col,
                  decrement_multiplier = NULL, dictionary_path, dictionary_delimiter = ",", 
-                 dictionary_read_as = "LINE_BY_LINE", dictionary_options = list("format" = "text"), 
+                 dictionary_read_as = "TEXT", dictionary_options = list("format" = "text"), 
                  enable_score = NULL, increment_multiplier = NULL, negative_multiplier = NULL, positive_multiplier = NULL, reverse_multiplier = NULL,
                  uid = random_string("sentiment_detector_")) {
   UseMethod("nlp_sentiment_detector")
@@ -28,7 +28,7 @@ nlp_sentiment_detector <- function(x, input_cols, output_col,
 #' @export
 nlp_sentiment_detector.spark_connection <- function(x, input_cols, output_col,
                                                     decrement_multiplier = NULL, dictionary_path, dictionary_delimiter = ",", 
-                                                    dictionary_read_as = "LINE_BY_LINE", dictionary_options = list("format" = "text"), 
+                                                    dictionary_read_as = "TEXT", dictionary_options = list("format" = "text"), 
                                                     enable_score = NULL, increment_multiplier = NULL, negative_multiplier = NULL, positive_multiplier = NULL, reverse_multiplier = NULL,
                                                     uid = random_string("sentiment_detector_")) {
   args <- list(
@@ -76,7 +76,7 @@ nlp_sentiment_detector.spark_connection <- function(x, input_cols, output_col,
 #' @export
 nlp_sentiment_detector.ml_pipeline <- function(x, input_cols, output_col,
                                                decrement_multiplier = NULL, dictionary_path, dictionary_delimiter = ",", 
-                                               dictionary_read_as = "LINE_BY_LINE", dictionary_options = list("format" = "text"), 
+                                               dictionary_read_as = "TEXT", dictionary_options = list("format" = "text"), 
                                                enable_score = NULL, increment_multiplier = NULL, negative_multiplier = NULL, positive_multiplier = NULL, reverse_multiplier = NULL,
                                                uid = random_string("sentiment_detector_")) {
 
@@ -103,7 +103,7 @@ nlp_sentiment_detector.ml_pipeline <- function(x, input_cols, output_col,
 #' @export
 nlp_sentiment_detector.tbl_spark <- function(x, input_cols, output_col,
                                              decrement_multiplier = NULL, dictionary_path, dictionary_delimiter = ",", 
-                                             dictionary_read_as = "LINE_BY_LINE", dictionary_options = list("format" = "text"), 
+                                             dictionary_read_as = "TEXT", dictionary_options = list("format" = "text"), 
                                              enable_score = NULL, increment_multiplier = NULL, negative_multiplier = NULL, positive_multiplier = NULL, reverse_multiplier = NULL,
                                              uid = random_string("sentiment_detector_")) {
   stage <- nlp_sentiment_detector.spark_connection(
@@ -132,7 +132,7 @@ validator_nlp_sentiment_detector <- function(args) {
   args[["decrement_multiplier"]] <- cast_nullable_double(args[["decrement_multiplier"]])
   args[["dictionary_path"]] <- cast_string(args[["dictionary_path"]])
   args[["dictionary_delimiter"]] <- cast_string(args[["dictionary_delimiter"]])
-  args[["dictionary_read_as"]] <- cast_choice(args[["dictionary_read_as"]], choices = c("LINE_BY_LINE", "SPARK_DATASET"))
+  args[["dictionary_read_as"]] <- cast_choice(args[["dictionary_read_as"]], choices = c("TEXT", "SPARK_DATASET"))
   args[["enable_score"]] <- cast_nullable_logical(args[["enable_score"]])
   args[["increment_multiplier"]] <- cast_nullable_double(args[["increment_multiplier"]])
   args[["negative_multiplier"]] <- cast_nullable_double(args[["negative_multiplier"]])
