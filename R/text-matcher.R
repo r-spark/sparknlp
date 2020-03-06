@@ -16,14 +16,14 @@
 #' 
 #' @export
 nlp_text_matcher <- function(x, input_cols, output_col,
-                 path, read_as = "LINE_BY_LINE", options = NULL,
+                 path, read_as = "TEXT", options = NULL,
                  uid = random_string("text_matcher_")) {
   UseMethod("nlp_text_matcher")
 }
 
 #' @export
 nlp_text_matcher.spark_connection <- function(x, input_cols, output_col,
-                 path, read_as = "LINE_BY_LINE", options = NULL,
+                 path, read_as = "TEXT", options = NULL,
                  uid = random_string("text_matcher_")) {
   args <- list(
     input_cols = input_cols,
@@ -52,7 +52,7 @@ nlp_text_matcher.spark_connection <- function(x, input_cols, output_col,
 
 #' @export
 nlp_text_matcher.ml_pipeline <- function(x, input_cols, output_col,
-                 path, read_as = "LINE_BY_LINE", options = NULL,
+                 path, read_as = "TEXT", options = NULL,
                  uid = random_string("text_matcher_")) {
 
   stage <- nlp_text_matcher.spark_connection(
@@ -70,7 +70,7 @@ nlp_text_matcher.ml_pipeline <- function(x, input_cols, output_col,
 
 #' @export
 nlp_text_matcher.tbl_spark <- function(x, input_cols, output_col,
-                 path, read_as = "LINE_BY_LINE", options = NULL,
+                 path, read_as = "TEXT", options = NULL,
                  uid = random_string("text_matcher_")) {
   stage <- nlp_text_matcher.spark_connection(
     x = sparklyr::spark_connection(x),
@@ -89,7 +89,7 @@ validator_nlp_text_matcher <- function(args) {
   args[["input_cols"]] <- cast_string_list(args[["input_cols"]])
   args[["output_col"]] <- cast_string(args[["output_col"]])
   args[["path"]] <- cast_string(args[["path"]])
-  args[["read_as"]] <- cast_choice(args[["read_as"]], choices = c("LINE_BY_LINE", "SPARK_DATASET"))
+  args[["read_as"]] <- cast_choice(args[["read_as"]], choices = c("TEXT", "SPARK", "BINARY"))
   args[["options"]] <- cast_nullable_string_list(args[["options"]])
   args
 }

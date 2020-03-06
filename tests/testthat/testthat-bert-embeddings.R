@@ -32,7 +32,7 @@ test_that("nlp_bert_embeddings pretrained", {
 })
 
 test_that("nlp_bert_embeddings load", {
-  model <- ml_load(sc, "~/cache_pretrained/bert_base_cased_en_2.2.0_2.4_1566671427398")
+  model <- ml_load(sc, "~/cache_pretrained/bert_base_cased_en_2.4.0_2.4_1580579557778")
   transformed_data <- ml_transform(model, test_data)
   expect_true("bert" %in% colnames(transformed_data))
 })
