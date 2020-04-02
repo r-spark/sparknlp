@@ -101,5 +101,6 @@
   "includeStorage": "include_storage",
   "lazyAnnotator": "lazy_annotator",
   "readCacheSize": "read_cache_size",
-  "writeBufferSize": "write_buffer_size"
+  "writeBufferSize": "write_buffer_size",
+  "splitPattern": "split_pattern"
 }

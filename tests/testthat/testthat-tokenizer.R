@@ -26,6 +26,7 @@ test_that("nlp_tokenizer() param setting", {
     case_sensitive_exceptions = TRUE,
     context_chars = c("(", ")"),
     split_chars = c("-", "/"),
+    split_pattern = "\\d+",
     target_pattern = "\\s+",
     suffix_pattern = "([a-z])\\z",
     prefix_pattern = "\\A([0-9])",
