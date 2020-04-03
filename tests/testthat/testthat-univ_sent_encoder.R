@@ -48,3 +48,10 @@ test_that("nlp_univ_sent_encoder tbl_spark", {
   expect_true("use_embeddings" %in% colnames(transformed_data))
 })
 
+test_that("nlp_univ_sent_encoder pretrained model", {
+  model <- nlp_univ_sent_encoder_pretrained(sc, input_cols = c("sentence"), output_col = "use_embeddings")
+  pipeline <- ml_add_stage(pipeline, model)
+  transformed_data <- ml_fit_and_transform(pipeline, test_data)
+  expect_true("use_embeddings" %in% colnames(transformed_data))
+})
+

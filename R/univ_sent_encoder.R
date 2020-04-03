@@ -68,11 +68,43 @@ nlp_univ_sent_encoder.tbl_spark <- function(x, input_cols, output_col,
 
   stage %>% sparklyr::ml_transform(x)
 }
+
+#' Load pretrained universal sentence encoder
+#' 
+#' Loads pretrained universal sentence encoder into a Spark NLP annotator
+#' 
+#' @template roxlate-pretrained-params
+#' @template roxlate-inputs-output-params
+#' @export
+nlp_univ_sent_encoder_pretrained <- function(sc, input_cols = NULL, output_col,
+                                           name = NULL, lang = NULL, remote_loc = NULL) {
+  args <- list(
+    input_cols = input_cols,
+    output_col = output_col
+  ) %>%
+    validator_nlp_univ_sent_encoder_pretrained()
+  
+  model_class <- "com.johnsnowlabs.nlp.embeddings.UniversalSentenceEncoder"
+  model <- pretrained_model(sc, model_class, name, lang, remote_loc)
+  spark_jobj(model) %>%
+    sparklyr::jobj_set_param("setInputCols", args[["input_cols"]]) %>% 
+    sparklyr::jobj_set_param("setOutputCol", args[["output_col"]])
+  
+  new_ml_transformer(model)
+}
+
 #' @import forge
 validator_nlp_univ_sent_encoder <- function(args) {
   args[["input_cols"]] <- cast_string_list(args[["input_cols"]])
   args[["output_col"]] <- cast_string(args[["output_col"]])
   args[["dimension"]] <- cast_nullable_integer(args[["dimension"]])
+  args
+}
+
+#' @import forge
+validator_nlp_univ_sent_encoder_pretrained <- function(args) {
+  args[["input_cols"]] <- cast_nullable_string_list(args[["input_cols"]])
+  args[["output_col"]] <- cast_string(args[["output_col"]])
   args
 }
 

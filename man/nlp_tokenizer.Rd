@@ -8,9 +8,9 @@ nlp_tokenizer(x, input_cols, output_col, exceptions = NULL,
   exceptions_path = NULL, exceptions_path_read_as = "LINE_BY_LINE",
   exceptions_path_options = list(format = "text"),
   case_sensitive_exceptions = NULL, context_chars = NULL,
-  split_chars = NULL, target_pattern = NULL, suffix_pattern = NULL,
-  prefix_pattern = NULL, infix_patterns = NULL,
-  uid = random_string("tokenizer_"))
+  split_chars = NULL, split_pattern = NULL, target_pattern = NULL,
+  suffix_pattern = NULL, prefix_pattern = NULL,
+  infix_patterns = NULL, uid = random_string("tokenizer_"))
 }
 \arguments{
 \item{x}{A \code{spark_connection}, \code{ml_pipeline}, or a \code{tbl_spark}.}
@@ -32,6 +32,8 @@ nlp_tokenizer(x, input_cols, output_col, exceptions = NULL,
 \item{context_chars}{String array. Whether to follow case sensitiveness for matching exceptions in text}
 
 \item{split_chars}{String array.  List of 1 character string to rip off from tokens, such as parenthesis or question marks. Ignored if using prefix, infix or suffix patterns.}
+
+\item{split_pattern}{String. pattern to separate from the inside of tokens. takes priority over splitChars.}
 
 \item{target_pattern}{String. Basic regex rule to identify a candidate for tokenization. Defaults to `\\S+` which means anything not a space}
 
