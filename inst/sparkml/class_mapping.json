@@ -31,5 +31,6 @@
   "com.johnsnowlabs.nlp.Doc2Chunk": "nlp_doc2chunk",
   "com.johnsnowlabs.nlp.Chunk2Doc": "nlp_chunk2doc",
   "com.johnsnowlabs.nlp.EmbeddingsFinisher": "nlp_embeddings_finisher",
-  "com.johnsnowlabs.nlp.embeddings.UniversalSentenceEncoder": "nlp_univ_sent_encoder"
+  "com.johnsnowlabs.nlp.embeddings.UniversalSentenceEncoder": "nlp_univ_sent_encoder",
+  "com.johnsnowlabs.nlp.annotators.classifier.dl.ClassifierDLApproach": "nlp_classifier_dl"
 }

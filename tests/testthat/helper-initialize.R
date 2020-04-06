@@ -8,6 +8,10 @@
 test_text <- data.frame(text = c("The cats are laying in front of the fireplace.",
                                  "The dogs are staying cool in the kitchen."))
 
+test_classifier_text <- data.frame(description = c("The cats are laying in front of the fireplace.",
+                                                   "The dogs are staying cool in the kitchen."),
+                                   category = c("Business", "Pets"))
+
 # helper functions from sparklyr tests
 # https://github.com/rstudio/sparklyr/blob/master/tests/testthat/helper-initialize.R
 testthat_spark_connection <- function() {

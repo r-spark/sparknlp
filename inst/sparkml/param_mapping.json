@@ -102,5 +102,7 @@
   "lazyAnnotator": "lazy_annotator",
   "readCacheSize": "read_cache_size",
   "writeBufferSize": "write_buffer_size",
-  "splitPattern": "split_pattern"
+  "splitPattern": "split_pattern",
+  "validationSplit": "validation_split",
+  "enableOutputLogs": "enable_output_logs"
 }

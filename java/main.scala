@@ -1,21 +1,34 @@
 package sparknlp
 
+import com.johnsnowlabs.nlp.annotators.classifier.dl.ClassifierDLApproach
 import com.johnsnowlabs.nlp.annotators.ner.dl.NerDLApproach
 import com.johnsnowlabs.nlp.RecursivePipeline
 import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
 import org.apache.spark.ml._
 
 object Utils {
-  def setLrParam(nerDLApproach: NerDLApproach, lr: Double) : NerDLApproach = {
+  def setNerLrParam(nerDLApproach: NerDLApproach, lr: Double) : NerDLApproach = {
     nerDLApproach.setLr(lr.toFloat)
   }
   
-  def setPoParam(nerDLApproach: NerDLApproach, po: Double) : NerDLApproach = {
+  def setNerPoParam(nerDLApproach: NerDLApproach, po: Double) : NerDLApproach = {
     nerDLApproach.setPo(po.toFloat)
   }
   
-  def setDropoutParam(nerDLApproach: NerDLApproach, dropout: Double) : NerDLApproach = {
+  def setNerDropoutParam(nerDLApproach: NerDLApproach, dropout: Double) : NerDLApproach = {
     nerDLApproach.setDropout(dropout.toFloat)  
+  }
+  
+  def setCDLLrParam(classifierDLApproach: ClassifierDLApproach, lr: Double) : ClassifierDLApproach = {
+    classifierDLApproach.setLr(lr.toFloat)
+  }
+
+  def setCDLDropoutParam(classifierDLApproach: ClassifierDLApproach, dropout: Double) : ClassifierDLApproach = {
+    classifierDLApproach.setDropout(dropout.toFloat)  
+  }
+
+  def setCDLValidationSplitParam(classifierDLApproach: ClassifierDLApproach, validation_split: Double) : ClassifierDLApproach = {
+    classifierDLApproach.setValidationSplit(validation_split.toFloat)
   }
   
   def createRecursivePipelineFromStages(uid: String, stages: PipelineStage*): RecursivePipeline = {

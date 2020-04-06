@@ -64,15 +64,15 @@ nlp_ner_dl.spark_connection <- function(x, input_cols, output_col,
     sparklyr::jobj_set_param("setRandomSeed", args[["random_seed"]]) 
   
   if (!is.null(args[["lr"]])) {
-    jobj <- sparklyr::invoke_static(x, "sparknlp.Utils", "setLrParam", jobj, args[["lr"]])
+    jobj <- sparklyr::invoke_static(x, "sparknlp.Utils", "setNerLrParam", jobj, args[["lr"]])
   }
   
   if (!is.null(args[["po"]])) {
-    jobj <- sparklyr::invoke_static(x, "sparknlp.Utils", "setPoParam", jobj, args[["po"]])
+    jobj <- sparklyr::invoke_static(x, "sparknlp.Utils", "setNerPoParam", jobj, args[["po"]])
   }
   
   if (!is.null(args[["dropout"]])) {
-    jobj <- sparklyr::invoke_static(x, "sparknlp.Utils", "setDropoutParam", jobj, args[["dropout"]])
+    jobj <- sparklyr::invoke_static(x, "sparknlp.Utils", "setNerDropoutParam", jobj, args[["dropout"]])
   }
   
   new_nlp_ner_dl(jobj)
