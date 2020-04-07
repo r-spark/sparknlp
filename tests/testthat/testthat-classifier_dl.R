@@ -4,7 +4,7 @@ setup({
   
   # These lines should set a pipeline that will ultimately create the columns needed for testing the annotator
   assembler <- nlp_document_assembler(sc, input_col = "description", output_col = "document")
-  use = nlp_univ_sent_encoder_pretrained(sc, input_cols = c("document"), output_col = "sentence_embeddings")
+  use <- nlp_univ_sent_encoder_pretrained(sc, input_cols = c("document"), output_col = "sentence_embeddings")
 
   pipeline <- ml_pipeline(assembler, use)
   test_data <- ml_fit_and_transform(pipeline, text_tbl)
