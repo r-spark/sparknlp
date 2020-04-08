@@ -1,3 +1,5 @@
+spark_nlp_version <- "2.4.5"
+
 spark_dependencies <- function(spark_version, scala_version, ...) {
   sparklyr::spark_dependency(
     jars = c(
@@ -7,7 +9,7 @@ spark_dependencies <- function(spark_version, scala_version, ...) {
      )
     ),
     packages = c(
-      sprintf("com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.5")
+      sprintf("com.johnsnowlabs.nlp:spark-nlp_2.11:%s", spark_nlp_version)
     )
   )
 }

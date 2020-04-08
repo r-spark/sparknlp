@@ -18,6 +18,15 @@ nlp_set_output_col <- function(jobj, output_col) {
   invoke(jobj, "setOutputCol", output_col)
 }
 
+#' Spark NLP version
+#' 
+#' @return the version of the Spark NLP library in use
+#' @export
+nlp_version <- function() {
+  return(spark_nlp_version)
+}
+
+
 
 # Get a pretrained model.
 # The model_class is the Scala class for the model.
