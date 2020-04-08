@@ -1,0 +1,118 @@
+---
+title: "Spark NLP Multi-class Text Classification"
+output: html_notebook
+---
+
+This notebook is adapted from John Snow Labs Jupyter/Python getting started notebook. See https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/classification/ClassifierDL_Train_multi_class_news_category_classifier.ipynb
+for that version.
+
+Load up the libraries we need and start the Spark session
+```{r}
+library(pins)
+library(sparklyr)
+library(sparknlp)
+library(dplyr)
+
+version <- Sys.getenv("SPARK_VERSION", unset = "2.4.3")
+
+config <- sparklyr::spark_config()
+config$`sparklyr.shell.driver-memory` <- "8G"
+    
+options(sparklyr.sanitize.column.names.verbose = TRUE)
+options(sparklyr.verbose = TRUE)
+options(sparklyr.na.omit.verbose = TRUE)
+options(sparklyr.na.action.verbose = TRUE)
+    
+sc <- sparklyr::spark_connect(master = "local", version = version, config = config)
+
+cat("Apache Spark version: ", sc$home_version, "\n")
+cat("Spark NLP version: ", nlp_version())
+```
+Let's download new category dataset for training our text classifier
+```{r}
+news_category_train <- pin("https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/resources/en/classifier-dl/news_Category/news_category_train.csv")
+news_category_test <- pin("https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/resources/en/classifier-dl/news_Category/news_category_test.csv")
+readLines(news_category_train, n = 6)
+```
+The content is inside description column and the labels are inside category column
+
+```{r}
+trainDataset <- spark_read_csv(sc, "trainDataset", news_category_train)
+head(trainDataset)
+sdf_nrow(trainDataset)
+```
+```{r}
+document <- nlp_document_assembler(sc, input_col = "description", output_col = "document")
+use <- nlp_univ_sent_encoder_pretrained(sc, input_cols = c("document"), output_col = "sentence_embeddings")
+classifierdl = nlp_classifier_dl(sc, input_cols = c("sentence_embeddings"), output_col = "class", 
+                                 label_col = "category", max_epochs = 10, enable_output_logs = TRUE)
+
+pipeline <- ml_pipeline(document, use, classifierdl)
+```
+
+```{r}
+pipelineModel <- ml_fit(pipeline, trainDataset)
+```
+```{r}
+logfiles <- list.files("~/annotator_logs", full.names = TRUE)
+system2("ls", args = c("-l", "~/annotator_logs"))
+```
+```{r}
+system2("cat", args = c(logfiles))
+```
+```{r}
+dfTest <- sdf_copy_to(sc, data.frame(description = c("Unions representing workers at Turner   Newall say they are 'disappointed' after talks with stricken parent firm Federal Mogul.",
+                                           "Scientists have discovered irregular lumps beneath the icy surface of Jupiter's largest moon, Ganymede. These irregular masses may be rock formations, supported by Ganymede's icy shell for billions of years...")))
+
+```
+
+```{r}
+prediction <- ml_transform(pipelineModel, dfTest)
+```
+
+```{r}
+prediction %>% 
+  mutate(class = class.result) %>%
+  pull(class) %>% 
+  unlist()
+
+prediction %>% 
+  mutate(metadata = class.metadata) %>%
+  pull(metadata) %>% 
+  unlist()
+```
+```{r}
+testDataset <- spark_read_csv(sc, "testDataset", news_category_test)
+```
+```{r}
+preds <- ml_transform(pipelineModel, testDataset)
+```
+
+```{r}
+head(preds %>% 
+  mutate(classresult = concat_ws(",", class.result)) %>% 
+  select(category, classresult, description), 50)
+```
+```{r}
+preds_df <- preds %>%
+  mutate(classresult = class.result) %>%
+  select(category, classresult, description) %>% 
+  collect()
+```
+```{r}
+# The result is an array since in Spark NLP you can have multiple sentences.
+# This means you can add SentenceDetector in the pipeline and feed it into
+# UniversalSentenceEncoder and you can have prediction based on each sentence.
+# Let's explode the array and get the item(s) inside of result column out
+preds_df <- preds_df %>%
+  tidyr::unnest(classresult)
+```
+
+```{r}
+library(mltest)
+
+ml_test(as.character(preds_df$classresult), as.character(preds_df$category), output.as.table = TRUE) %>%
+  select(precision, recall, F1, balanced.accuracy)
+```
+
+
