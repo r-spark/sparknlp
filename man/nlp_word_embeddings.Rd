@@ -4,11 +4,21 @@
 \alias{nlp_word_embeddings}
 \title{Spark NLP WordEmbeddings}
 \usage{
-nlp_word_embeddings(x, input_cols, output_col, storage_path,
-  storage_path_format = "TEXT", storage_ref, dimension,
-  case_sensitive = NULL, lazy_annotator = NULL,
-  read_cache_size = NULL, write_buffer_size = NULL,
-  include_storage = FALSE, uid = random_string("word_embeddings_"))
+nlp_word_embeddings(
+  x,
+  input_cols,
+  output_col,
+  storage_path,
+  storage_path_format = "TEXT",
+  storage_ref,
+  dimension,
+  case_sensitive = NULL,
+  lazy_annotator = NULL,
+  read_cache_size = NULL,
+  write_buffer_size = NULL,
+  include_storage = FALSE,
+  uid = random_string("word_embeddings_")
+)
 }
 \arguments{
 \item{x}{A \code{spark_connection}, \code{ml_pipeline}, or a \code{tbl_spark}.}

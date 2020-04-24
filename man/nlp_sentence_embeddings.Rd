@@ -4,8 +4,13 @@
 \alias{nlp_sentence_embeddings}
 \title{Spark NLP SentenceEmbeddings}
 \usage{
-nlp_sentence_embeddings(x, input_cols, output_col,
-  pooling_strategy = NULL, uid = random_string("sentence_embeddings_"))
+nlp_sentence_embeddings(
+  x,
+  input_cols,
+  output_col,
+  pooling_strategy = NULL,
+  uid = random_string("sentence_embeddings_")
+)
 }
 \arguments{
 \item{x}{A \code{spark_connection}, \code{ml_pipeline}, or a \code{tbl_spark}.}

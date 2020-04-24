@@ -4,9 +4,15 @@
 \alias{nlp_stop_words_cleaner}
 \title{Spark NLP StopWordsCleaner}
 \usage{
-nlp_stop_words_cleaner(x, input_cols, output_col, case_sensitive = NULL,
-  locale = NULL, stop_words = NULL,
-  uid = random_string("stop_words_cleaner_"))
+nlp_stop_words_cleaner(
+  x,
+  input_cols,
+  output_col,
+  case_sensitive = NULL,
+  locale = NULL,
+  stop_words = NULL,
+  uid = random_string("stop_words_cleaner_")
+)
 }
 \arguments{
 \item{x}{A \code{spark_connection}, \code{ml_pipeline}, or a \code{tbl_spark}.}

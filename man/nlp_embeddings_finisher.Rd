@@ -4,9 +4,14 @@
 \alias{nlp_embeddings_finisher}
 \title{Spark NLP EmbeddingsFinisher}
 \usage{
-nlp_embeddings_finisher(x, input_cols, output_cols,
-  clean_annotations = NULL, output_as_vector = NULL,
-  uid = random_string("embeddings_finisher_"))
+nlp_embeddings_finisher(
+  x,
+  input_cols,
+  output_cols,
+  clean_annotations = NULL,
+  output_as_vector = NULL,
+  uid = random_string("embeddings_finisher_")
+)
 }
 \arguments{
 \item{x}{A \code{spark_connection}, \code{ml_pipeline}, or a \code{tbl_spark}.}

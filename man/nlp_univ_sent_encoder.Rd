@@ -4,8 +4,13 @@
 \alias{nlp_univ_sent_encoder}
 \title{Spark NLP UniversalSentenceEncoder}
 \usage{
-nlp_univ_sent_encoder(x, input_cols, output_col, dimension = NULL,
-  uid = random_string("univ_sent_encoder_"))
+nlp_univ_sent_encoder(
+  x,
+  input_cols,
+  output_col,
+  dimension = NULL,
+  uid = random_string("univ_sent_encoder_")
+)
 }
 \arguments{
 \item{x}{A \code{spark_connection}, \code{ml_pipeline}, or a \code{tbl_spark}.}

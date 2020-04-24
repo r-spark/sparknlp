@@ -4,8 +4,7 @@
 \alias{nlp_recursive_pipeline}
 \title{Spark NLP RecursivePipeline}
 \usage{
-nlp_recursive_pipeline(x, ...,
-  uid = random_string("recursive_pipeline_"))
+nlp_recursive_pipeline(x, ..., uid = random_string("recursive_pipeline_"))
 }
 \value{
 When \code{x} is a \code{spark_connection}, \code{ml_pipeline()} returns an empty pipeline object. 

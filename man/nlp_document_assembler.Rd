@@ -4,9 +4,15 @@
 \alias{nlp_document_assembler}
 \title{Spark NLP DocumentAssembler}
 \usage{
-nlp_document_assembler(x, input_col, output_col, id_col = NULL,
-  metadata_col = NULL, cleanup_mode = NULL,
-  uid = random_string("document_assembler_"))
+nlp_document_assembler(
+  x,
+  input_col,
+  output_col,
+  id_col = NULL,
+  metadata_col = NULL,
+  cleanup_mode = NULL,
+  uid = random_string("document_assembler_")
+)
 }
 \arguments{
 \item{x}{A \code{spark_connection}, \code{ml_pipeline}, or a \code{tbl_spark}.}

@@ -14,14 +14,19 @@ nlp_annotate <- function(x, text) {
 
 #' @export
 nlp_annotate.nlp_light_pipeline <- function(x, text) {
-  #invoke(x$.jobj, "annotateJava", text)
-  invoke_static(spark_connection(x$.jobj), "sparknlp.Utils", "annotateJava", x$.jobj, text)
+  invoke(x$.jobj, "annotateJava", text)
+  #invoke_static(spark_connection(x$.jobj), "sparknlp.Utils", "lightPipelineAnnotate", x$.jobj, text)
 }
 
 #' @export
 nlp_annotate.default <- function(x, text) {
-  sc <- spark_connection(x)
-  text_frame <- dplyr::copy_to(sc, data.frame(text = text))
-  
-  sdf_register(invoke(spark_jobj(x), "annotate", spark_dataframe(text_frame), "text"))
+  if (is.character(text)) {
+    lp <- nlp_light_pipeline(x)
+    return(nlp_annotate(lp, text))
+  } else {
+    sc <- spark_connection(x)
+    text_frame <- dplyr::copy_to(sc, data.frame(text = text))
+    
+    return(sdf_register(invoke(spark_jobj(x), "annotate", spark_dataframe(text_frame), "text")))
+  }
 }

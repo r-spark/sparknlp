@@ -4,11 +4,19 @@
 \alias{nlp_typed_dependency_parser}
 \title{Spark NLP TypedDependencyParserApproach}
 \usage{
-nlp_typed_dependency_parser(x, input_cols, output_col,
-  n_iterations = NULL, conll_u_path = NULL, conll_u_read_as = "TEXT",
-  conll_u_options = list(format = "text"), conll_2009_path = NULL,
-  conll_2009_read_as = "TEXT", conll_2009_options = list(format =
-  "text"), uid = random_string("typed_dependency_parser_"))
+nlp_typed_dependency_parser(
+  x,
+  input_cols,
+  output_col,
+  n_iterations = NULL,
+  conll_u_path = NULL,
+  conll_u_read_as = "TEXT",
+  conll_u_options = list(format = "text"),
+  conll_2009_path = NULL,
+  conll_2009_read_as = "TEXT",
+  conll_2009_options = list(format = "text"),
+  uid = random_string("typed_dependency_parser_")
+)
 }
 \arguments{
 \item{x}{A \code{spark_connection}, \code{ml_pipeline}, or a \code{tbl_spark}.}

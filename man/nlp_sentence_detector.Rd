@@ -4,9 +4,16 @@
 \alias{nlp_sentence_detector}
 \title{Spark NLP SentenceDetector - sentence boundary detector}
 \usage{
-nlp_sentence_detector(x, input_cols, output_col, custom_bounds = NULL,
-  use_custom_only = NULL, use_abbreviations = NULL,
-  explode_sentences = NULL, uid = random_string("sentence_detector_"))
+nlp_sentence_detector(
+  x,
+  input_cols,
+  output_col,
+  custom_bounds = NULL,
+  use_custom_only = NULL,
+  use_abbreviations = NULL,
+  explode_sentences = NULL,
+  uid = random_string("sentence_detector_")
+)
 }
 \arguments{
 \item{x}{A \code{spark_connection}, \code{ml_pipeline}, or a \code{tbl_spark}.}

@@ -4,8 +4,14 @@
 \alias{nlp_typed_dependency_parser_pretrained}
 \title{Load a pretrained Spark NLP model}
 \usage{
-nlp_typed_dependency_parser_pretrained(sc, input_cols, output_col,
-  name = NULL, lang = NULL, remote_loc = NULL)
+nlp_typed_dependency_parser_pretrained(
+  sc,
+  input_cols,
+  output_col,
+  name = NULL,
+  lang = NULL,
+  remote_loc = NULL
+)
 }
 \arguments{
 \item{sc}{A Spark connection}

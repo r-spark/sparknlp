@@ -4,8 +4,13 @@
 \alias{nlp_chunk_embeddings}
 \title{Spark NLP ChunkEmbeddings}
 \usage{
-nlp_chunk_embeddings(x, input_cols, output_col, pooling_strategy = NULL,
-  uid = random_string("chunk_embeddings_"))
+nlp_chunk_embeddings(
+  x,
+  input_cols,
+  output_col,
+  pooling_strategy = NULL,
+  uid = random_string("chunk_embeddings_")
+)
 }
 \arguments{
 \item{x}{A \code{spark_connection}, \code{ml_pipeline}, or a \code{tbl_spark}.}

@@ -4,8 +4,12 @@
 \alias{nlp_token_assembler}
 \title{Spark NLP TokenAssembler}
 \usage{
-nlp_token_assembler(x, input_cols, output_col,
-  uid = random_string("token_assembler_"))
+nlp_token_assembler(
+  x,
+  input_cols,
+  output_col,
+  uid = random_string("token_assembler_")
+)
 }
 \arguments{
 \item{x}{A \code{spark_connection}, \code{ml_pipeline}, or a \code{tbl_spark}.}

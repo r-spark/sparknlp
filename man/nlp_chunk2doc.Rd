@@ -4,8 +4,7 @@
 \alias{nlp_chunk2doc}
 \title{Spark NLP Chunk2Doc}
 \usage{
-nlp_chunk2doc(x, input_cols, output_col,
-  uid = random_string("chunk2doc_"))
+nlp_chunk2doc(x, input_cols, output_col, uid = random_string("chunk2doc_"))
 }
 \arguments{
 \item{x}{A \code{spark_connection}, \code{ml_pipeline}, or a \code{tbl_spark}.}

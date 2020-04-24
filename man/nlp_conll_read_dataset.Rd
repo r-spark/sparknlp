@@ -4,10 +4,20 @@
 \alias{nlp_conll_read_dataset}
 \title{Transform CoNLL format text file to Spark dataframe}
 \usage{
-nlp_conll_read_dataset(sc, path, read_as = NULL, document_col = NULL,
-  sentence_col = NULL, token_col = NULL, pos_col = NULL,
-  conll_label_index = NULL, conll_pos_index = NULL,
-  conll_text_col = NULL, label_col = NULL, explode_sentences = NULL)
+nlp_conll_read_dataset(
+  sc,
+  path,
+  read_as = NULL,
+  document_col = NULL,
+  sentence_col = NULL,
+  token_col = NULL,
+  pos_col = NULL,
+  conll_label_index = NULL,
+  conll_pos_index = NULL,
+  conll_text_col = NULL,
+  label_col = NULL,
+  explode_sentences = NULL
+)
 }
 \arguments{
 \item{sc}{a Spark connection}

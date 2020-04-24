@@ -4,8 +4,13 @@
 \alias{nlp_ner_converter}
 \title{Spark NLP NerConverter}
 \usage{
-nlp_ner_converter(x, input_cols, output_col, white_list = NULL,
-  uid = random_string("ner_converter_"))
+nlp_ner_converter(
+  x,
+  input_cols,
+  output_col,
+  white_list = NULL,
+  uid = random_string("ner_converter_")
+)
 }
 \arguments{
 \item{x}{A \code{spark_connection}, \code{ml_pipeline}, or a \code{tbl_spark}.}

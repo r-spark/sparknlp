@@ -19,6 +19,6 @@ Depends:
   sparklyr (>= 1.0.4.9002)
 Imports:
   forge
-RoxygenNote: 6.1.1
+RoxygenNote: 7.1.0
 Suggests: 
     testthat

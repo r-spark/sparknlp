@@ -4,8 +4,13 @@
 \alias{nlp_chunker}
 \title{Spark NLP Chunker - Meaningful phrase matching}
 \usage{
-nlp_chunker(x, input_cols, output_col, regex_parsers = NULL,
-  uid = random_string("chunker_"))
+nlp_chunker(
+  x,
+  input_cols,
+  output_col,
+  regex_parsers = NULL,
+  uid = random_string("chunker_")
+)
 }
 \arguments{
 \item{x}{A \code{spark_connection}, \code{ml_pipeline}, or a \code{tbl_spark}.}

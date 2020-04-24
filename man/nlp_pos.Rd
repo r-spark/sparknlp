@@ -4,8 +4,14 @@
 \alias{nlp_pos}
 \title{Read a part of speech tagging training file into a dataset}
 \usage{
-nlp_pos(sc, file_path, delimiter = NULL, output_pos_col = NULL,
-  output_document_col = NULL, output_text_col = NULL)
+nlp_pos(
+  sc,
+  file_path,
+  delimiter = NULL,
+  output_pos_col = NULL,
+  output_document_col = NULL,
+  output_text_col = NULL
+)
 }
 \arguments{
 \item{sc}{Spark connection}

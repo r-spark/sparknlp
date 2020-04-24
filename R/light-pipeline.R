@@ -15,6 +15,11 @@ nlp_light_pipeline <- function(x, parse_embeddings = FALSE) {
 }
 
 #' @export
+nlp_light_pipeline.nlp_pretrained_pipeline <- function(x, parse_embeddings = FALSE) {
+  new_nlp_light_pipeline(invoke(spark_jobj(x), "lightModel"))
+}
+
+#' @export
 nlp_light_pipeline.ml_pipeline_model <- function(x, parse_embeddings = FALSE) {
   sc <- spark_connection(x)
   jobj <- invoke_new(sc, "com.johnsnowlabs.nlp.LightPipeline", spark_jobj(x), parse_embeddings)

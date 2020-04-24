@@ -4,8 +4,14 @@
 \alias{nlp_ner_crf_pretrained}
 \title{Load a pretrained Spark NLP NER CRF model}
 \usage{
-nlp_ner_crf_pretrained(sc, input_cols, output_col, name = NULL,
-  lang = NULL, remote_loc = NULL)
+nlp_ner_crf_pretrained(
+  sc,
+  input_cols,
+  output_col,
+  name = NULL,
+  lang = NULL,
+  remote_loc = NULL
+)
 }
 \arguments{
 \item{sc}{A Spark connection}

@@ -4,10 +4,19 @@
 \alias{nlp_word_embeddings_model}
 \title{Create a Spark NLP WordEmbeddingsModel}
 \usage{
-nlp_word_embeddings_model(sc, input_cols, output_col, storage_ref,
-  dimension, case_sensitive = NULL, include_storage = NULL,
-  lazy_annotator = NULL, read_cache_size = NULL,
-  include_embeddings = NULL, uid = random_string("word_embeddings_"))
+nlp_word_embeddings_model(
+  sc,
+  input_cols,
+  output_col,
+  storage_ref,
+  dimension,
+  case_sensitive = NULL,
+  include_storage = NULL,
+  lazy_annotator = NULL,
+  read_cache_size = NULL,
+  include_embeddings = NULL,
+  uid = random_string("word_embeddings_")
+)
 }
 \arguments{
 \item{input_cols}{Input columns. String array.}

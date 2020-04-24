@@ -4,10 +4,17 @@
 \alias{nlp_vivekn_sentiment_detector}
 \title{Spark NLP ViveknSentimentApproach}
 \usage{
-nlp_vivekn_sentiment_detector(x, input_cols, output_col, sentiment_col,
-  prune_corpus = NULL, feature_limit = NULL,
-  unimportant_feature_step = NULL, important_feature_ratio = NULL,
-  uid = random_string("vivekn_sentiment_detector_"))
+nlp_vivekn_sentiment_detector(
+  x,
+  input_cols,
+  output_col,
+  sentiment_col,
+  prune_corpus = NULL,
+  feature_limit = NULL,
+  unimportant_feature_step = NULL,
+  important_feature_ratio = NULL,
+  uid = random_string("vivekn_sentiment_detector_")
+)
 }
 \arguments{
 \item{x}{A \code{spark_connection}, \code{ml_pipeline}, or a \code{tbl_spark}.}

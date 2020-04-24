@@ -4,10 +4,17 @@
 \alias{nlp_finisher}
 \title{Spark NLP Finisher}
 \usage{
-nlp_finisher(x, input_cols, output_cols = NULL,
-  clean_annotations = NULL, value_split_symbol = NULL,
-  annotation_split_symbol = NULL, include_metadata = NULL,
-  output_as_array = NULL, uid = random_string("finisher_"))
+nlp_finisher(
+  x,
+  input_cols,
+  output_cols = NULL,
+  clean_annotations = NULL,
+  value_split_symbol = NULL,
+  annotation_split_symbol = NULL,
+  include_metadata = NULL,
+  output_as_array = NULL,
+  uid = random_string("finisher_")
+)
 }
 \arguments{
 \item{x}{A \code{spark_connection}, \code{ml_pipeline}, or a \code{tbl_spark}.}

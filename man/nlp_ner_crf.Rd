@@ -4,14 +4,26 @@
 \alias{nlp_ner_crf}
 \title{Spark NLP NerCrfApproach}
 \usage{
-nlp_ner_crf(x, input_cols, output_col, label_col = NULL,
-  min_epochs = NULL, max_epochs = NULL, l2 = NULL, C0 = NULL,
-  loss_eps = NULL, min_w = NULL, external_features_path = NULL,
+nlp_ner_crf(
+  x,
+  input_cols,
+  output_col,
+  label_col = NULL,
+  min_epochs = NULL,
+  max_epochs = NULL,
+  l2 = NULL,
+  C0 = NULL,
+  loss_eps = NULL,
+  min_w = NULL,
+  external_features_path = NULL,
   external_features_delimiter = NULL,
   external_features_read_as = "LINE_BY_LINE",
-  external_features_options = list(format = "text"), entities = NULL,
-  verbose = NULL, random_seed = NULL,
-  uid = random_string("ner_crf_"))
+  external_features_options = list(format = "text"),
+  entities = NULL,
+  verbose = NULL,
+  random_seed = NULL,
+  uid = random_string("ner_crf_")
+)
 }
 \arguments{
 \item{x}{A \code{spark_connection}, \code{ml_pipeline}, or a \code{tbl_spark}.}

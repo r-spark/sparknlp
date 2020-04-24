@@ -4,10 +4,21 @@
 \alias{nlp_classifier_dl}
 \title{Spark NLP ClassifierDLApproach}
 \usage{
-nlp_classifier_dl(x, input_cols, output_col, label_col,
-  batch_size = NULL, max_epochs = NULL, lr = NULL, dropout = NULL,
-  validation_split = NULL, verbose = NULL, enable_output_logs = NULL,
-  lazy_annotator = NULL, uid = random_string("classifier_dl_"))
+nlp_classifier_dl(
+  x,
+  input_cols,
+  output_col,
+  label_col,
+  batch_size = NULL,
+  max_epochs = NULL,
+  lr = NULL,
+  dropout = NULL,
+  validation_split = NULL,
+  verbose = NULL,
+  enable_output_logs = NULL,
+  lazy_annotator = NULL,
+  uid = random_string("classifier_dl_")
+)
 }
 \arguments{
 \item{x}{A \code{spark_connection}, \code{ml_pipeline}, or a \code{tbl_spark}.}

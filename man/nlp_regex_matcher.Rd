@@ -4,10 +4,17 @@
 \alias{nlp_regex_matcher}
 \title{Spark NLP RegexMatcher}
 \usage{
-nlp_regex_matcher(x, input_cols, output_col, strategy = NULL,
-  rules_path = NULL, rules_path_delimiter = ",",
-  rules_path_read_as = "TEXT", rules_path_options = list(format =
-  "text"), uid = random_string("regex_matcher_"))
+nlp_regex_matcher(
+  x,
+  input_cols,
+  output_col,
+  strategy = NULL,
+  rules_path = NULL,
+  rules_path_delimiter = ",",
+  rules_path_read_as = "TEXT",
+  rules_path_options = list(format = "text"),
+  uid = random_string("regex_matcher_")
+)
 }
 \arguments{
 \item{x}{A \code{spark_connection}, \code{ml_pipeline}, or a \code{tbl_spark}.}

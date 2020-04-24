@@ -4,9 +4,14 @@
 \alias{nlp_pretrained_pipeline}
 \title{Spark NLP Pretrained pipeline}
 \usage{
-nlp_pretrained_pipeline(x, download_name, lang = "en",
-  source = "public/models", parse_embeddings_vectors = FALSE,
-  disk_location = NULL)
+nlp_pretrained_pipeline(
+  x,
+  download_name,
+  lang = "en",
+  source = "public/models",
+  parse_embeddings_vectors = FALSE,
+  disk_location = NULL
+)
 }
 \arguments{
 \item{x}{a Spark connection, Spark dataframe or string or character vector}

@@ -4,13 +4,23 @@
 \alias{nlp_symmetric_delete}
 \title{Spark NLP SymmetricDeleteApproach}
 \usage{
-nlp_symmetric_delete(x, input_cols, output_col, dictionary_path = NULL,
+nlp_symmetric_delete(
+  x,
+  input_cols,
+  output_col,
+  dictionary_path = NULL,
   dictionary_token_pattern = "\\\\S+",
-  dictionary_read_as = "LINE_BY_LINE", dictionary_options = list(format
-  = "text"), max_edit_distance = NULL, dups_limit = NULL,
-  deletes_threshold = NULL, frequency_threshold = NULL,
-  longest_word_length = NULL, max_frequency = NULL,
-  min_frequency = NULL, uid = random_string("symmetric_delete_"))
+  dictionary_read_as = "LINE_BY_LINE",
+  dictionary_options = list(format = "text"),
+  max_edit_distance = NULL,
+  dups_limit = NULL,
+  deletes_threshold = NULL,
+  frequency_threshold = NULL,
+  longest_word_length = NULL,
+  max_frequency = NULL,
+  min_frequency = NULL,
+  uid = random_string("symmetric_delete_")
+)
 }
 \arguments{
 \item{x}{A \code{spark_connection}, \code{ml_pipeline}, or a \code{tbl_spark}.}

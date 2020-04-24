@@ -4,8 +4,13 @@
 \alias{nlp_stemmer}
 \title{Spark NLP Stemmer}
 \usage{
-nlp_stemmer(x, input_cols, output_col, language = NULL,
-  uid = random_string("stemmer_"))
+nlp_stemmer(
+  x,
+  input_cols,
+  output_col,
+  language = NULL,
+  uid = random_string("stemmer_")
+)
 }
 \arguments{
 \item{x}{A \code{spark_connection}, \code{ml_pipeline}, or a \code{tbl_spark}.}

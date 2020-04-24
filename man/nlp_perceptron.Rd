@@ -4,8 +4,14 @@
 \alias{nlp_perceptron}
 \title{Spark NLP Perceptron}
 \usage{
-nlp_perceptron(x, input_cols, output_col, n_iterations = NULL,
-  pos_column = NULL, uid = random_string("perceptron_"))
+nlp_perceptron(
+  x,
+  input_cols,
+  output_col,
+  n_iterations = NULL,
+  pos_column = NULL,
+  uid = random_string("perceptron_")
+)
 }
 \arguments{
 \item{x}{A \code{spark_connection}, \code{ml_pipeline}, or a \code{tbl_spark}.}

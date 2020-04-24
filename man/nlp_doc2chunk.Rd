@@ -4,10 +4,18 @@
 \alias{nlp_doc2chunk}
 \title{Spark NLP Doc2Chunk}
 \usage{
-nlp_doc2chunk(x, input_cols, output_col, is_array = NULL,
-  chunk_col = NULL, start_col = NULL,
-  start_col_by_token_index = NULL, fail_on_missing = NULL,
-  lowercase = NULL, uid = random_string("doc2chunk_"))
+nlp_doc2chunk(
+  x,
+  input_cols,
+  output_col,
+  is_array = NULL,
+  chunk_col = NULL,
+  start_col = NULL,
+  start_col_by_token_index = NULL,
+  fail_on_missing = NULL,
+  lowercase = NULL,
+  uid = random_string("doc2chunk_")
+)
 }
 \arguments{
 \item{x}{A \code{spark_connection}, \code{ml_pipeline}, or a \code{tbl_spark}.}

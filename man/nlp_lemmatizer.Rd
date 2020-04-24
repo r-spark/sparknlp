@@ -4,10 +4,17 @@
 \alias{nlp_lemmatizer}
 \title{Spark NLP Lemmatizer}
 \usage{
-nlp_lemmatizer(x, input_cols, output_col, dictionary_path = NULL,
-  dictionary_key_delimiter = "->", dictionary_value_delimiter = "\\t",
-  dictionary_read_as = "TEXT", dictionary_options = list(format =
-  "text"), uid = random_string("lemmatizer_"))
+nlp_lemmatizer(
+  x,
+  input_cols,
+  output_col,
+  dictionary_path = NULL,
+  dictionary_key_delimiter = "->",
+  dictionary_value_delimiter = "\\t",
+  dictionary_read_as = "TEXT",
+  dictionary_options = list(format = "text"),
+  uid = random_string("lemmatizer_")
+)
 }
 \arguments{
 \item{x}{A \code{spark_connection}, \code{ml_pipeline}, or a \code{tbl_spark}.}

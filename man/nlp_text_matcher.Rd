@@ -4,8 +4,15 @@
 \alias{nlp_text_matcher}
 \title{Spark NLP TextMatcher phrase matching}
 \usage{
-nlp_text_matcher(x, input_cols, output_col, path, read_as = "TEXT",
-  options = NULL, uid = random_string("text_matcher_"))
+nlp_text_matcher(
+  x,
+  input_cols,
+  output_col,
+  path,
+  read_as = "TEXT",
+  options = NULL,
+  uid = random_string("text_matcher_")
+)
 }
 \arguments{
 \item{x}{A \code{spark_connection}, \code{ml_pipeline}, or a \code{tbl_spark}.}

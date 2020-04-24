@@ -4,10 +4,21 @@
 \alias{nlp_ner_dl}
 \title{Spark NLP NerDLApproach Named Entity Recognition Deep Learning annotator}
 \usage{
-nlp_ner_dl(x, input_cols, output_col, label_col = NULL,
-  max_epochs = NULL, lr = NULL, po = NULL, batch_size = NULL,
-  dropout = NULL, verbose = NULL, include_confidence = NULL,
-  random_seed = NULL, uid = random_string("ner_dl_"))
+nlp_ner_dl(
+  x,
+  input_cols,
+  output_col,
+  label_col = NULL,
+  max_epochs = NULL,
+  lr = NULL,
+  po = NULL,
+  batch_size = NULL,
+  dropout = NULL,
+  verbose = NULL,
+  include_confidence = NULL,
+  random_seed = NULL,
+  uid = random_string("ner_dl_")
+)
 }
 \arguments{
 \item{x}{A \code{spark_connection}, \code{ml_pipeline}, or a \code{tbl_spark}.}

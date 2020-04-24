@@ -4,13 +4,24 @@
 \alias{nlp_tokenizer}
 \title{Spark NLP Tokenizer approach}
 \usage{
-nlp_tokenizer(x, input_cols, output_col, exceptions = NULL,
-  exceptions_path = NULL, exceptions_path_read_as = "LINE_BY_LINE",
+nlp_tokenizer(
+  x,
+  input_cols,
+  output_col,
+  exceptions = NULL,
+  exceptions_path = NULL,
+  exceptions_path_read_as = "LINE_BY_LINE",
   exceptions_path_options = list(format = "text"),
-  case_sensitive_exceptions = NULL, context_chars = NULL,
-  split_chars = NULL, split_pattern = NULL, target_pattern = NULL,
-  suffix_pattern = NULL, prefix_pattern = NULL,
-  infix_patterns = NULL, uid = random_string("tokenizer_"))
+  case_sensitive_exceptions = NULL,
+  context_chars = NULL,
+  split_chars = NULL,
+  split_pattern = NULL,
+  target_pattern = NULL,
+  suffix_pattern = NULL,
+  prefix_pattern = NULL,
+  infix_patterns = NULL,
+  uid = random_string("tokenizer_")
+)
 }
 \arguments{
 \item{x}{A \code{spark_connection}, \code{ml_pipeline}, or a \code{tbl_spark}.}

@@ -4,11 +4,19 @@
 \alias{nlp_deep_sentence_detector}
 \title{Spark NLP DeepSentenceDetector}
 \usage{
-nlp_deep_sentence_detector(x, input_cols, output_col,
-  include_pragmatic_segmenter = NULL, end_punctuation = NULL,
-  custom_bounds = NULL, explode_sentences = NULL, max_length = NULL,
-  use_abbreviations = NULL, use_custom_only = NULL,
-  uid = random_string("deep_sentence_detector_"))
+nlp_deep_sentence_detector(
+  x,
+  input_cols,
+  output_col,
+  include_pragmatic_segmenter = NULL,
+  end_punctuation = NULL,
+  custom_bounds = NULL,
+  explode_sentences = NULL,
+  max_length = NULL,
+  use_abbreviations = NULL,
+  use_custom_only = NULL,
+  uid = random_string("deep_sentence_detector_")
+)
 }
 \arguments{
 \item{x}{A \code{spark_connection}, \code{ml_pipeline}, or a \code{tbl_spark}.}

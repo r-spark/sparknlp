@@ -30,7 +30,8 @@ nlp_pretrained_pipeline <- function(x, download_name, lang = "en", source = "pub
 #' @export
 nlp_pretrained_pipeline.spark_connection <- function(x, download_name, lang = "en", source = "public/models", 
                                                      parse_embeddings_vectors = FALSE, disk_location = NULL) {
-  jobj <- invoke_static(sc, "sparknlp.Utils", "pretrainedPipeline", download_name, lang, source, parse_embeddings_vectors, disk_location)
+  jobj <- invoke_static(x, "sparknlp.Utils", "pretrainedPipeline", download_name, lang, source, parse_embeddings_vectors, disk_location)
+  new_nlp_pretrained_pipeline(jobj)
 }
 
 # Runs the pipeline on the data frame
@@ -43,5 +44,10 @@ nlp_pretrained_pipeline.tbl_spark <- function(x, download_name, lang = "en", sou
 }
 
 new_nlp_pretrained_pipeline <- function(jobj) {
-  structure(list(.jobj = jobj), class = c("nlp_pretrained_pipeline"))
+  structure(list(.jobj = jobj), class = c("nlp_pretrained_pipeline", "ml_transformer", "ml_pipeline_model"))
+}
+
+#' @export
+spark_jobj.nlp_pretrained_pipeline <- function(x, ...) {
+  x$.jobj
 }

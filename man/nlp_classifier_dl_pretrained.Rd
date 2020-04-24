@@ -4,9 +4,15 @@
 \alias{nlp_classifier_dl_pretrained}
 \title{Load a pretrained Spark NLP Classifier DL model}
 \usage{
-nlp_classifier_dl_pretrained(sc, input_cols, output_col,
-  include_confidence = NULL, name = NULL, lang = NULL,
-  remote_loc = NULL)
+nlp_classifier_dl_pretrained(
+  sc,
+  input_cols,
+  output_col,
+  include_confidence = NULL,
+  name = NULL,
+  lang = NULL,
+  remote_loc = NULL
+)
 }
 \arguments{
 \item{sc}{A Spark connection}

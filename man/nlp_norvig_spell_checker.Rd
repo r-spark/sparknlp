@@ -4,13 +4,24 @@
 \alias{nlp_norvig_spell_checker}
 \title{Spark NLP NorvigSweetingApproach}
 \usage{
-nlp_norvig_spell_checker(x, input_cols, output_col,
-  dictionary_path = NULL, dictionary_token_pattern = "\\\\S+",
-  dictionary_read_as = "TEXT", dictionary_options = list(format =
-  "text"), case_sensitive = NULL, double_variants = NULL,
-  short_circuit = NULL, word_size_ignore = NULL, dups_limit = NULL,
-  reduct_limit = NULL, intersections = NULL, vowel_swap_limit = NULL,
-  uid = random_string("norvig_spell_checker_"))
+nlp_norvig_spell_checker(
+  x,
+  input_cols,
+  output_col,
+  dictionary_path = NULL,
+  dictionary_token_pattern = "\\\\S+",
+  dictionary_read_as = "TEXT",
+  dictionary_options = list(format = "text"),
+  case_sensitive = NULL,
+  double_variants = NULL,
+  short_circuit = NULL,
+  word_size_ignore = NULL,
+  dups_limit = NULL,
+  reduct_limit = NULL,
+  intersections = NULL,
+  vowel_swap_limit = NULL,
+  uid = random_string("norvig_spell_checker_")
+)
 }
 \arguments{
 \item{x}{A \code{spark_connection}, \code{ml_pipeline}, or a \code{tbl_spark}.}

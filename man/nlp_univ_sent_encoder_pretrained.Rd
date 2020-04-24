@@ -4,8 +4,14 @@
 \alias{nlp_univ_sent_encoder_pretrained}
 \title{Load pretrained universal sentence encoder}
 \usage{
-nlp_univ_sent_encoder_pretrained(sc, input_cols = NULL, output_col,
-  name = NULL, lang = NULL, remote_loc = NULL)
+nlp_univ_sent_encoder_pretrained(
+  sc,
+  input_cols = NULL,
+  output_col,
+  name = NULL,
+  lang = NULL,
+  remote_loc = NULL
+)
 }
 \arguments{
 \item{sc}{A Spark connection}

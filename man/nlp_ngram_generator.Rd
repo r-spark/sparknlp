@@ -4,8 +4,14 @@
 \alias{nlp_ngram_generator}
 \title{Spark NLP NGramGenerator}
 \usage{
-nlp_ngram_generator(x, input_cols, output_col, n = NULL,
-  enable_cumulative = NULL, uid = random_string("ngram_generator_"))
+nlp_ngram_generator(
+  x,
+  input_cols,
+  output_col,
+  n = NULL,
+  enable_cumulative = NULL,
+  uid = random_string("ngram_generator_")
+)
 }
 \arguments{
 \item{x}{A \code{spark_connection}, \code{ml_pipeline}, or a \code{tbl_spark}.}

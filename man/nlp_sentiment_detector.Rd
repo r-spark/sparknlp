@@ -4,13 +4,22 @@
 \alias{nlp_sentiment_detector}
 \title{Spark NLP SentimentDetector}
 \usage{
-nlp_sentiment_detector(x, input_cols, output_col,
-  decrement_multiplier = NULL, dictionary_path,
-  dictionary_delimiter = ",", dictionary_read_as = "TEXT",
-  dictionary_options = list(format = "text"), enable_score = NULL,
-  increment_multiplier = NULL, negative_multiplier = NULL,
-  positive_multiplier = NULL, reverse_multiplier = NULL,
-  uid = random_string("sentiment_detector_"))
+nlp_sentiment_detector(
+  x,
+  input_cols,
+  output_col,
+  decrement_multiplier = NULL,
+  dictionary_path,
+  dictionary_delimiter = ",",
+  dictionary_read_as = "TEXT",
+  dictionary_options = list(format = "text"),
+  enable_score = NULL,
+  increment_multiplier = NULL,
+  negative_multiplier = NULL,
+  positive_multiplier = NULL,
+  reverse_multiplier = NULL,
+  uid = random_string("sentiment_detector_")
+)
 }
 \arguments{
 \item{x}{A \code{spark_connection}, \code{ml_pipeline}, or a \code{tbl_spark}.}

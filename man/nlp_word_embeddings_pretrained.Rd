@@ -4,8 +4,14 @@
 \alias{nlp_word_embeddings_pretrained}
 \title{Load pretrained word embeddings}
 \usage{
-nlp_word_embeddings_pretrained(sc, input_cols = NULL, output_col,
-  name = NULL, lang = NULL, remote_loc = NULL)
+nlp_word_embeddings_pretrained(
+  sc,
+  input_cols = NULL,
+  output_col,
+  name = NULL,
+  lang = NULL,
+  remote_loc = NULL
+)
 }
 \arguments{
 \item{sc}{A Spark connection}

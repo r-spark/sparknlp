@@ -4,8 +4,13 @@
 \alias{nlp_date_matcher}
 \title{Spark NLP DateMatcher}
 \usage{
-nlp_date_matcher(x, input_cols, output_col, format = NULL,
-  uid = random_string("date_matcher_"))
+nlp_date_matcher(
+  x,
+  input_cols,
+  output_col,
+  format = NULL,
+  uid = random_string("date_matcher_")
+)
 }
 \arguments{
 \item{x}{A \code{spark_connection}, \code{ml_pipeline}, or a \code{tbl_spark}.}

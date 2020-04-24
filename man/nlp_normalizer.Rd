@@ -4,11 +4,18 @@
 \alias{nlp_normalizer}
 \title{Spark NLP Normalizer}
 \usage{
-nlp_normalizer(x, input_cols, output_col, cleanup_patterns = NULL,
-  lowercase = NULL, dictionary_path = NULL,
-  dictionary_delimiter = NULL, dictionary_read_as = "LINE_BY_LINE",
+nlp_normalizer(
+  x,
+  input_cols,
+  output_col,
+  cleanup_patterns = NULL,
+  lowercase = NULL,
+  dictionary_path = NULL,
+  dictionary_delimiter = NULL,
+  dictionary_read_as = "LINE_BY_LINE",
   dictionary_options = list(format = "text"),
-  uid = random_string("normalizer_"))
+  uid = random_string("normalizer_")
+)
 }
 \arguments{
 \item{x}{A \code{spark_connection}, \code{ml_pipeline}, or a \code{tbl_spark}.}
