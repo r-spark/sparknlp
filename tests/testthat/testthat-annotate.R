@@ -40,3 +40,12 @@ test_that("nlp annotate text input LightPipeline", {
   result <- nlp_annotate(light_pipeline, "French author who helped pioneer the science-fiction genre. Verne wrate about space, air, and underwater travel before navigable aircrast and practical submarines were invented, and before any means of space travel had been devised.")
   expect_true("token" %in% names(result))
 })
+
+test_that("nlp annotate text list LightPipeline", {
+  light_pipeline <- nlp_light_pipeline(fit_pipeline)
+  testDoc_list <- c('French author who helped pioner the science-fiction genre.',
+                       'Verne wrate about space, air, and underwater travel before navigable aircrast',
+                       'Practical submarines were invented, and before any means of space travel had been devised.')
+  result <- nlp_annotate(light_pipeline, testDoc_list)
+  expect_true("token" %in% names(result[[1]]))
+})

@@ -19,7 +19,12 @@ nlp_annotate <- function(x, target, column = NULL) {
 #' @export
 nlp_annotate.nlp_light_pipeline <- function(x, target, column = NULL) {
   if (is.character(target)) {
-    return(invoke(x$.jobj, "annotateJava", target))
+    if (length(target) == 1) {
+      return(invoke(x$.jobj, "annotateJava", forge::cast_string(target)))
+    } else {
+      result <- invoke_static(spark_connection(x$.jobj), "sparknlp.Utils", "annotateList", x$.jobj, forge::cast_string_list(target))
+      return(result)
+    }
   } else if ("tbl_spark" %in% class(target)) {
     if (is.null(column)) {
       stop("annotate column argument required when targeting a DataFrame")

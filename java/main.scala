@@ -6,6 +6,7 @@ import com.johnsnowlabs.nlp.RecursivePipeline
 import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
 import com.johnsnowlabs.nlp.LightPipeline
 import org.apache.spark.ml._
+import collection.JavaConverters._
 
 object Utils {
   def setNerLrParam(nerDLApproach: NerDLApproach, lr: Double) : NerDLApproach = {
@@ -46,6 +47,11 @@ object Utils {
     }
                            
     new PretrainedPipeline(downloadName, lang, source, parseEmbeddingsVectors, diskLocationOpt);
+  }
+  
+  def annotateList(lp: LightPipeline, target: Array[String]): java.util.List[java.util.Map[String, java.util.List[String]]] = {
+    val targetList: java.util.ArrayList[String] = new java.util.ArrayList[String](target.toList.asJava)
+    lp.annotateJava(targetList)
   }
   
   def setStoragePath(obj: com.johnsnowlabs.nlp.embeddings.WordEmbeddings, path: String, format: String): Object = {
