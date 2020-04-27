@@ -16,7 +16,7 @@ Encoding: UTF-8
 LazyData: true
 Depends:
   R (>= 3.1.2),
-  sparklyr (>= 1.0.4.9002)
+  sparklyr (>= 1.2.0.9000)
 Imports:
   forge
 RoxygenNote: 7.1.0

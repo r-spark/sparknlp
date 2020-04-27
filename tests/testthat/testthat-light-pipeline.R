@@ -22,9 +22,16 @@ teardown({
   rm(text_tbl, envir = .GlobalEnv)
 })
 
-test_that("nlp_light_pipeline annotate", {
+test_that("nlp_light_pipeline data frame annotate", {
   light_pipeline <- nlp_light_pipeline(fit_pipeline)
-  result <- ml_transform(light_pipeline, text_tbl)
+  result <- nlp_annotate(light_pipeline, text_tbl, "text")
   expect_true("embeddings" %in% colnames(result))
+})
+
+test_that("nlp_light_pipeline pre-trained", {
+  pipeline <- nlp_pretrained_pipeline(sc, "explain_document_ml", lang = "en")
+  light_pipeline <- nlp_light_pipeline(pipeline)
+  result <- nlp_annotate(light_pipeline, "French author who helped pioneer the science-fiction genre. Verne wrate about space, air, and underwater travel before navigable aircrast and practical submarines were invented, and before any means of space travel had been devised.")
+  expect_true("token" %in% names(result))
 })
 

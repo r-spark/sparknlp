@@ -8,6 +8,8 @@ nlp_light_pipeline(x, parse_embeddings = FALSE)
 }
 \arguments{
 \item{x}{a trained (fitted) pipeline}
+
+\item{parse_embeddings}{}
 }
 \value{
 a LightPipeline object

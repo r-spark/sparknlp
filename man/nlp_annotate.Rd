@@ -4,15 +4,20 @@
 \alias{nlp_annotate}
 \title{Annotate some text}
 \usage{
-nlp_annotate(x, text)
+nlp_annotate(x, target, column = NULL)
 }
 \arguments{
 \item{x}{some SparkNLP object that has an annotate method that takes a Spark data frame as argument}
 
-\item{text}{the text to annotate}
+\item{target}{the text to annotate. This can be a character string, a character vector or a data frame (with the text
+in a field named "text")}
+
+\item{column}{the column name containing text if a Spark DataFrame is passed in.}
 }
 \value{
-a Spark data frame containing the annotations
+If given a character vector the return value is a list of lists containing the annotations.
+
+If given a Spark DataFrame the return value is a Spark data frame containing the annotations
 }
 \description{
 Use SparkNLP to annotate some text.

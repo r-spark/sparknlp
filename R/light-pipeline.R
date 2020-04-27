@@ -5,6 +5,7 @@
 #' To use them, simply plug in a trained (fitted) pipeline.
 #' 
 #' @param x a trained (fitted) pipeline
+#' @param parse_embeddings 
 #' 
 #' @return a LightPipeline object
 #'  
@@ -24,11 +25,6 @@ nlp_light_pipeline.ml_pipeline_model <- function(x, parse_embeddings = FALSE) {
   sc <- spark_connection(x)
   jobj <- invoke_new(sc, "com.johnsnowlabs.nlp.LightPipeline", spark_jobj(x), parse_embeddings)
   new_nlp_light_pipeline(jobj)
-}
-
-#' @export
-nlp_light_pipeline.tbl_spark <- function(x, parse_embeddings = FALSE) {
-  sc <- spark_connection(x)
 }
 
 new_nlp_light_pipeline <- function(jobj) {
