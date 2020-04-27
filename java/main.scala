@@ -5,6 +5,7 @@ import com.johnsnowlabs.nlp.annotators.ner.dl.NerDLApproach
 import com.johnsnowlabs.nlp.RecursivePipeline
 import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
 import com.johnsnowlabs.nlp.LightPipeline
+import com.johnsnowlabs.nlp.JavaAnnotation
 import org.apache.spark.ml._
 import collection.JavaConverters._
 
@@ -52,6 +53,11 @@ object Utils {
   def annotateList(lp: LightPipeline, target: Array[String]): java.util.List[java.util.Map[String, java.util.List[String]]] = {
     val targetList: java.util.ArrayList[String] = new java.util.ArrayList[String](target.toList.asJava)
     lp.annotateJava(targetList)
+  }
+  
+  def fullAnnotateList(lp: LightPipeline, target: Array[String]): java.util.List[java.util.Map[String, java.util.List[JavaAnnotation]]] = {
+    val targetList: java.util.ArrayList[String] = new java.util.ArrayList[String](target.toList.asJava)
+    lp.fullAnnotateJava(targetList)
   }
   
   def setStoragePath(obj: com.johnsnowlabs.nlp.embeddings.WordEmbeddings, path: String, format: String): Object = {
