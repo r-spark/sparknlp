@@ -72,9 +72,12 @@ nlp_annotate.default <- function(x, target, column = NULL) {
 nlp_annotate_full.nlp_light_pipeline <- function(x, target, column = NULL) {
   if (is.character(target)) {
     if (length(target) == 1) {
-      return(invoke(x$.jobj, "fullAnnotateJava", forge::cast_string(target)))
+      annotations <- invoke(x$.jobj, "fullAnnotateJava", forge::cast_string(target))
+      annotations <- purrr::map(annotations, function(x) purrr::map(x, nlp_annotation))
+      return(annotations)
     } else {
       result <- invoke_static(spark_connection(x$.jobj), "sparknlp.Utils", "fullAnnotateList", x$.jobj, forge::cast_string_list(target))
+      result <- purrr::map(result, function(x) purrr::map(x, function(y) purrr::map(y, nlp_annotation)))
       return(result)
     }
   } else if ("tbl_spark" %in% class(target)) {
@@ -91,7 +94,7 @@ nlp_annotate_full.nlp_light_pipeline <- function(x, target, column = NULL) {
 nlp_annotate_full.default <- function(x, target, column = NULL) {
   if (is.character(target)) {
     lp <- nlp_light_pipeline(x)
-    return(nlp_annotate.nlp_light_pipeline(lp, target, column))
+    return(nlp_annotate_full.nlp_light_pipeline(lp, target, column))
   } else if ("tbl_spark" %in% class(target)) {
     if (is.null(column)) {
       stop("annotate column argument required when targeting a DataFrame")

@@ -27,7 +27,7 @@ nlp_ner_dl(
 
 \item{output_col}{Output column. String.}
 
-\item{label_col}{If DatasetPath is not provided, this Seq[Annotation] type of column should have labeled data per token}
+\item{label_col}{If DatasetPath is not provided, this Seq\link{Annotation} type of column should have labeled data per token}
 
 \item{max_epochs}{Maximum number of epochs to train}
 
@@ -53,15 +53,15 @@ nlp_ner_dl(
 The object returned depends on the class of \code{x}.
 
 \itemize{
-  \item \code{spark_connection}: When \code{x} is a \code{spark_connection}, the function returns an instance of a \code{ml_estimator} object. The object contains a pointer to
-  a Spark \code{Estimator} object and can be used to compose
-  \code{Pipeline} objects.
+\item \code{spark_connection}: When \code{x} is a \code{spark_connection}, the function returns an instance of a \code{ml_estimator} object. The object contains a pointer to
+a Spark \code{Estimator} object and can be used to compose
+\code{Pipeline} objects.
 
-  \item \code{ml_pipeline}: When \code{x} is a \code{ml_pipeline}, the function returns a \code{ml_pipeline} with
-  the NLP estimator appended to the pipeline.
+\item \code{ml_pipeline}: When \code{x} is a \code{ml_pipeline}, the function returns a \code{ml_pipeline} with
+the NLP estimator appended to the pipeline.
 
-  \item \code{tbl_spark}: When \code{x} is a \code{tbl_spark}, an estimator is constructed then
-  immediately fit with the input \code{tbl_spark}, returning an NLP model.
+\item \code{tbl_spark}: When \code{x} is a \code{tbl_spark}, an estimator is constructed then
+immediately fit with the input \code{tbl_spark}, returning an NLP model.
 }
 
 When \code{x} is a \code{spark_connection} the function returns a NerDLApproach estimator.
@@ -69,8 +69,8 @@ When \code{x} is a \code{ml_pipeline} the pipeline with the NerDLApproach added.
 is a \code{tbl_spark} a transformed \code{tbl_spark}  (note that the Dataframe passed in must have the input_cols specified).
 }
 \description{
-This Named Entity recognition annotator allows to train generic NER model based on Neural Networks. 
-Its train data (train_ner) is either a labeled or an external CoNLL 2003 IOB based spark dataset with Annotations 
+This Named Entity recognition annotator allows to train generic NER model based on Neural Networks.
+Its train data (train_ner) is either a labeled or an external CoNLL 2003 IOB based spark dataset with Annotations
 columns. Also the user has to provide word embeddings annotation column.
 }
 \details{

@@ -30,15 +30,15 @@ nlp_pretrained_pipeline(
 The object returned depends on the class of \code{x}.
 
 \itemize{
-  \item \code{spark_connection}: When \code{x} is a \code{spark_connection}, the function returns an instance of 
-  a \code{ml_pipeline} created from the pretrained pipeline.
+\item \code{spark_connection}: When \code{x} is a \code{spark_connection}, the function returns an instance of
+a \code{ml_pipeline} created from the pretrained pipeline.
 
-  \item \code{tbl_spark}: When \code{x} is a \code{tbl_spark}, a the pretrained pipeline is created and immediately 
-  run on the provied dataframe using \code{ml_fit_and_transform} returning the transformed data frame.
+\item \code{tbl_spark}: When \code{x} is a \code{tbl_spark}, a the pretrained pipeline is created and immediately
+run on the provied dataframe using \code{ml_fit_and_transform} returning the transformed data frame.
 }
 }
 \description{
-Creates a Spark NLP pretrained pipeline. See 
-\url{https://nlp.johnsnowlabs.com/api/index.html#com.johnsnowlabs.nlp.pretrained.PretrainedPipeline} for the 
+Creates a Spark NLP pretrained pipeline. See
+\url{https://nlp.johnsnowlabs.com/api/index.html#com.johnsnowlabs.nlp.pretrained.PretrainedPipeline} for the
 default values for the parameters if left null
 }

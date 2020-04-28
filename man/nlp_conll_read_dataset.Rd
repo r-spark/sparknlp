@@ -48,8 +48,8 @@ nlp_conll_read_dataset(
 Spark dataframe containing the imported data
 }
 \description{
-In order to train a Named Entity Recognition DL annotator, we need to get CoNLL format data as a spark dataframe. 
+In order to train a Named Entity Recognition DL annotator, we need to get CoNLL format data as a spark dataframe.
 There is a component that does this for us: it reads a plain text file and transforms it to a spark dataset.
-See \url{https://nlp.johnsnowlabs.com/docs/en/annotators#conll-dataset}. All the function arguments have defaults. 
+See \url{https://nlp.johnsnowlabs.com/docs/en/annotators#conll-dataset}. All the function arguments have defaults.
 See \url{https://nlp.johnsnowlabs.com/api/index.html#com.johnsnowlabs.nlp.training.CoNLL} for the defaults.
 }

@@ -15,7 +15,7 @@ nlp_light_pipeline(x, parse_embeddings = FALSE)
 a LightPipeline object
 }
 \description{
-LightPipelines are Spark ML pipelines converted into a single machine but multithreaded task, becoming more than 
+LightPipelines are Spark ML pipelines converted into a single machine but multithreaded task, becoming more than
 10x times faster for smaller amounts of data (small is relative, but 50k sentences is roughly a good maximum).
 To use them, simply plug in a trained (fitted) pipeline.
 }

@@ -32,7 +32,7 @@ nlp_ner_crf(
 
 \item{output_col}{Output column. String.}
 
-\item{label_col}{If DatasetPath is not provided, this Seq[Annotation] type of column should have labeled data per token}
+\item{label_col}{If DatasetPath is not provided, this Seq\link{Annotation} type of column should have labeled data per token}
 
 \item{min_epochs}{Minimum number of epochs to train}
 
@@ -68,20 +68,20 @@ nlp_ner_crf(
 The object returned depends on the class of \code{x}.
 
 \itemize{
-  \item \code{spark_connection}: When \code{x} is a \code{spark_connection}, the function returns an instance of a \code{ml_estimator} object. The object contains a pointer to
-  a Spark \code{Estimator} object and can be used to compose
-  \code{Pipeline} objects.
+\item \code{spark_connection}: When \code{x} is a \code{spark_connection}, the function returns an instance of a \code{ml_estimator} object. The object contains a pointer to
+a Spark \code{Estimator} object and can be used to compose
+\code{Pipeline} objects.
 
-  \item \code{ml_pipeline}: When \code{x} is a \code{ml_pipeline}, the function returns a \code{ml_pipeline} with
-  the NLP estimator appended to the pipeline.
+\item \code{ml_pipeline}: When \code{x} is a \code{ml_pipeline}, the function returns a \code{ml_pipeline} with
+the NLP estimator appended to the pipeline.
 
-  \item \code{tbl_spark}: When \code{x} is a \code{tbl_spark}, an estimator is constructed then
-  immediately fit with the input \code{tbl_spark}, returning an NLP model.
+\item \code{tbl_spark}: When \code{x} is a \code{tbl_spark}, an estimator is constructed then
+immediately fit with the input \code{tbl_spark}, returning an NLP model.
 }
 }
 \description{
-Spark ML estimator that allows for a generic model to be trained by utilizing a CRF machine learning algorithm. 
-Its train data (train_ner) is either a labeled or an external CoNLL 2003 IOB based spark dataset with Annotations 
+Spark ML estimator that allows for a generic model to be trained by utilizing a CRF machine learning algorithm.
+Its train data (train_ner) is either a labeled or an external CoNLL 2003 IOB based spark dataset with Annotations
 columns. Also the user has to provide word embeddings annotation column.
 Optionally the user can provide an entity dictionary file for better accuracy.
 See \url{https://nlp.johnsnowlabs.com/docs/en/annotators#ner-crf}

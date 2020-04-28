@@ -46,11 +46,11 @@ nlp_tokenizer(
 
 \item{split_pattern}{String. pattern to separate from the inside of tokens. takes priority over splitChars.}
 
-\item{target_pattern}{String. Basic regex rule to identify a candidate for tokenization. Defaults to `\\S+` which means anything not a space}
+\item{target_pattern}{String. Basic regex rule to identify a candidate for tokenization. Defaults to \verb{\\\\S+} which means anything not a space}
 
-\item{suffix_pattern}{String. Regex to identify subtokens that are in the end of the token. Regex has to end with `\\z` and must contain groups (). Each group will become a separate token within the prefix. Defaults to non-letter characters. e.g. quotes or parenthesis}
+\item{suffix_pattern}{String. Regex to identify subtokens that are in the end of the token. Regex has to end with \verb{\\\\z} and must contain groups (). Each group will become a separate token within the prefix. Defaults to non-letter characters. e.g. quotes or parenthesis}
 
-\item{prefix_pattern}{String. Regex to identify subtokens that come in the beginning of the token. Regex has to start with `\\A` and must contain groups (). Each group will become a separate token within the prefix. Defaults to non-letter characters. e.g. quotes or parenthesis}
+\item{prefix_pattern}{String. Regex to identify subtokens that come in the beginning of the token. Regex has to start with \verb{\\\\A} and must contain groups (). Each group will become a separate token within the prefix. Defaults to non-letter characters. e.g. quotes or parenthesis}
 
 \item{infix_patterns}{String array. extension pattern regex with groups to the top of the rules (will target first, from more specific to the more general).}
 
@@ -62,15 +62,15 @@ nlp_tokenizer(
 The object returned depends on the class of \code{x}.
 
 \itemize{
-  \item \code{spark_connection}: When \code{x} is a \code{spark_connection}, the function returns an instance of a \code{ml_estimator} object. The object contains a pointer to
-  a Spark \code{Estimator} object and can be used to compose
-  \code{Pipeline} objects.
+\item \code{spark_connection}: When \code{x} is a \code{spark_connection}, the function returns an instance of a \code{ml_estimator} object. The object contains a pointer to
+a Spark \code{Estimator} object and can be used to compose
+\code{Pipeline} objects.
 
-  \item \code{ml_pipeline}: When \code{x} is a \code{ml_pipeline}, the function returns a \code{ml_pipeline} with
-  the NLP estimator appended to the pipeline.
+\item \code{ml_pipeline}: When \code{x} is a \code{ml_pipeline}, the function returns a \code{ml_pipeline} with
+the NLP estimator appended to the pipeline.
 
-  \item \code{tbl_spark}: When \code{x} is a \code{tbl_spark}, an estimator is constructed then
-  immediately fit with the input \code{tbl_spark}, returning an NLP model.
+\item \code{tbl_spark}: When \code{x} is a \code{tbl_spark}, an estimator is constructed then
+immediately fit with the input \code{tbl_spark}, returning an NLP model.
 }
 }
 \description{

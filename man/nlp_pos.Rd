@@ -30,7 +30,7 @@ nlp_pos(
 Spark dataframe containing the data
 }
 \description{
-In order to train a Part of Speech Tagger annotator, we need to get corpus data as a spark dataframe. 
+In order to train a Part of Speech Tagger annotator, we need to get corpus data as a spark dataframe.
 This function does this: it reads a plain text file and transforms it to a spark dataset that is ready
 for training a POS tagger.
 See the Scala API docs for the default parameter values (

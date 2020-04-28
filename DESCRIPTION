@@ -19,6 +19,7 @@ Depends:
   sparklyr (>= 1.2.0.9000)
 Imports:
   forge
+Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.0
 Suggests: 
     testthat

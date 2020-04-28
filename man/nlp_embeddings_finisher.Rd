@@ -32,21 +32,21 @@ nlp_embeddings_finisher(
 The object returned depends on the class of \code{x}.
 
 \itemize{
-  \item \code{spark_connection}: When \code{x} is a \code{spark_connection}, the function returns an instance of a \code{ml_estimator} object. The object contains a pointer to
-  a Spark \code{Estimator} object and can be used to compose
-  \code{Pipeline} objects.
+\item \code{spark_connection}: When \code{x} is a \code{spark_connection}, the function returns an instance of a \code{ml_estimator} object. The object contains a pointer to
+a Spark \code{Estimator} object and can be used to compose
+\code{Pipeline} objects.
 
-  \item \code{ml_pipeline}: When \code{x} is a \code{ml_pipeline}, the function returns a \code{ml_pipeline} with
-  the NLP estimator appended to the pipeline.
+\item \code{ml_pipeline}: When \code{x} is a \code{ml_pipeline}, the function returns a \code{ml_pipeline} with
+the NLP estimator appended to the pipeline.
 
-  \item \code{tbl_spark}: When \code{x} is a \code{tbl_spark}, an estimator is constructed then
-  immediately fit with the input \code{tbl_spark}, returning an NLP model.
+\item \code{tbl_spark}: When \code{x} is a \code{tbl_spark}, an estimator is constructed then
+immediately fit with the input \code{tbl_spark}, returning an NLP model.
 }
 }
 \description{
-Spark ML transformer that is designed to deal with embedding annotators: WordEmbeddings, BertEmbeddings, 
-SentenceEmbeddingd, and ChunkEmbeddings. By using EmbeddingsFinisher you can easily transform your embeddings 
+Spark ML transformer that is designed to deal with embedding annotators: WordEmbeddings, BertEmbeddings,
+SentenceEmbeddingd, and ChunkEmbeddings. By using EmbeddingsFinisher you can easily transform your embeddings
 into array of floats or Vectors which are compatible with Spark ML functions such as LDA, K-mean, Random Forest
- classifier or any other functions that require featureCol.
+classifier or any other functions that require featureCol.
 See \url{https://nlp.johnsnowlabs.com/docs/en/transformers#embeddingsfinisher}
 }
