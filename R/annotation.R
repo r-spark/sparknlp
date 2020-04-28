@@ -32,6 +32,32 @@ nlp_annotation.spark_jobj <- function(x) {
   new_nlp_annotation(annotatorType, begin, end, metadata, result, embeddings)
 }
 
+#' @export
+nlp_annotation.list <- function(x) {
+  annotatorType <- x[["annotatorType"]]
+  begin <- x[["begin"]]
+  end <- x[["end"]]
+  metadata <- x[["metadata"]]
+  result <- x[["result"]]
+  embeddings <- x[["embeddings"]]
+  
+  new_nlp_annotation(annotatorType, begin, end, metadata, result, embeddings)
+}
+
+#' @export
+print.nlp_annotation <- function(x, ...) {
+  metadata_keys <- names(x$metadata)
+  
+  metadata_string <- ""
+  comma = ""
+  for (key in metadata_keys) {
+    metadata_string <- paste0(metadata_string, comma, key, ": ", x$metadata[[key]])
+    comma = ", "
+  }
+  
+  result <- paste0("Annotation(", x$annotatorType, ", ", x$begin, ", ", x$end, ", ", x$result, ", {", metadata_string, "})") 
+  print(result)
+}
 
 new_nlp_annotation <- function(annotatorType, begin, end, metadata, result, embeddings) {
     obj <- list(annotatorType = annotatorType, 
