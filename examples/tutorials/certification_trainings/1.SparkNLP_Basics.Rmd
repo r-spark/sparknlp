@@ -3,6 +3,10 @@ title: "Spark NLP Basics"
 output: html_notebook
 ---
 
+This notebook is adapted from John Snow Labs workshop Jupyter/Python tutorial "1. Spark NLP Basics"
+(https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/1.SparkNLP_Basics.ipynb)
+
+
 # 1. Start Spark Session
 
 ```{r}
