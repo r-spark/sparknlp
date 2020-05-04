@@ -8,3 +8,4 @@ spark-warehouse
 derby.log
 scripts
 examples/*.html
+*.nb.html
