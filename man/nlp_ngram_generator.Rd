@@ -10,6 +10,7 @@ nlp_ngram_generator(
   output_col,
   n = NULL,
   enable_cumulative = NULL,
+  delimiter = NULL,
   uid = random_string("ngram_generator_")
 )
 }
@@ -27,6 +28,8 @@ nlp_ngram_generator(
 \item{uid}{A character string used to uniquely identify the ML estimator.}
 
 \item{...}{Optional arguments, see Details.}
+
+\item{delimter}{glue character used to join the tokens}
 }
 \value{
 The object returned depends on the class of \code{x}.
