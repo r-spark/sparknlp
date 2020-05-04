@@ -6,12 +6,12 @@ output: html_notebook
 # 1. Start Spark Session
 
 ```{r}
-library(purrr)
-library(sparklyr)
-library(sparknlp)
-library(dplyr)
+library(purrr, warn.conflicts = FALSE)
+library(sparklyr, warn.conflicts = FALSE)
+library(sparknlp, warn.conflicts = FALSE)
+library(dplyr, warn.conflicts = FALSE)
 
-version <- Sys.getenv("SPARK_VERSION", unset = "2.4.3")
+version <- Sys.getenv("SPARK_VERSION", unset = "2.4.5")
 
 config <- sparklyr::spark_config()
 
