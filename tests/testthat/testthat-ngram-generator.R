@@ -26,7 +26,8 @@ test_that("nlp_ngram_generator param setting", {
     input_cols = c("string1"),
     output_col = "string1",
     n = 2,
-    enable_cumulative = TRUE
+    enable_cumulative = TRUE,
+    delimiter = "_"
   )
   
   test_param_setting(sc, nlp_ngram_generator, test_args)

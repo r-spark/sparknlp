@@ -104,5 +104,6 @@
   "writeBufferSize": "write_buffer_size",
   "splitPattern": "split_pattern",
   "validationSplit": "validation_split",
-  "enableOutputLogs": "enable_output_logs"
+  "enableOutputLogs": "enable_output_logs",
+  "delimiter": "delimiter"
 }
