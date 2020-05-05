@@ -41,7 +41,6 @@ teardown({
 
 test_that("nlp_word_embeddings spark_connection", {
   test_annotator <- nlp_word_embeddings(sc, input_cols = c("document", "token"), output_col = "word_embeddings",
-                                        storage_ref = "rand_4",
                                         storage_path = here::here("tests", "testthat", "data", "random_embeddings_dim4.txt"),
                                         storage_path_format = "TEXT", dimension = 4)
   fit_model <- ml_fit(test_annotator, test_data)
@@ -51,7 +50,6 @@ test_that("nlp_word_embeddings spark_connection", {
 
 test_that("nlp_word_embeddings ml_pipeline", {
   test_annotator <- nlp_word_embeddings(pipeline, input_cols = c("document", "token"), output_col = "word_embeddings",
-                                        storage_ref = "rand_4",
                                         storage_path = here::here("tests", "testthat", "data", "random_embeddings_dim4.txt"),
                                         storage_path_format = "TEXT", dimension = 4)
   transformed_data <- ml_fit_and_transform(test_annotator, test_data)
@@ -60,7 +58,6 @@ test_that("nlp_word_embeddings ml_pipeline", {
 
 test_that("nlp_word_embeddings tbl_spark", {
   fit_model <- nlp_word_embeddings(test_data, input_cols = c("document", "token"), output_col = "word_embeddings",
-                                   storage_ref = "rand_4",
                                    storage_path = here::here("tests", "testthat", "data", "random_embeddings_dim4.txt"),
                                    storage_path_format = "TEXT", dimension = 4)
   transformed_data <- ml_transform(fit_model, test_data)
@@ -81,7 +78,7 @@ test_that("nlp_word_embeddings_model", {
   embeddings_path <- here::here("tests", "testthat", "data", "random_embeddings_dim4.txt")
   #embeddings_helper <- nlp_load_embeddings(sc, path = embeddings_path, format = "TEXT", dims = 4, reference = "embeddings_ref")
   embeddings <- nlp_word_embeddings_model(sc, input_cols = c("sentence", "token"), output_col = "embeddings", 
-                                          storage_ref = "rand_4", dimension = 4)
+                                          dimension = 4)
   emb_pipeline <- ml_pipeline(assembler, sentdetect, tokenizer, embeddings)
   transformed_data <- ml_fit_and_transform(emb_pipeline, test_data)
   expect_true("embeddings" %in% colnames(transformed_data))

@@ -5,17 +5,19 @@
 #' 
 #' @export
 nlp_set_input_cols <- function(jobj, input_cols) {
-  invoke(jobj, "setInputCols", input_cols)
+  invoke(spark_jobj(jobj), "setInputCols", cast_string_list(input_cols))
+  NULL
 }
 
 #' Set the output column name
 #' 
 #' @param jobj the object setting the input columns on
-#' @param output_col the input column names
+#' @param output_col the input column name
 #' 
 #' @export
 nlp_set_output_col <- function(jobj, output_col) {
-  invoke(jobj, "setOutputCol", output_col)
+  invoke(spark_jobj(jobj), "setOutputCol", cast_string(output_col))
+  NULL
 }
 
 #' Spark NLP version

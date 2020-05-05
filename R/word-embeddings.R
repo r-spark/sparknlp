@@ -26,7 +26,7 @@
 #' 
 #' @export
 nlp_word_embeddings <- function(x, input_cols, output_col, storage_path, storage_path_format = "TEXT",
-                                storage_ref, dimension, case_sensitive = NULL,
+                                storage_ref = NULL, dimension, case_sensitive = NULL,
                                 lazy_annotator = NULL, read_cache_size = NULL, write_buffer_size = NULL,
                                 include_storage = FALSE, uid = random_string("word_embeddings_")) {
   UseMethod("nlp_word_embeddings")
@@ -34,7 +34,7 @@ nlp_word_embeddings <- function(x, input_cols, output_col, storage_path, storage
 
 #' @export
 nlp_word_embeddings.spark_connection <- function(x, input_cols, output_col, storage_path, storage_path_format = "TEXT",
-                                                 storage_ref, dimension, case_sensitive = NULL,
+                                                 storage_ref = NULL, dimension, case_sensitive = NULL,
                                                  lazy_annotator = NULL, read_cache_size = NULL, write_buffer_size = NULL,
                                                  include_storage = FALSE, uid = random_string("word_embeddings_")) {
 
@@ -75,7 +75,7 @@ nlp_word_embeddings.spark_connection <- function(x, input_cols, output_col, stor
 
 #' @export
 nlp_word_embeddings.ml_pipeline <- function(x, input_cols, output_col, storage_path, storage_path_format = "TEXT",
-                                            storage_ref, dimension, case_sensitive = NULL,
+                                            storage_ref = NULL, dimension, case_sensitive = NULL,
                                             lazy_annotator = NULL, read_cache_size = NULL, write_buffer_size = NULL,
                                             include_storage = NULL, uid = random_string("word_embeddings_"))  {
 
@@ -100,7 +100,7 @@ nlp_word_embeddings.ml_pipeline <- function(x, input_cols, output_col, storage_p
 
 #' @export
 nlp_word_embeddings.tbl_spark <- function(x, input_cols, output_col, storage_path, storage_path_format = "TEXT",
-                                          storage_ref, dimension, case_sensitive = NULL,
+                                          storage_ref = NULL, dimension, case_sensitive = NULL,
                                           lazy_annotator = NULL, read_cache_size = NULL, write_buffer_size = NULL,
                                           include_storage = NULL, uid = random_string("word_embeddings_"))  {
   stage <- nlp_word_embeddings.spark_connection(
@@ -128,7 +128,7 @@ validator_nlp_word_embeddings <- function(args) {
   args[["output_col"]] <- cast_string(args[["output_col"]])
   args[["storage_path"]] <- cast_string(args[["storage_path"]])
   args[["storage_path_format"]] <- cast_choice(args[["storage_path_format"]], c("TEXT", "SPARK", "BINARY"))
-  args[["storage_ref"]] <- cast_string(args[["storage_ref"]])
+  args[["storage_ref"]] <- cast_nullable_string(args[["storage_ref"]])
   args[["dimension"]] <- cast_integer(args[["dimension"]])
   args[["case_sensitive"]] <- cast_nullable_logical(args[["case_sensitive"]])
   args[["lazy_annotator"]] <- cast_nullable_logical(args[["lazy_annotator"]])
@@ -187,7 +187,7 @@ nlp_word_embeddings_pretrained <- function(sc, input_cols = NULL, output_col,
 #' 
 #' @export
 #' @import forge
-nlp_word_embeddings_model <- function(sc, input_cols, output_col, storage_ref, dimension, case_sensitive = NULL,
+nlp_word_embeddings_model <- function(sc, input_cols, output_col, storage_ref = NULL, dimension, case_sensitive = NULL,
                                       include_storage = NULL, lazy_annotator = NULL, read_cache_size = NULL, include_embeddings = NULL,
                                       uid = random_string("word_embeddings_")) {
   args <- list(
@@ -198,7 +198,7 @@ nlp_word_embeddings_model <- function(sc, input_cols, output_col, storage_ref, d
     include_storage = cast_nullable_logical(include_storage),
     lazy_annotator = cast_nullable_logical(lazy_annotator),
     read_cache_size = cast_nullable_integer(read_cache_size),
-    storage_ref = cast_string(storage_ref),
+    storage_ref = cast_nullable_string(storage_ref),
     uid = cast_string(uid)
   )
   
