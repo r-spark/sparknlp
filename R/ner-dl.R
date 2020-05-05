@@ -9,15 +9,18 @@
 #' 
 #' @template roxlate-nlp-algo
 #' @template roxlate-inputs-output-params
-#' @param label_col If DatasetPath is not provided, this Seq[Annotation] type of column should have labeled data per token
-#' @param max_epochs Maximum number of epochs to train
-#' @param lr Initial learning rate
-#' @param po Learning rate decay coefficient. Real Learning Rate: lr / (1 + po * epoch)
-#' @param batch_size Batch size for training
-#' @param dropout Dropout coefficient
-#' @param verbose Verbosity level
-#' @param include_confidence whether to include confidence values
-#' @param random_seed Random seed
+#' @param label_col If DatasetPath is not provided, this Seq[Annotation] type of column should have labeled data per token (string)
+#' @param max_epochs Maximum number of epochs to train (integer)
+#' @param lr Initial learning rate (float)
+#' @param po Learning rate decay coefficient. Real Learning Rate: lr / (1 + po * epoch) (float)
+#' @param batch_size Batch size for training (integer)
+#' @param dropout Dropout coefficient (float)
+#' @param verbose Verbosity level (integer)
+#' @param include_confidence whether to include confidence values (boolean)
+#' @param random_seed Random seed (integer)
+#' @param validation_split proportion of the data to use for validation (float)
+#' @param eval_log_extended ? (boolean)
+#' @param enable_output_logs whether to enable the TensorFlow output logs (boolean)
 #' 
 #' @return When \code{x} is a \code{spark_connection} the function returns a NerDLApproach estimator.
 #' When \code{x} is a \code{ml_pipeline} the pipeline with the NerDLApproach added. When \code{x}
@@ -26,14 +29,18 @@
 #' @export
 nlp_ner_dl <- function(x, input_cols, output_col,
                  label_col = NULL, max_epochs = NULL, lr = NULL, po = NULL, batch_size = NULL, dropout = NULL, 
-                 verbose = NULL, include_confidence = NULL, random_seed = NULL, uid = random_string("ner_dl_")) {
+                 verbose = NULL, include_confidence = NULL, random_seed = NULL,
+                 validation_split = NULL, eval_log_extended = NULL, enable_output_logs = NULL,
+                 uid = random_string("ner_dl_")) {
   UseMethod("nlp_ner_dl")
 }
 
 #' @export
 nlp_ner_dl.spark_connection <- function(x, input_cols, output_col,
                  label_col = NULL, max_epochs = NULL, lr = NULL, po = NULL, batch_size = NULL, dropout = NULL, 
-                 verbose = NULL, include_confidence = NULL, random_seed = NULL, uid = random_string("ner_dl_")) {
+                 verbose = NULL, include_confidence = NULL, random_seed = NULL, 
+                 validation_split = NULL, eval_log_extended = NULL, enable_output_logs = NULL,
+                 uid = random_string("ner_dl_")) {
   args <- list(
     input_cols = input_cols,
     output_col = output_col,
@@ -46,6 +53,9 @@ nlp_ner_dl.spark_connection <- function(x, input_cols, output_col,
     verbose = verbose,
     include_confidence = include_confidence,
     random_seed = random_seed,
+    validation_split = validation_split,
+    eval_log_extended = eval_log_extended,
+    enable_output_logs = enable_output_logs,
     uid = uid
   ) %>%
   validator_nlp_ner_dl()
@@ -61,27 +71,35 @@ nlp_ner_dl.spark_connection <- function(x, input_cols, output_col,
     sparklyr::jobj_set_param("setBatchSize", args[["batch_size"]])  %>%
     sparklyr::jobj_set_param("setVerbose", args[["verbose"]])  %>%
     sparklyr::jobj_set_param("setIncludeConfidence", args[["include_confidence"]]) %>%
-    sparklyr::jobj_set_param("setRandomSeed", args[["random_seed"]]) 
+    sparklyr::jobj_set_param("setRandomSeed", args[["random_seed"]]) %>% 
+    sparklyr::jobj_set_param("setEvaluationLogExtended", args[["eval_log_extended"]]) %>% 
+    sparklyr::jobj_set_param("setEnableOutputLogs", args[["enable_output_logs"]])
   
   if (!is.null(args[["lr"]])) {
     jobj <- sparklyr::invoke_static(x, "sparknlp.Utils", "setNerLrParam", jobj, args[["lr"]])
   }
-  
+
   if (!is.null(args[["po"]])) {
     jobj <- sparklyr::invoke_static(x, "sparknlp.Utils", "setNerPoParam", jobj, args[["po"]])
   }
-  
+
   if (!is.null(args[["dropout"]])) {
     jobj <- sparklyr::invoke_static(x, "sparknlp.Utils", "setNerDropoutParam", jobj, args[["dropout"]])
   }
-  
+
+  if (!is.null(args[["validation_split"]])) {
+    jobj <- sparklyr::invoke_static(x, "sparknlp.Utils", "setNerValidationSplitParam", jobj, args[["validation_split"]])
+  }
+
   new_nlp_ner_dl(jobj)
 }
 
 #' @export
 nlp_ner_dl.ml_pipeline <- function(x, input_cols, output_col,
                  label_col = NULL, max_epochs = NULL, lr = NULL, po = NULL, batch_size = NULL, dropout = NULL, 
-                 verbose = NULL, include_confidence = NULL, random_seed = NULL, uid = random_string("ner_dl_")) {
+                 verbose = NULL, include_confidence = NULL, random_seed = NULL, 
+                 validation_split = NULL, eval_log_extended = NULL, enable_output_logs = NULL,
+                 uid = random_string("ner_dl_")) {
 
   stage <- nlp_ner_dl.spark_connection(
     x = sparklyr::spark_connection(x),
@@ -96,6 +114,9 @@ nlp_ner_dl.ml_pipeline <- function(x, input_cols, output_col,
     verbose = verbose,
     include_confidence = include_confidence,
     random_seed = random_seed,
+    validation_split = validation_split,
+    eval_log_extended = eval_log_extended,
+    enable_output_logs = enable_output_logs,
     uid = uid
   )
 
@@ -105,7 +126,9 @@ nlp_ner_dl.ml_pipeline <- function(x, input_cols, output_col,
 #' @export
 nlp_ner_dl.tbl_spark <- function(x, input_cols, output_col,
                  label_col = NULL, max_epochs = NULL, lr = NULL, po = NULL, batch_size = NULL, dropout = NULL, 
-                 verbose = NULL, include_confidence = NULL, random_seed = NULL, uid = random_string("ner_dl_")) {
+                 verbose = NULL, include_confidence = NULL, random_seed = NULL,
+                 validation_split = NULL, eval_log_extended = NULL, enable_output_logs = NULL,
+                 uid = random_string("ner_dl_")) {
   stage <- nlp_ner_dl.spark_connection(
     x = sparklyr::spark_connection(x),
     input_cols = input_cols,
@@ -119,6 +142,9 @@ nlp_ner_dl.tbl_spark <- function(x, input_cols, output_col,
     verbose = verbose,
     include_confidence = include_confidence,
     random_seed = random_seed,
+    validation_split = validation_split,
+    eval_log_extended = eval_log_extended,
+    enable_output_logs = enable_output_logs,
     uid = uid
   )
 
@@ -137,6 +163,9 @@ validator_nlp_ner_dl <- function(args) {
   args[["verbose"]] <- cast_nullable_integer(args[["verbose"]])
   args[["include_confidence"]] <- cast_nullable_logical(args[["include_confidence"]])
   args[["random_seed"]] <- cast_nullable_integer(args[["random_seed"]])
+  args[["validation_split"]] <- cast_nullable_double(args[["validation_split"]])
+  args[["eval_log_extended"]] <- cast_nullable_logical(args[["eval_log_extended"]])
+  args[["enable_output_logs"]] <- cast_nullable_logical(args[["enable_output_logs"]])
   args
 }
 

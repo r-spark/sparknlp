@@ -105,5 +105,6 @@
   "splitPattern": "split_pattern",
   "validationSplit": "validation_split",
   "enableOutputLogs": "enable_output_logs",
-  "delimiter": "delimiter"
+  "delimiter": "delimiter",
+  "evaluationLogExtended": "eval_log_extended"
 }

@@ -22,6 +22,10 @@ object Utils {
     nerDLApproach.setDropout(dropout.toFloat)  
   }
   
+  def setNerValidationSplitParam(nerDLApproach: NerDLApproach, validationSplit: Double) : NerDLApproach = {
+    nerDLApproach.setValidationSplit(validationSplit.toFloat)
+  }
+  
   def setCDLLrParam(classifierDLApproach: ClassifierDLApproach, lr: Double) : ClassifierDLApproach = {
     classifierDLApproach.setLr(lr.toFloat)
   }
