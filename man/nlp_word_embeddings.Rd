@@ -10,7 +10,7 @@ nlp_word_embeddings(
   output_col,
   storage_path,
   storage_path_format = "TEXT",
-  storage_ref,
+  storage_ref = NULL,
   dimension,
   case_sensitive = NULL,
   lazy_annotator = NULL,

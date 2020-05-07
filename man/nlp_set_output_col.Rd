@@ -9,7 +9,10 @@ nlp_set_output_col(jobj, output_col)
 \arguments{
 \item{jobj}{the object setting the input columns on}
 
-\item{output_col}{the input column names}
+\item{output_col}{the input column name}
+}
+\value{
+the jobj object with the output column set
 }
 \description{
 Set the output column name

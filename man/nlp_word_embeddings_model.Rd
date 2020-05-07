@@ -8,7 +8,7 @@ nlp_word_embeddings_model(
   sc,
   input_cols,
   output_col,
-  storage_ref,
+  storage_ref = NULL,
   dimension,
   case_sensitive = NULL,
   include_storage = NULL,

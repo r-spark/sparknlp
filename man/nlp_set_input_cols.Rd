@@ -11,6 +11,9 @@ nlp_set_input_cols(jobj, input_cols)
 
 \item{input_cols}{the input column names}
 }
+\value{
+the jobj object with the input columns set
+}
 \description{
 Set the input column names
 }

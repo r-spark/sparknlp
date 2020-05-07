@@ -17,6 +17,9 @@ nlp_ner_dl(
   verbose = NULL,
   include_confidence = NULL,
   random_seed = NULL,
+  validation_split = NULL,
+  eval_log_extended = NULL,
+  enable_output_logs = NULL,
   uid = random_string("ner_dl_")
 )
 }
@@ -27,23 +30,29 @@ nlp_ner_dl(
 
 \item{output_col}{Output column. String.}
 
-\item{label_col}{If DatasetPath is not provided, this Seq\link{Annotation} type of column should have labeled data per token}
+\item{label_col}{If DatasetPath is not provided, this Seq\link{Annotation} type of column should have labeled data per token (string)}
 
-\item{max_epochs}{Maximum number of epochs to train}
+\item{max_epochs}{Maximum number of epochs to train (integer)}
 
-\item{lr}{Initial learning rate}
+\item{lr}{Initial learning rate (float)}
 
-\item{po}{Learning rate decay coefficient. Real Learning Rate: lr / (1 + po * epoch)}
+\item{po}{Learning rate decay coefficient. Real Learning Rate: lr / (1 + po * epoch) (float)}
 
-\item{batch_size}{Batch size for training}
+\item{batch_size}{Batch size for training (integer)}
 
-\item{dropout}{Dropout coefficient}
+\item{dropout}{Dropout coefficient (float)}
 
-\item{verbose}{Verbosity level}
+\item{verbose}{Verbosity level (integer)}
 
-\item{include_confidence}{whether to include confidence values}
+\item{include_confidence}{whether to include confidence values (boolean)}
 
-\item{random_seed}{Random seed}
+\item{random_seed}{Random seed (integer)}
+
+\item{validation_split}{proportion of the data to use for validation (float)}
+
+\item{eval_log_extended}{? (boolean)}
+
+\item{enable_output_logs}{whether to enable the TensorFlow output logs (boolean)}
 
 \item{uid}{A character string used to uniquely identify the ML estimator.}
 
