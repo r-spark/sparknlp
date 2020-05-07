@@ -3,6 +3,9 @@ title: "Named Entity Recognition (NER) DL Training"
 output: html_notebook
 ---
 
+This notebook is adapted from John Snow Labs workshop Jupyter/Python tutorial "4.NERDL_Training"
+(https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/4.NERDL_Training.ipynb)
+
 ```{r}
 library(yardstick, warn.conflicts = FALSE)
 library(purrr, warn.conflicts = FALSE)
