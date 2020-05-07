@@ -142,6 +142,7 @@ validator_nlp_word_embeddings <- function(args) {
 validator_nlp_word_embeddings_pretrained <- function(args) {
   args[["input_cols"]] <- cast_nullable_string_list(args[["input_cols"]])
   args[["output_col"]] <- cast_string(args[["output_col"]])
+  args[["case_sensitive"]] <- cast_nullable_logical(args[["case_sensitive"]])
   args
 }
 
@@ -155,12 +156,14 @@ new_nlp_word_embeddings <- function(jobj) {
 #' 
 #' @template roxlate-pretrained-params
 #' @template roxlate-inputs-output-params
+#' @param case_sensitive whether to treat the words as case sensitive
 #' @export
 nlp_word_embeddings_pretrained <- function(sc, input_cols = NULL, output_col,
-                                      name = NULL, lang = NULL, remote_loc = NULL) {
+                                      name = NULL, lang = NULL, remote_loc = NULL, case_sensitive = NULL) {
   args <- list(
     input_cols = input_cols,
-    output_col = output_col
+    output_col = output_col,
+    case_sensitive = case_sensitive
   ) %>%
     validator_nlp_word_embeddings_pretrained()
   
@@ -169,6 +172,10 @@ nlp_word_embeddings_pretrained <- function(sc, input_cols = NULL, output_col,
   spark_jobj(model) %>%
     sparklyr::jobj_set_param("setInputCols", args[["input_cols"]]) %>% 
     sparklyr::jobj_set_param("setOutputCol", args[["output_col"]])
+  
+  if (!is.null(args[["case_sensitive"]])) {
+    sparklyr::jobj_set_param(spark_jobj(model), "setCaseSensitive", args[["case_sensitive"]])
+  }
   
   new_ml_transformer(model)
 }

@@ -10,7 +10,8 @@ nlp_word_embeddings_pretrained(
   output_col,
   name = NULL,
   lang = NULL,
-  remote_loc = NULL
+  remote_loc = NULL,
+  case_sensitive = NULL
 )
 }
 \arguments{
@@ -25,6 +26,8 @@ nlp_word_embeddings_pretrained(
 \item{lang}{the language of the model to be loaded. If NULL will use the default value}
 
 \item{remote_loc}{the remote location of the model. If NULL will use the default value}
+
+\item{case_sensitive}{whether to treat the words as case sensitive}
 }
 \value{
 The Spark NLP model with the pretrained model loaded
