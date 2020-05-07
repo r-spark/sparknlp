@@ -1,0 +1,302 @@
+---
+title: "Named Entity Recognition (NER) DL Training"
+output: html_notebook
+---
+
+```{r}
+library(yardstick, warn.conflicts = FALSE)
+library(purrr, warn.conflicts = FALSE)
+library(sparklyr, warn.conflicts = FALSE)
+library(sparknlp, warn.conflicts = FALSE)
+library(dplyr, warn.conflicts = FALSE)
+
+version <- Sys.getenv("SPARK_VERSION", unset = "2.4.5")
+
+config <- sparklyr::spark_config()
+config$`sparklyr.shell.driver-memory` <- "8g"
+
+options(sparklyr.sanitize.column.names.verbose = TRUE)
+options(sparklyr.verbose = TRUE)
+options(sparklyr.na.omit.verbose = TRUE)
+options(sparklyr.na.action.verbose = TRUE)
+    
+sc <- sparklyr::spark_connect(master = "local", version = version, config = config)
+
+cat("Apache Spark version: ", sc$home_version, "\n")
+cat("Spark NLP version: ", nlp_version())
+```
+
+# CoNLL Data Prep
+```{r}
+train_data_file <- pins::pin("https://raw.githubusercontent.com/JohnSnowLabs/spark-nlp/master/src/test/resources/conll2003/eng.train", name = "eng_train")
+test_data_file <- pins::pin("https://raw.githubusercontent.com/JohnSnowLabs/spark-nlp/master/src/test/resources/conll2003/eng.testa", name = "eng_testa")
+```
+
+```{r}
+train_txt <- readLines(train_data_file)
+
+cat(train_txt[1:31], sep = "\n")
+```
+```{r}
+training_data <- nlp_conll_read_dataset(sc, path = train_data_file)
+
+head(training_data, 3)
+```
+
+```{r}
+sdf_schema(training_data)
+```
+```{r}
+sdf_nrow(training_data)
+```
+```{r}
+training_data %>% 
+  mutate(cols = explode(arrays_zip(token.result, pos.result, label.result))) %>% 
+  select(cols) %>% 
+  sdf_separate_column(column = "cols", into = c("tokens", "partOfSpeech", "ner_label")) %>% 
+  select(-cols) %>% 
+  head(20)
+```
+```{r}
+training_data %>% 
+  mutate(cols = explode(arrays_zip(token.result, label.result))) %>% 
+  select(cols) %>% 
+  sdf_separate_column(column = "cols", into = c("tokens", "ground_truth")) %>% 
+  select(-cols) %>% 
+  count(ground_truth, sort = TRUE)
+```
+```{r}
+# You can use any word embeddings you want (Glove, Elmo, Bert, custom etc.)
+
+glove_embeddings <- nlp_word_embeddings_pretrained(sc, name = "glove_100d", input_cols = c("document", "token"), output_col = "embeddings")
+```
+
+```{r}
+# note that here I had to use 5 max_epochs to get reasonable accuracy results (the original notebook from JSL used 1)
+nerTagger <- nlp_ner_dl(sc, input_cols = c("sentence", "token", "embeddings"), output_col = "ner",
+                        label_col = "label", max_epochs = 5, lr = 0.001, po = 0.005, batch_size = 512,
+                        random_seed = 0, verbose = 1, validation_split = 0.2, eval_log_extended = TRUE,
+                        enable_output_logs = TRUE, include_confidence = TRUE)
+
+ner_pipeline <- ml_pipeline(glove_embeddings, nerTagger)
+```
+
+## Fitting
+```{r}
+system.time(
+  ner_model <- ml_fit(ner_pipeline, training_data)
+)
+```
+
+```{r}
+system2("cd", "~/annotator_logs && ls -lt ner_dl_*")
+
+ner_log_files <- Filter(function(s) grepl("ner_dl", s), list.files("~/annotator_logs", full.names = TRUE))
+ner_log_file_dates <- file.info(ner_log_files)$mtime
+latest_log_file <- ner_log_files[which.max(ner_log_file_dates)]
+```
+```{r}
+system2("cat", latest_log_file)
+```
+```{r}
+test_data <- nlp_conll_read_dataset(sc, test_data_file)
+test_data <- ml_transform(glove_embeddings, test_data)
+head(test_data, 3)
+```
+
+```{r}
+predictions <- ml_transform(ner_model, test_data)
+head(predictions, 3)
+```
+
+```{r}
+predictions %>% 
+  mutate(token = substr(to_json(token.result), 1, 20),
+         label = substr(to_json(label.result), 1, 20),
+         ner = substr(to_json(ner.result), 1, 20)) %>% 
+  select(token, label, ner) %>% 
+  head(3)
+```
+## Test set evaluation
+```{r}
+predictions %>% 
+  mutate(cols = explode(arrays_zip(token.result, label.result, ner.result))) %>% 
+  select(cols) %>% 
+  sdf_separate_column(column = "cols", into = c("tokens", "ground_truth", "prediction")) %>% 
+  select(-cols) %>% 
+  head(20)
+```
+
+```{r}
+preds_summary <- predictions %>% 
+  mutate(cols = explode(arrays_zip(token.result, label.result, ner.result))) %>% 
+  select(cols) %>% 
+  sdf_separate_column(column = "cols", into = c("tokens", "ground_truth", "prediction")) %>% 
+  select(-cols) %>% 
+  collect()
+
+ground_truth <- preds_summary$ground_truth
+preds <- preds_summary$prediction
+
+cm <- conf_mat(preds_summary %>% 
+                 mutate(ground_truth = factor(ground_truth),
+                        prediction = factor(prediction)), 
+               ground_truth, prediction)
+
+cm
+summary(cm)
+ggplot2::autoplot(cm, type = "heatmap")
+```
+## Splitting dataset into train and test
+```{r}
+conll_data <- nlp_conll_read_dataset(sc, train_data_file)
+
+conll_split_data <- sdf_random_split(conll_data, training = 0.7, test = 0.3, seed = 100)
+training_data <- conll_split_data$training
+test_data <- conll_split_data$test
+
+print(paste0("Training Dataset Count: ", sdf_nrow(training_data)))
+print(paste0("Test Dataset Count: ", sdf_nrow(test_data)))
+
+```
+```{r}
+ner_model <- ml_fit(ner_pipeline, training_data)
+
+test_data <- ml_transform(glove_embeddings, test_data)
+
+predictions <- ml_transform(ner_model, test_data)
+```
+
+## Saving the trained model
+```{r}
+ml_stages(ner_model)
+```
+```{r}
+ml_save(ml_stages(ner_model)[[2]], "NER_glove_20200407_e1_b512", overwrite = TRUE)
+```
+```{r}
+system2("ls", "-lt")
+```
+# Prediction Pipeline
+```{r}
+document <- nlp_document_assembler(sc, input_col = "text", output_col = "document")
+
+sentence <- nlp_sentence_detector(sc, input_cols = c("document"), output_col = "sentence")
+
+token <- nlp_tokenizer(sc, input_cols = c("sentence"), output_col = "token")
+
+glove_embeddings <- nlp_word_embeddings_pretrained(sc, name = "glove_100d", input_cols = c("document", "token"), output_col = "embeddings")
+
+loaded_ner_model <- ml_load(sc, "NER_glove_20200407_e1_b512") %>% 
+  nlp_set_input_cols(c("sentence", "token", "embeddings")) %>% 
+  nlp_set_output_col("ner")
+
+converter <- nlp_ner_converter(sc, input_cols = c("document", "token", "ner"), output_col = "ner_span")
+
+ner_prediction_pipeline <- ml_pipeline(
+  document,
+  sentence,
+  token,
+  glove_embeddings,
+  loaded_ner_model,
+  converter
+)
+```
+
+```{r}
+empty_data <- sdf_copy_to(sc, data.frame(text = ""))
+
+prediction_model <- ml_fit(ner_prediction_pipeline, empty_data)
+```
+
+```{r}
+text <- "Peter Parker is a nice guy and lives in New York"
+
+sample_data <- sdf_copy_to(sc, data.frame(text = text))
+
+sample_data
+```
+
+```{r}
+preds <- ml_transform(prediction_model, sample_data)
+
+preds %>% 
+  mutate(entities = explode(arrays_zip(ner_span.result, ner_span.metadata))) %>% 
+  select(entities) %>% 
+  sdf_separate_column(column = "entities", into = c("chunk", "entity")) %>% 
+  select(-entities) %>% 
+  mutate(entity = entity.entity)
+```
+
+```{r}
+light_model <- nlp_light_pipeline(prediction_model)
+```
+
+```{r}
+text <- "Peter Parker is a nice guy and lives in New York."
+
+result <- nlp_annotate(light_model, text)
+
+data.frame(token = unlist(result$token), ner = unlist(result$ner))
+```
+```{r}
+result <- nlp_annotate_full(light_model, text)
+
+ner_df <- data.frame(sent_id = map_chr(result$token, function(x) x$metadata$sentence),
+                     token = map_chr(result$token, "result"),
+                     start = map_int(result$token, "begin"),
+                     end = map_int(result$token, "end"),
+                     ner = map_chr(result$ner, "result"))
+
+ner_df
+```
+
+# creating your own CoNLL dataset
+```{r}
+get_ann_pipeline <- function(sc) {
+  document_assembler <- nlp_document_assembler(sc, input_col = "text", output_col = "document")
+  sentence <- nlp_sentence_detector(sc, input_cols = c("document"), output_col = "sentence")
+  tokenizer <- nlp_tokenizer(sc, input_cols = c("sentence"), output_col = "token")
+  pos <- nlp_perceptron_pretrained(sc, input_cols = c("sentence", "token"), output_col = "pos")
+  embeddings <- nlp_word_embeddings_pretrained(sc, input_cols = c("sentence", "token"), output_col = "embeddings")
+  ner_model <- nlp_ner_dl_pretrained(sc, input_cols = c("sentence", "token", "embeddings"), output_col = "ner")
+  ner_converter <- nlp_ner_converter(sc, input_cols = c("sentence", "token", "ner"), output_col = "ner_chunk")
+  
+  ner_pipeline <- ml_pipeline(document_assembler,
+                              sentence,
+                              tokenizer,
+                              pos,
+                              embeddings,
+                              ner_model,
+                              ner_converter)
+  
+  empty_data <- sdf_copy_to(sc, data.frame(text = ""))
+  
+  ner_pipelineFit <- ml_fit(ner_pipeline, empty_data)
+  
+  ner_lp_pipeline <- nlp_light_pipeline(ner_pipelineFit)
+  
+  print("Spark NLP NER lightpipeline is created")
+  return(ner_lp_pipeline)
+}
+
+conll_pipeline <- get_ann_pipeline(sc)
+```
+
+```{r}
+sentences <- c("Peter Parker is a nice guy and lives in New York.",
+"He is also helping people around the world.")
+
+conll_lines <- ""
+
+for (sentence in sentences) {
+  parsed <- nlp_annotate(conll_pipeline, sentence)
+
+  conll_lines <- paste0(conll_lines, parsed$token, " ", parsed$pos, " ", parsed$ner, "\n", collapse = "")
+  
+  conll_lines <- paste0(conll_lines, "\n", collapse = "")  
+}
+
+cat(conll_lines)
+```
+
