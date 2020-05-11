@@ -24,7 +24,7 @@ teardown({
 test_that("token_assembler param setting", {
 # TODO: edit these to make them legal values for the parameters
   test_args <- list(
-    input_cols = c("string1"),
+    input_cols = c("string1", "string2"),
     output_col = "string1"
   )
 
@@ -32,19 +32,19 @@ test_that("token_assembler param setting", {
 })
 
 test_that("nlp_token_assembler spark_connection", {
-  test_annotator <- nlp_token_assembler(sc, input_cols = "normalized", output_col = "assembled")
+  test_annotator <- nlp_token_assembler(sc, input_cols = c("document", "normalized"), output_col = "assembled")
   transformed_data <- ml_transform(test_annotator, test_data)
   expect_true("assembled" %in% colnames(transformed_data))
 })
 
 test_that("nlp_token_assembler ml_pipeline", {
-  test_annotator <- nlp_token_assembler(pipeline, input_cols = "normalized", output_col = "assembled")
+  test_annotator <- nlp_token_assembler(pipeline, input_cols = c("document", "normalized"), output_col = "assembled")
   transformed_data <- ml_fit_and_transform(test_annotator, test_data)
   expect_true("assembled" %in% colnames(transformed_data))
 })
 
 test_that("nlp_token_assembler tbl_spark", {
-  transformed_data <- nlp_token_assembler(test_data, input_cols = "normalized", output_col = "assembled")
+  transformed_data <- nlp_token_assembler(test_data, input_cols = c("document", "normalized"), output_col = "assembled")
   expect_true("assembled" %in% colnames(transformed_data))
 })
 
