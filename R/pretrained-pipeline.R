@@ -40,7 +40,7 @@ nlp_pretrained_pipeline.tbl_spark <- function(x, download_name, lang = "en", sou
                                               parse_embeddings_vectors = FALSE, disk_location = NULL) {
   sc <- spark_connection(x)
   pipeline <- nlp_pretrained_pipeline.spark_connection(sc, download_name, lang, source, parse_embeddings_vectors, disk_location)
-  sdf_register(invoke(pipeline, "transform", spark_dataframe(x)))
+  sdf_register(invoke(sparklyr::spark_jobj(pipeline), "transform", spark_dataframe(x)))
 }
 
 new_nlp_pretrained_pipeline <- function(jobj) {

@@ -18,11 +18,11 @@ test_that("nlp_pretrained_pipeline() tbl_spark", {
 
 test_that("nlp_pretrained_pipeline() spark_connection", {
   result <- nlp_pretrained_pipeline(sc, "recognize_entities_dl")
-  expect_equal(jobj_class(result), c("PretrainedPipeline", "Object"))
+  expect_equal(jobj_class(spark_jobj(result)), c("PretrainedPipeline", "Object"))
 })
 
 test_that("nlp_pretrained_pipeline annotate", {
   pipeline <- nlp_pretrained_pipeline(sc, "recognize_entities_dl")
-  annotations <- nlp_annotate(pipeline, text_tbl)
+  annotations <- nlp_annotate(pipeline, text_tbl, column = "text")
   expect_true("entities" %in% colnames(annotations))
 })
