@@ -1,0 +1,144 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+This notebook is adapted from John Snow Labs workshop Jupyter/Python tutorial "6.Playground_DataFrames"
+(https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/6.Playground_DataFrames.ipynb)
+
+```{r}
+library(purrr, warn.conflicts = FALSE)
+library(sparklyr, warn.conflicts = FALSE)
+library(sparknlp, warn.conflicts = FALSE)
+library(dplyr, warn.conflicts = FALSE)
+
+version <- Sys.getenv("SPARK_VERSION", unset = "2.4.5")
+
+config <- sparklyr::spark_config()
+config$`sparklyr.shell.driver-memory` <- "8g"
+
+options(sparklyr.sanitize.column.names.verbose = TRUE)
+options(sparklyr.verbose = TRUE)
+options(sparklyr.na.omit.verbose = TRUE)
+options(sparklyr.na.action.verbose = TRUE)
+    
+sc <- sparklyr::spark_connect(master = "local", version = version, config = config)
+
+cat("Apache Spark version: ", sc$home_version, "\n")
+cat("Spark NLP version: ", nlp_version())
+```
+
+```{r}
+document <- nlp_document_assembler(sc, input_col = "text", output_col = "document")
+
+tokenizer <- nlp_tokenizer(sc, input_cols = c("document"), output_col = "token")
+
+pos <- nlp_perceptron_pretrained(sc, input_cols = c("document", "token"), output_col = "pos")
+
+pipeline <- ml_pipeline(
+  document,
+  tokenizer,
+  pos)
+```
+
+```{r}
+datafile <- pins::pin("https://raw.githubusercontent.com/JohnSnowLabs/spark-nlp-workshop/master/jupyter/annotation/english/spark-nlp-basics/sample-sentences-en.txt")
+```
+
+```{r}
+data <- spark_read_text(sc, name = "sample_sentences", path = datafile) %>% 
+  rename(text = line)
+
+head(data, 5)
+```
+
+```{r}
+model <- ml_fit(pipeline, data)
+
+result <- ml_transform(model, data)
+
+head(result, 5)
+```
+
+```{r}
+stored <- result %>% 
+  mutate(pos_begin = pos.begin, pos_end = pos.end, pos_result = pos.result, pos_meta = pos.metadata) %>% 
+  select(text, pos_begin, pos_end, pos_result, pos_meta) %>% 
+  sdf_register(name = "stored")
+
+tbl_cache(sc, "stored")
+```
+
+```{r}
+sdf_schema(stored)
+```
+```{r}
+head(stored, 5)
+```
+
+# Spark SQL Functions
+```{r}
+stored %>% 
+  filter(array_contains(pos_result, "VBD")) %>% 
+  head(5)
+```
+
+```{r}
+stored %>% 
+  mutate(token_count = size(pos_result),
+         pos_result = substr(to_json(pos_result), 1, 30)) %>% 
+  select(pos_result, token_count) %>% 
+  head(5)
+```
+
+```{r}
+stored %>% 
+  mutate(max_pos_end = array_max(pos_end)) %>% 
+  select(text, max_pos_end) %>% 
+  head(5)
+```
+
+```{r}
+stored %>% 
+  mutate(unique_pos = array_distinct(pos_result),
+         unique_pos = substr(to_json(unique_pos), 1, 30),
+         pos_result = substr(to_json(pos_result), 1, 30)) %>% 
+  select(pos_result, unique_pos) %>% 
+  head(5)
+```
+
+```{r}
+stored %>% 
+  count(to_json(array_sort(array_distinct(pos_result)))) %>% 
+  head(10)
+```
+
+# Spark NLP Annotation UDF's
+```{r}
+result %>% 
+  mutate(pos = to_json(pos)) %>% 
+  select(pos) %>% 
+  head(1)
+```
+
+```{r}
+nn_tokens <- function(df) {
+  annotations <- df$pos
+
+  annotations %>% 
+    purrr::ilter(pos.result == "NN") %>% 
+    mutate(nn_annotation = pos.metadata.word)
+}
+
+
+testdf <- head(result, 10) %>%  collect()
+
+purrr::map_chr(testdf$pos, function(x) x[[1]]$result)
+
+
+result %>% 
+  filter(pos.result == "NN") %>% 
+  mutate(nn_annotation = pos.metadata.word) %>% 
+  head(2)
+```
+
