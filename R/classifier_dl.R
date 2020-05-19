@@ -13,20 +13,22 @@
 #' @param verbose Verbosity level 
 #' @param validation_split proportion of data to split off for validation
 #' @param enable_output_logs boolean to enable/disable output logs
+#' @param output_logs_path path to put the output logs
 #' @param lazy_annotator boolean
 #' 
 #' @export
 nlp_classifier_dl <- function(x, input_cols, output_col,
                  label_col, batch_size = NULL, max_epochs = NULL, lr = NULL, dropout = NULL, 
                  validation_split = NULL, verbose = NULL, enable_output_logs = NULL, lazy_annotator = NULL,
-                 uid = random_string("classifier_dl_")) {
+                 output_logs_path = NULL, uid = random_string("classifier_dl_")) {
   UseMethod("nlp_classifier_dl")
 }
 
 #' @export
 nlp_classifier_dl.spark_connection <- function(x, input_cols, output_col,
-                 label_col, batch_size = NULL, max_epochs = NULL, lr = NULL, dropout = NULL, validation_split = NULL, verbose = NULL, enable_output_logs = NULL, lazy_annotator = NULL,
-                 uid = random_string("classifier_dl_")) {
+                 label_col, batch_size = NULL, max_epochs = NULL, lr = NULL, dropout = NULL,
+                 validation_split = NULL, verbose = NULL, enable_output_logs = NULL, lazy_annotator = NULL,
+                 output_logs_path = NULL, uid = random_string("classifier_dl_")) {
   args <- list(
     input_cols = input_cols,
     output_col = output_col,
@@ -38,6 +40,7 @@ nlp_classifier_dl.spark_connection <- function(x, input_cols, output_col,
     validation_split = validation_split,
     verbose = verbose,
     enable_output_logs = enable_output_logs,
+    output_logs_path = output_logs_path,
     lazy_annotator = lazy_annotator,
     uid = uid
   ) %>%
@@ -54,6 +57,7 @@ nlp_classifier_dl.spark_connection <- function(x, input_cols, output_col,
     sparklyr::jobj_set_param("setMaxEpochs", args[["max_epochs"]])  %>%
     sparklyr::jobj_set_param("setVerbose", args[["verbose"]])  %>%
     sparklyr::jobj_set_param("setEnableOutputLogs", args[["enable_output_logs"]])  %>%
+    sparklyr::jobj_set_param("setOutputLogsPath", args[["output_logs_path"]])  %>%
     sparklyr::jobj_set_param("setLazyAnnotator", args[["lazy_annotator"]]) 
   
   if (!is.null(args[["lr"]])) {
@@ -73,8 +77,9 @@ nlp_classifier_dl.spark_connection <- function(x, input_cols, output_col,
 
 #' @export
 nlp_classifier_dl.ml_pipeline <- function(x, input_cols, output_col,
-                 label_col, batch_size = NULL, max_epochs = NULL, lr = NULL, dropout = NULL, validation_split = NULL, verbose = NULL, enable_output_logs = NULL, lazy_annotator = NULL,
-                 uid = random_string("classifier_dl_")) {
+                 label_col, batch_size = NULL, max_epochs = NULL, lr = NULL, dropout = NULL,
+                 validation_split = NULL, verbose = NULL, enable_output_logs = NULL, lazy_annotator = NULL,
+                 output_logs_path = NULL, uid = random_string("classifier_dl_")) {
 
   stage <- nlp_classifier_dl.spark_connection(
     x = sparklyr::spark_connection(x),
@@ -88,6 +93,7 @@ nlp_classifier_dl.ml_pipeline <- function(x, input_cols, output_col,
     validation_split = validation_split,
     verbose = verbose,
     enable_output_logs = enable_output_logs,
+    output_logs_path = output_logs_path,
     lazy_annotator = lazy_annotator,
     uid = uid
   )
@@ -97,8 +103,9 @@ nlp_classifier_dl.ml_pipeline <- function(x, input_cols, output_col,
 
 #' @export
 nlp_classifier_dl.tbl_spark <- function(x, input_cols, output_col,
-                 label_col, batch_size = NULL, max_epochs = NULL, lr = NULL, dropout = NULL, validation_split = NULL, verbose = NULL, enable_output_logs = NULL, lazy_annotator = NULL,
-                 uid = random_string("classifier_dl_")) {
+                 label_col, batch_size = NULL, max_epochs = NULL, lr = NULL, dropout = NULL,
+                 validation_split = NULL, verbose = NULL, enable_output_logs = NULL, lazy_annotator = NULL,
+                 output_logs_path = NULL, uid = random_string("classifier_dl_")) {
   stage <- nlp_classifier_dl.spark_connection(
     x = sparklyr::spark_connection(x),
     input_cols = input_cols,
@@ -111,6 +118,7 @@ nlp_classifier_dl.tbl_spark <- function(x, input_cols, output_col,
     validation_split = validation_split,
     verbose = verbose,
     enable_output_logs = enable_output_logs,
+    output_logs_path = output_logs_path,
     lazy_annotator = lazy_annotator,
     uid = uid
   )
@@ -129,6 +137,7 @@ validator_nlp_classifier_dl <- function(args) {
   args[["validation_split"]] <- cast_nullable_double(args[["validation_split"]])
   args[["verbose"]] <- cast_nullable_integer(args[["verbose"]])
   args[["enable_output_logs"]] <- cast_nullable_logical(args[["enable_output_logs"]])
+  args[["output_logs_path"]] <- cast_nullable_string(args[["output_logs_path"]])
   args[["lazy_annotator"]] <- cast_nullable_logical(args[["lazy_annotator"]])
   args
 }

@@ -32,6 +32,7 @@ test_that("classifier_dl param setting", {
     validation_split = 0.2,
     verbose = 1,
     enable_output_logs = FALSE,
+    output_logs_path = "string1",
     lazy_annotator = TRUE
   )
 

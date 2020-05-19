@@ -44,7 +44,8 @@ test_that("ner_dl param setting", {
     random_seed = 100,
     validation_split = 0.2,
     eval_log_extended = TRUE,
-    enable_output_logs = TRUE
+    enable_output_logs = TRUE,
+    output_logs_path = "string1"
   )
 
   test_param_setting(sc, nlp_ner_dl, test_args)

@@ -21,6 +21,7 @@
 #' @param validation_split proportion of the data to use for validation (float)
 #' @param eval_log_extended ? (boolean)
 #' @param enable_output_logs whether to enable the TensorFlow output logs (boolean)
+#' @param output_logs_path path for the output logs
 #' 
 #' @return When \code{x} is a \code{spark_connection} the function returns a NerDLApproach estimator.
 #' When \code{x} is a \code{ml_pipeline} the pipeline with the NerDLApproach added. When \code{x}
@@ -30,7 +31,7 @@
 nlp_ner_dl <- function(x, input_cols, output_col,
                  label_col = NULL, max_epochs = NULL, lr = NULL, po = NULL, batch_size = NULL, dropout = NULL, 
                  verbose = NULL, include_confidence = NULL, random_seed = NULL,
-                 validation_split = NULL, eval_log_extended = NULL, enable_output_logs = NULL,
+                 validation_split = NULL, eval_log_extended = NULL, enable_output_logs = NULL, output_logs_path = NULL,
                  uid = random_string("ner_dl_")) {
   UseMethod("nlp_ner_dl")
 }
@@ -39,7 +40,7 @@ nlp_ner_dl <- function(x, input_cols, output_col,
 nlp_ner_dl.spark_connection <- function(x, input_cols, output_col,
                  label_col = NULL, max_epochs = NULL, lr = NULL, po = NULL, batch_size = NULL, dropout = NULL, 
                  verbose = NULL, include_confidence = NULL, random_seed = NULL, 
-                 validation_split = NULL, eval_log_extended = NULL, enable_output_logs = NULL,
+                 validation_split = NULL, eval_log_extended = NULL, enable_output_logs = NULL, output_logs_path = NULL,
                  uid = random_string("ner_dl_")) {
   args <- list(
     input_cols = input_cols,
@@ -56,6 +57,7 @@ nlp_ner_dl.spark_connection <- function(x, input_cols, output_col,
     validation_split = validation_split,
     eval_log_extended = eval_log_extended,
     enable_output_logs = enable_output_logs,
+    output_logs_path = output_logs_path,
     uid = uid
   ) %>%
   validator_nlp_ner_dl()
@@ -73,7 +75,8 @@ nlp_ner_dl.spark_connection <- function(x, input_cols, output_col,
     sparklyr::jobj_set_param("setIncludeConfidence", args[["include_confidence"]]) %>%
     sparklyr::jobj_set_param("setRandomSeed", args[["random_seed"]]) %>% 
     sparklyr::jobj_set_param("setEvaluationLogExtended", args[["eval_log_extended"]]) %>% 
-    sparklyr::jobj_set_param("setEnableOutputLogs", args[["enable_output_logs"]])
+    sparklyr::jobj_set_param("setEnableOutputLogs", args[["enable_output_logs"]]) %>% 
+    sparklyr::jobj_set_param("setOutputLogsPath", args[["output_logs_path"]])
   
   if (!is.null(args[["lr"]])) {
     jobj <- sparklyr::invoke_static(x, "sparknlp.Utils", "setNerLrParam", jobj, args[["lr"]])
@@ -98,7 +101,7 @@ nlp_ner_dl.spark_connection <- function(x, input_cols, output_col,
 nlp_ner_dl.ml_pipeline <- function(x, input_cols, output_col,
                  label_col = NULL, max_epochs = NULL, lr = NULL, po = NULL, batch_size = NULL, dropout = NULL, 
                  verbose = NULL, include_confidence = NULL, random_seed = NULL, 
-                 validation_split = NULL, eval_log_extended = NULL, enable_output_logs = NULL,
+                 validation_split = NULL, eval_log_extended = NULL, enable_output_logs = NULL, output_logs_path = NULL,
                  uid = random_string("ner_dl_")) {
 
   stage <- nlp_ner_dl.spark_connection(
@@ -117,6 +120,7 @@ nlp_ner_dl.ml_pipeline <- function(x, input_cols, output_col,
     validation_split = validation_split,
     eval_log_extended = eval_log_extended,
     enable_output_logs = enable_output_logs,
+    output_logs_path = output_logs_path,
     uid = uid
   )
 
@@ -127,7 +131,7 @@ nlp_ner_dl.ml_pipeline <- function(x, input_cols, output_col,
 nlp_ner_dl.tbl_spark <- function(x, input_cols, output_col,
                  label_col = NULL, max_epochs = NULL, lr = NULL, po = NULL, batch_size = NULL, dropout = NULL, 
                  verbose = NULL, include_confidence = NULL, random_seed = NULL,
-                 validation_split = NULL, eval_log_extended = NULL, enable_output_logs = NULL,
+                 validation_split = NULL, eval_log_extended = NULL, enable_output_logs = NULL, output_logs_path = NULL,
                  uid = random_string("ner_dl_")) {
   stage <- nlp_ner_dl.spark_connection(
     x = sparklyr::spark_connection(x),
@@ -145,6 +149,7 @@ nlp_ner_dl.tbl_spark <- function(x, input_cols, output_col,
     validation_split = validation_split,
     eval_log_extended = eval_log_extended,
     enable_output_logs = enable_output_logs,
+    output_logs_path = output_logs_path,
     uid = uid
   )
 
@@ -166,6 +171,7 @@ validator_nlp_ner_dl <- function(args) {
   args[["validation_split"]] <- cast_nullable_double(args[["validation_split"]])
   args[["eval_log_extended"]] <- cast_nullable_logical(args[["eval_log_extended"]])
   args[["enable_output_logs"]] <- cast_nullable_logical(args[["enable_output_logs"]])
+  args[["output_logs_path"]] <- cast_nullable_string(args[["output_logs_path"]])
   args
 }
 
