@@ -33,5 +33,9 @@
   "com.johnsnowlabs.nlp.Chunk2Doc": "nlp_chunk2doc",
   "com.johnsnowlabs.nlp.EmbeddingsFinisher": "nlp_embeddings_finisher",
   "com.johnsnowlabs.nlp.embeddings.UniversalSentenceEncoder": "nlp_univ_sent_encoder",
-  "com.johnsnowlabs.nlp.annotators.classifier.dl.ClassifierDLApproach": "nlp_classifier_dl"
+  "com.johnsnowlabs.nlp.annotators.classifier.dl.ClassifierDLApproach": "nlp_classifier_dl",
+  "com.johnsnowlabs.nlp.embeddings.AlbertEmbeddings": "nlp_albert_embeddings",
+  "com.johnsnowlabs.nlp.embeddings.XlnetEmbeddings": "nlp_xlnet_embeddings",
+  "com.johnsnowlabs.nlp.annotators.classifier.dl.SentimentDLApproach": "nlp_sentiment_dl",
+  "com.johnsnowlabs.nlp.annotators.RecursiveTokenizer": "nlp_recursive_tokenizer"
 }

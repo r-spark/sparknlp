@@ -107,5 +107,9 @@
   "enableOutputLogs": "enable_output_logs",
   "delimiter": "delimiter",
   "evaluationLogExtended": "eval_log_extended",
-  "outputLogsPath": "output_logs_path"
+  "outputLogsPath": "output_logs_path",
+  "infixes": "infixes",
+  "prefixes": "prefixes",
+  "suffixes": "suffixes",
+  "whitelist": "white_list"
 }
