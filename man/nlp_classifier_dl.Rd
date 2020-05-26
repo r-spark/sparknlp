@@ -17,6 +17,7 @@ nlp_classifier_dl(
   verbose = NULL,
   enable_output_logs = NULL,
   lazy_annotator = NULL,
+  output_logs_path = NULL,
   uid = random_string("classifier_dl_")
 )
 }
@@ -44,6 +45,8 @@ nlp_classifier_dl(
 \item{enable_output_logs}{boolean to enable/disable output logs}
 
 \item{lazy_annotator}{boolean}
+
+\item{output_logs_path}{path to put the output logs}
 
 \item{uid}{A character string used to uniquely identify the ML estimator.}
 

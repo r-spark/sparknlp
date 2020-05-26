@@ -20,6 +20,7 @@ nlp_ner_dl(
   validation_split = NULL,
   eval_log_extended = NULL,
   enable_output_logs = NULL,
+  output_logs_path = NULL,
   uid = random_string("ner_dl_")
 )
 }
@@ -53,6 +54,8 @@ nlp_ner_dl(
 \item{eval_log_extended}{? (boolean)}
 
 \item{enable_output_logs}{whether to enable the TensorFlow output logs (boolean)}
+
+\item{output_logs_path}{path for the output logs}
 
 \item{uid}{A character string used to uniquely identify the ML estimator.}
 
