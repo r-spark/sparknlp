@@ -9,6 +9,7 @@ nlp_sentence_embeddings(
   input_cols,
   output_col,
   pooling_strategy = NULL,
+  storage_ref = NULL,
   uid = random_string("sentence_embeddings_")
 )
 }
@@ -20,6 +21,8 @@ nlp_sentence_embeddings(
 \item{output_col}{Output column. String.}
 
 \item{pooling_strategy}{Choose how you would like to aggregate Word Embeddings to Sentence Embeddings: AVERAGE or SUM}
+
+\item{storage_ref}{storage reference for the embeddings}
 
 \item{uid}{A character string used to uniquely identify the ML estimator.}
 

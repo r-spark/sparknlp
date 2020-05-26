@@ -26,7 +26,8 @@ test_that("sentence_embeddings param setting", {
   test_args <- list(
     input_cols = c("string1", "string2"),
     output_col = "string1",
-    pooling_strategy = "AVERAGE"
+    pooling_strategy = "AVERAGE",
+    storage_ref = "string1"
   )
 
   test_param_setting(sc, nlp_sentence_embeddings, test_args)

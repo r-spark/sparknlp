@@ -8,22 +8,24 @@
 #' @template roxlate-nlp-algo
 #' @template roxlate-inputs-output-params
 #' @param pooling_strategy Choose how you would like to aggregate Word Embeddings to Sentence Embeddings: AVERAGE or SUM
+#' @param storage_ref storage reference for the embeddings
 #' 
 #' @export
 nlp_sentence_embeddings <- function(x, input_cols, output_col,
-                 pooling_strategy = NULL,
+                 pooling_strategy = NULL, storage_ref = NULL,
                  uid = random_string("sentence_embeddings_")) {
   UseMethod("nlp_sentence_embeddings")
 }
 
 #' @export
 nlp_sentence_embeddings.spark_connection <- function(x, input_cols, output_col,
-                 pooling_strategy = NULL,
+                 pooling_strategy = NULL, storage_ref = NULL,
                  uid = random_string("sentence_embeddings_")) {
   args <- list(
     input_cols = input_cols,
     output_col = output_col,
     pooling_strategy = pooling_strategy,
+    storage_ref = storage_ref,
     uid = uid
   ) %>%
   validator_nlp_sentence_embeddings()
@@ -34,14 +36,15 @@ nlp_sentence_embeddings.spark_connection <- function(x, input_cols, output_col,
     output_col = args[["output_col"]],
     uid = args[["uid"]]
   ) %>%
-    sparklyr::jobj_set_param("setPoolingStrategy", args[["pooling_strategy"]]) 
+    sparklyr::jobj_set_param("setPoolingStrategy", args[["pooling_strategy"]]) %>% 
+    sparklyr::jobj_set_param("setStorageRef", args[["storage_ref"]])
 
   new_nlp_sentence_embeddings(jobj)
 }
 
 #' @export
 nlp_sentence_embeddings.ml_pipeline <- function(x, input_cols, output_col,
-                 pooling_strategy = NULL,
+                 pooling_strategy = NULL, storage_ref = NULL,
                  uid = random_string("sentence_embeddings_")) {
 
   stage <- nlp_sentence_embeddings.spark_connection(
@@ -49,6 +52,7 @@ nlp_sentence_embeddings.ml_pipeline <- function(x, input_cols, output_col,
     input_cols = input_cols,
     output_col = output_col,
     pooling_strategy = pooling_strategy,
+    storage_ref = storage_ref,
     uid = uid
   )
 
@@ -57,7 +61,7 @@ nlp_sentence_embeddings.ml_pipeline <- function(x, input_cols, output_col,
 
 #' @export
 nlp_sentence_embeddings.tbl_spark <- function(x, input_cols, output_col,
-                 pooling_strategy = NULL,
+                 pooling_strategy = NULL, storage_ref = NULL,
                  uid = random_string("sentence_embeddings_")) {
   stage <- nlp_sentence_embeddings.spark_connection(
     x = sparklyr::spark_connection(x),
@@ -74,6 +78,7 @@ validator_nlp_sentence_embeddings <- function(args) {
   args[["input_cols"]] <- cast_string_list(args[["input_cols"]])
   args[["output_col"]] <- cast_string(args[["output_col"]])
   args[["pooling_strategy"]] <- cast_choice(args[["pooling_strategy"]], choices = c("AVERAGE", "SUM"), allow_null = TRUE)
+  args[["storage_ref"]] <- cast_nullable_string(args[["storage_ref"]])
   args
 }
 
