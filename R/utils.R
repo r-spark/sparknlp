@@ -103,3 +103,20 @@ nlp_conll_read_dataset <- function(sc, path, read_as = NULL, document_col = NULL
   
   sdf_register(invoke(conll, "readDataset", spark_session(sc), path, read_as))
 }
+
+#' PubTator Dataset
+#' 
+#' The PubTator format includes medical papers’ titles, abstracts, and tagged chunks 
+#' (see \href{http://bioportal.bioontology.org/ontologies/EDAM?p=classes&conceptid=format_3783}{PubTator Docs} and
+#'  \href{http://github.com/chanzuckerberg/MedMentions}{MedMentions Docs}
+#'  for more information). We can create a Spark DataFrame from a PubTator text file.
+#'  
+#' @param sc Spark connection
+#' @param path path to a PubTator file
+#'  
+#' @return Spark Dataframe created from the PubTator file
+#'  
+#' @export
+nlp_pubtator_read_dataset <- function(sc, path) {
+  return(sdf_register(invoke_static(sc, "com.johnsnowlabs.nlp.training.PubTator", "readDataset", spark_session(sc), path)))
+}
