@@ -2,6 +2,8 @@ package sparknlp
 
 import com.johnsnowlabs.nlp.annotators.classifier.dl.ClassifierDLApproach
 import com.johnsnowlabs.nlp.annotators.ner.dl.NerDLApproach
+import com.johnsnowlabs.nlp.annotators.classifier.dl.SentimentDLApproach
+import com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach
 import com.johnsnowlabs.nlp.RecursivePipeline
 import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
 import com.johnsnowlabs.nlp.LightPipeline
@@ -10,6 +12,7 @@ import org.apache.spark.ml._
 import collection.JavaConverters._
 
 object Utils {
+  // NER DL
   def setNerLrParam(nerDLApproach: NerDLApproach, lr: Double) : NerDLApproach = {
     nerDLApproach.setLr(lr.toFloat)
   }
@@ -26,6 +29,7 @@ object Utils {
     nerDLApproach.setValidationSplit(validationSplit.toFloat)
   }
   
+  // ClassifierDL
   def setCDLLrParam(classifierDLApproach: ClassifierDLApproach, lr: Double) : ClassifierDLApproach = {
     classifierDLApproach.setLr(lr.toFloat)
   }
@@ -38,6 +42,45 @@ object Utils {
     classifierDLApproach.setValidationSplit(validation_split.toFloat)
   }
   
+  // SentimentDL
+  def setSentimentLrParam(sentimentDLApproach: SentimentDLApproach, lr: Double) : SentimentDLApproach = {
+    sentimentDLApproach.setLr(lr.toFloat)
+  }
+
+  def setSentimentDropoutParam(sentimentDLApproach: SentimentDLApproach, dropout: Double) : SentimentDLApproach = {
+    sentimentDLApproach.setDropout(dropout.toFloat)  
+  }
+  
+  def setSentimentValidationSplitParam(sentimentDLApproach: SentimentDLApproach, validationSplit: Double) : SentimentDLApproach = {
+    sentimentDLApproach.setValidationSplit(validationSplit.toFloat)
+  }
+  
+  def setSentimentThreshold(sentimentDLApproach: SentimentDLApproach, threshold: Double) : SentimentDLApproach = {
+    sentimentDLApproach.setThreshold(threshold.toFloat)
+  }
+  
+  // ContextSpellChecker
+  def setCSCerrorThreshold(approach: ContextSpellCheckerApproach, threshold: Double) : ContextSpellCheckerApproach = {
+    approach.setErrorThreshold(threshold.toFloat)
+  }
+  
+  def setCSCFinalLR(approach: ContextSpellCheckerApproach, lr: Double) : ContextSpellCheckerApproach = {
+    approach.setFinalLearningRate(lr.toFloat)
+  }
+  
+  def setCSCinitialLR(approach: ContextSpellCheckerApproach, lr: Double) : ContextSpellCheckerApproach = {
+    approach.setInitialLearningRate(lr.toFloat)
+  }
+  
+  def setCSCtradeoff(approach: ContextSpellCheckerApproach, tradeoff: Double) : ContextSpellCheckerApproach = {
+    approach.setTradeoff(tradeoff.toFloat)
+  }
+  
+  def setCSCvalidFraction(approach: ContextSpellCheckerApproach, fraction: Double) : ContextSpellCheckerApproach = {
+    approach.setValidationFraction(fraction.toFloat)
+  }
+
+
   def createRecursivePipelineFromStages(uid: String, stages: PipelineStage*): RecursivePipeline = {
     new RecursivePipeline(uid)
       .setStages(stages.toArray)

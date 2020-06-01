@@ -37,5 +37,6 @@
   "com.johnsnowlabs.nlp.embeddings.AlbertEmbeddings": "nlp_albert_embeddings",
   "com.johnsnowlabs.nlp.embeddings.XlnetEmbeddings": "nlp_xlnet_embeddings",
   "com.johnsnowlabs.nlp.annotators.classifier.dl.SentimentDLApproach": "nlp_sentiment_dl",
-  "com.johnsnowlabs.nlp.annotators.RecursiveTokenizer": "nlp_recursive_tokenizer"
+  "com.johnsnowlabs.nlp.annotators.RecursiveTokenizer": "nlp_recursive_tokenizer",
+  "com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach": "nlp_context_spell_checker"
 }
