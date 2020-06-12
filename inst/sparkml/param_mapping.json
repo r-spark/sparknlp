@@ -128,5 +128,7 @@
   "tradeoff": "tradeoff",
   "validationFraction": "validation_fraction",
   "weightedDistPath": "weights",
-  "wordMaxDistance": "word_max_dist"
+  "wordMaxDistance": "word_max_dist",
+  "alphabet": "alphabet",
+  "coelesceSentences": "coelesce_sentences"
 }
