@@ -118,7 +118,7 @@
   "caseStrategy": "case_strategy",
   "classCount": "class_threshold",
   "epochs": "epochs",
-  "errorTreshold": "error_threshold",
+  "errorThreshold": "error_threshold",
   "finalRate": "final_learning_rate",
   "initialRate": "initial_learning_rate",
   "languageModelClasses": "lm_classes",
