@@ -9,6 +9,7 @@
 #' @param read_as the format of the file, can be one of {ReadAs.LINE_BY_LINE, ReadAs.SPARK_DATASET}. Defaults to LINE_BY_LINE.
 #' @param options an named list containing additional parameters. Defaults to {“format”: “text”}. NOTE THIS IS CURRENTLY NOT USED. (see
 #' \url{https://github.com/rstudio/sparklyr/issues/1058})
+#' @param build_from_tokens Whether the TextMatcher should take the CHUNK from TOKEN or not. TRUE or FALSE
 #' 
 #' @return When \code{x} is a \code{spark_connection} the function returns a TextMatcher transformer.
 #' When \code{x} is a \code{ml_pipeline} the pipeline with the TextMatcher added. When \code{x}
@@ -16,14 +17,14 @@
 #' 
 #' @export
 nlp_text_matcher <- function(x, input_cols, output_col,
-                 path, read_as = "TEXT", options = NULL,
+                 path, read_as = "TEXT", options = NULL, build_from_tokens = TRUE,
                  uid = random_string("text_matcher_")) {
   UseMethod("nlp_text_matcher")
 }
 
 #' @export
 nlp_text_matcher.spark_connection <- function(x, input_cols, output_col,
-                 path, read_as = "TEXT", options = NULL,
+                 path, read_as = "TEXT", options = NULL, build_from_tokens = TRUE,
                  uid = random_string("text_matcher_")) {
   args <- list(
     input_cols = input_cols,
@@ -31,6 +32,7 @@ nlp_text_matcher.spark_connection <- function(x, input_cols, output_col,
     path = path,
     read_as = read_as,
     options = options,
+    build_from_tokens = build_from_tokens,
     uid = uid
   ) %>%
   validator_nlp_text_matcher()
@@ -45,14 +47,15 @@ nlp_text_matcher.spark_connection <- function(x, input_cols, output_col,
     output_col = args[["output_col"]],
     uid = args[["uid"]]
   ) %>%
-    sparklyr::invoke("setEntities", args[["path"]], read_as(x, args[["read_as"]]), args[["options"]])
+    sparklyr::invoke("setEntities", args[["path"]], read_as(x, args[["read_as"]]), args[["options"]]) %>% 
+    sparklyr::invoke("setBuildFromTokens", args[["build_from_tokens"]])
 
   new_nlp_text_matcher(jobj)
 }
 
 #' @export
 nlp_text_matcher.ml_pipeline <- function(x, input_cols, output_col,
-                 path, read_as = "TEXT", options = NULL,
+                 path, read_as = "TEXT", options = NULL, build_from_tokens = TRUE,
                  uid = random_string("text_matcher_")) {
 
   stage <- nlp_text_matcher.spark_connection(
@@ -62,6 +65,7 @@ nlp_text_matcher.ml_pipeline <- function(x, input_cols, output_col,
     path = path,
     read_as = read_as,
     options = options,
+    build_from_tokens = build_from_tokens,
     uid = uid
   )
 
@@ -70,7 +74,7 @@ nlp_text_matcher.ml_pipeline <- function(x, input_cols, output_col,
 
 #' @export
 nlp_text_matcher.tbl_spark <- function(x, input_cols, output_col,
-                 path, read_as = "TEXT", options = NULL,
+                 path, read_as = "TEXT", options = NULL, build_from_tokens = TRUE,
                  uid = random_string("text_matcher_")) {
   stage <- nlp_text_matcher.spark_connection(
     x = sparklyr::spark_connection(x),
@@ -79,6 +83,7 @@ nlp_text_matcher.tbl_spark <- function(x, input_cols, output_col,
     path = path,
     read_as = read_as,
     options = options,
+    build_from_tokens = build_from_tokens,
     uid = uid
   )
 
@@ -91,6 +96,7 @@ validator_nlp_text_matcher <- function(args) {
   args[["path"]] <- cast_string(args[["path"]])
   args[["read_as"]] <- cast_choice(args[["read_as"]], choices = c("TEXT", "SPARK", "BINARY"))
   args[["options"]] <- cast_nullable_string_list(args[["options"]])
+  args[["build_from_tokens"]] <- cast_nullable_logical(args[["build_from_tokens"]])
   args
 }
 
