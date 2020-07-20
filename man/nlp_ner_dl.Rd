@@ -17,6 +17,7 @@ nlp_ner_dl(
   verbose = NULL,
   include_confidence = NULL,
   random_seed = NULL,
+  graph_folder = NULL,
   validation_split = NULL,
   eval_log_extended = NULL,
   enable_output_logs = NULL,
@@ -48,6 +49,8 @@ nlp_ner_dl(
 \item{include_confidence}{whether to include confidence values (boolean)}
 
 \item{random_seed}{Random seed (integer)}
+
+\item{graph_folder}{folder path that contain external graph files}
 
 \item{validation_split}{proportion of the data to use for validation (float)}
 

@@ -58,7 +58,8 @@ nerTagger <- nlp_ner_crf(sc, input_cols = c("sentence", "token", "pos", "embeddi
 
 **6. Load a dataset for prediction. Training is not relevant from this dataset.**
 ```{r}
-data <- nlp_conll_read_dataset(sc, trainingDataset)
+data <- nlp_conll_read_dataset(sc, trainingDataset[1])
+head(data)
 
 embeddings <- nlp_word_embeddings_pretrained(sc, output_col = "embeddings")
 

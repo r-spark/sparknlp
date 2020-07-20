@@ -11,6 +11,7 @@ nlp_text_matcher(
   path,
   read_as = "TEXT",
   options = NULL,
+  build_from_tokens = TRUE,
   uid = random_string("text_matcher_")
 )
 }
@@ -27,6 +28,8 @@ nlp_text_matcher(
 
 \item{options}{an named list containing additional parameters. Defaults to {“format”: “text”}. NOTE THIS IS CURRENTLY NOT USED. (see
 \url{https://github.com/rstudio/sparklyr/issues/1058})}
+
+\item{build_from_tokens}{Whether the TextMatcher should take the CHUNK from TOKEN or not. TRUE or FALSE}
 
 \item{uid}{A character string used to uniquely identify the ML estimator.}
 
