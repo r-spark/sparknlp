@@ -22,6 +22,7 @@
 #' @param eval_log_extended ? (boolean)
 #' @param enable_output_logs whether to enable the TensorFlow output logs (boolean)
 #' @param output_logs_path path for the output logs
+#' @param graph_folder folder path that contain external graph files
 #' 
 #' @return When \code{x} is a \code{spark_connection} the function returns a NerDLApproach estimator.
 #' When \code{x} is a \code{ml_pipeline} the pipeline with the NerDLApproach added. When \code{x}
@@ -30,7 +31,7 @@
 #' @export
 nlp_ner_dl <- function(x, input_cols, output_col,
                  label_col = NULL, max_epochs = NULL, lr = NULL, po = NULL, batch_size = NULL, dropout = NULL, 
-                 verbose = NULL, include_confidence = NULL, random_seed = NULL,
+                 verbose = NULL, include_confidence = NULL, random_seed = NULL, graph_folder = NULL,
                  validation_split = NULL, eval_log_extended = NULL, enable_output_logs = NULL, output_logs_path = NULL,
                  uid = random_string("ner_dl_")) {
   UseMethod("nlp_ner_dl")
@@ -39,7 +40,7 @@ nlp_ner_dl <- function(x, input_cols, output_col,
 #' @export
 nlp_ner_dl.spark_connection <- function(x, input_cols, output_col,
                  label_col = NULL, max_epochs = NULL, lr = NULL, po = NULL, batch_size = NULL, dropout = NULL, 
-                 verbose = NULL, include_confidence = NULL, random_seed = NULL, 
+                 verbose = NULL, include_confidence = NULL, random_seed = NULL, graph_folder = NULL,
                  validation_split = NULL, eval_log_extended = NULL, enable_output_logs = NULL, output_logs_path = NULL,
                  uid = random_string("ner_dl_")) {
   args <- list(
@@ -54,6 +55,7 @@ nlp_ner_dl.spark_connection <- function(x, input_cols, output_col,
     verbose = verbose,
     include_confidence = include_confidence,
     random_seed = random_seed,
+    graph_folder = graph_folder,
     validation_split = validation_split,
     eval_log_extended = eval_log_extended,
     enable_output_logs = enable_output_logs,
@@ -74,6 +76,7 @@ nlp_ner_dl.spark_connection <- function(x, input_cols, output_col,
     sparklyr::jobj_set_param("setVerbose", args[["verbose"]])  %>%
     sparklyr::jobj_set_param("setIncludeConfidence", args[["include_confidence"]]) %>%
     sparklyr::jobj_set_param("setRandomSeed", args[["random_seed"]]) %>% 
+    sparklyr::jobj_set_param("setGraphFolder", args[["graph_folder"]]) %>% 
     sparklyr::jobj_set_param("setEvaluationLogExtended", args[["eval_log_extended"]]) %>% 
     sparklyr::jobj_set_param("setEnableOutputLogs", args[["enable_output_logs"]]) %>% 
     sparklyr::jobj_set_param("setOutputLogsPath", args[["output_logs_path"]])
@@ -100,7 +103,7 @@ nlp_ner_dl.spark_connection <- function(x, input_cols, output_col,
 #' @export
 nlp_ner_dl.ml_pipeline <- function(x, input_cols, output_col,
                  label_col = NULL, max_epochs = NULL, lr = NULL, po = NULL, batch_size = NULL, dropout = NULL, 
-                 verbose = NULL, include_confidence = NULL, random_seed = NULL, 
+                 verbose = NULL, include_confidence = NULL, random_seed = NULL, graph_folder = NULL,
                  validation_split = NULL, eval_log_extended = NULL, enable_output_logs = NULL, output_logs_path = NULL,
                  uid = random_string("ner_dl_")) {
 
@@ -117,6 +120,7 @@ nlp_ner_dl.ml_pipeline <- function(x, input_cols, output_col,
     verbose = verbose,
     include_confidence = include_confidence,
     random_seed = random_seed,
+    graph_folder = graph_folder,
     validation_split = validation_split,
     eval_log_extended = eval_log_extended,
     enable_output_logs = enable_output_logs,
@@ -130,7 +134,7 @@ nlp_ner_dl.ml_pipeline <- function(x, input_cols, output_col,
 #' @export
 nlp_ner_dl.tbl_spark <- function(x, input_cols, output_col,
                  label_col = NULL, max_epochs = NULL, lr = NULL, po = NULL, batch_size = NULL, dropout = NULL, 
-                 verbose = NULL, include_confidence = NULL, random_seed = NULL,
+                 verbose = NULL, include_confidence = NULL, random_seed = NULL, graph_folder = NULL,
                  validation_split = NULL, eval_log_extended = NULL, enable_output_logs = NULL, output_logs_path = NULL,
                  uid = random_string("ner_dl_")) {
   stage <- nlp_ner_dl.spark_connection(
@@ -146,6 +150,7 @@ nlp_ner_dl.tbl_spark <- function(x, input_cols, output_col,
     verbose = verbose,
     include_confidence = include_confidence,
     random_seed = random_seed,
+    graph_folder = graph_folder,
     validation_split = validation_split,
     eval_log_extended = eval_log_extended,
     enable_output_logs = enable_output_logs,
@@ -168,6 +173,7 @@ validator_nlp_ner_dl <- function(args) {
   args[["verbose"]] <- cast_nullable_integer(args[["verbose"]])
   args[["include_confidence"]] <- cast_nullable_logical(args[["include_confidence"]])
   args[["random_seed"]] <- cast_nullable_integer(args[["random_seed"]])
+  args[["graph_folder"]] <- cast_nullable_string(args[["graph_folder"]])
   args[["validation_split"]] <- cast_nullable_double(args[["validation_split"]])
   args[["eval_log_extended"]] <- cast_nullable_logical(args[["eval_log_extended"]])
   args[["enable_output_logs"]] <- cast_nullable_logical(args[["enable_output_logs"]])
