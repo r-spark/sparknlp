@@ -49,7 +49,7 @@ test_that("sentiment_dl param setting", {
 })
 
 test_that("nlp_sentiment_dl spark_connection", {
-  test_annotator <- nlp_sentiment_dl(sc, input_cols = c("sentence_embeddings"), output_col = "sentiment", 
+  test_annotator <- nlp_sentiment_dl(sc, input_cols = c("sentence_embeddings"), output_col = "sentiment",
                                      label_col = "label", max_epochs = 5, enable_output_logs = TRUE)
   fit_model <- ml_fit(test_annotator, test_data)
   expect_equal(invoke(spark_jobj(fit_model), "getOutputCol"), "sentiment")
@@ -72,5 +72,11 @@ test_that("nlp_sentiment_dl pretrained", {
                                        name = "sentimentdl_glove_imdb")
   transformed_data <- ml_transform(model, test_data)
   expect_true("sentiment" %in% colnames(transformed_data))
+})
+
+test_that("nlp_get classes for SentimentDL model", {
+  model <- nlp_sentiment_dl_pretrained(sc, input_cols = c("sentence_embeddings"), output_col = "sentiment")
+  classes <- nlp_get_classes(model)
+  expect_equal(sort(unlist(classes)), c("negative", "positive"))
 })
 # 

@@ -76,3 +76,14 @@ test_that("nlp_ner_dl pretrained", {
   expect_true("ner" %in% colnames(transformed_data))
 })
 
+test_that("nlp_ner_dl classes", {
+  model <- nlp_ner_dl_pretrained(sc, input_cols = c("sentence", "token", "embeddings"), output_col = "ner")
+  classes <- nlp_ner_dl_classes(model)
+  expect_equal(sort(unlist(classes)), c("B-LOC", "B-MISC", "B-ORG", "B-PER", "I-LOC", "I-MISC", "I-ORG", "I-PER", "O"))
+})
+
+test_that("nlp_get_classes for NerDLModel", {
+  model <- nlp_ner_dl_pretrained(sc, input_cols = c("sentence", "token", "embeddings"), output_col = "ner")
+  classes <- nlp_get_classes(model)
+  expect_equal(sort(unlist(classes)), c("B-LOC", "B-MISC", "B-ORG", "B-PER", "I-LOC", "I-MISC", "I-ORG", "I-PER", "O"))
+})

@@ -120,3 +120,14 @@ nlp_conll_read_dataset <- function(sc, path, read_as = NULL, document_col = NULL
 nlp_pubtator_read_dataset <- function(sc, path) {
   return(sdf_register(invoke_static(sc, "com.johnsnowlabs.nlp.training.PubTator", "readDataset", spark_session(sc), path)))
 }
+
+#' Get classes used to train a model
+#' 
+#' @param model a trained SparkNLP model that implements getClasses()
+#' 
+#' @return a list of classes
+#' 
+#' @export
+nlp_get_classes <- function(model) {
+  return(sparklyr::invoke(sparklyr::spark_jobj(model), "getClasses"))
+}

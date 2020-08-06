@@ -213,3 +213,4 @@ nlp_ner_dl_pretrained <- function(sc, input_cols, output_col, include_confidence
   
   new_ml_transformer(model)
 }
+

@@ -62,3 +62,8 @@ test_that("nlp_ner_dl pretrained", {
   expect_true("class" %in% colnames(transformed_data))
 })
 
+test_that("nlp_get classes for ClassifierDL model", {
+  model <- nlp_classifier_dl_pretrained(sc, input_cols = c("sentence_embeddings"), output_col = "class")
+  classes <- nlp_get_classes(model)
+  expect_equal(sort(unlist(classes)), c(" ABBR", " DESC", " ENTY", " HUM", " LOC", " NUM"))
+})
