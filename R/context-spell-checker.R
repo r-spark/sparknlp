@@ -201,4 +201,30 @@ new_nlp_context_spell_checker <- function(jobj) {
   sparklyr::new_ml_estimator(jobj, class = "nlp_context_spell_checker")
 }
 
+#' Load a pretrained Spark NLP ContextSpellChecker model
+#' 
+#' Create a pretrained Spark NLP \code{ContextSpellChecker} model
+#' 
+#' @template roxlate-pretrained-params
+#' @template roxlate-inputs-output-params
+#' @export
+nlp_context_spell_checker_pretrained <- function(sc, input_cols, output_col,
+                                  name = NULL, lang = NULL, remote_loc = NULL) {
+  args <- list(
+    input_cols = input_cols,
+    output_col = output_col
+  )
+  
+  args[["input_cols"]] <- forge::cast_string_list(args[["input_cols"]])
+  args[["output_col"]] <- forge::cast_string(args[["output_col"]])
+
+  model_class <- "com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerModel"
+  model <- pretrained_model(sc, model_class, name, lang, remote_loc)
+  spark_jobj(model) %>%
+    sparklyr::jobj_set_param("setInputCols", args[["input_cols"]]) %>% 
+    sparklyr::jobj_set_param("setOutputCol", args[["output_col"]]) %>%
+  
+  new_ml_transformer(model)
+}
+
 

@@ -65,3 +65,8 @@ test_that("nlp_context_spell_checker tbl_spark", {
  expect_true("spell" %in% colnames(transformed_data))
 })
 
+test_that("nlp_context_spell_checker pretrained", {
+  model <- nlp_context_spell_checker_pretrained(sc, input_cols = c("token"), output_col = "spell")
+  transformed_data <- ml_transform(model, test_data)
+  expect_true("spell" %in% colnames(transformed_data))
+})
