@@ -1,7 +1,7 @@
 Package: sparknlp
 Type: Package
 Title: R Interface to John Snow Labs Spark NLP
-Version: 0.0.0.9011
+Version: 0.0.0.9012
 Authors@R: c(
     person("Dave", "Kincaid", email = "kincaid.dave@gmail.com", role = c("aut")),
     person("Kevin", "Kuo", email = "kevin.kuo@rstudio.com", role = c("aut", "cre"), 
