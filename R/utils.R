@@ -30,6 +30,23 @@ nlp_version <- function() {
   return(spark_nlp_version)
 }
 
+#' Set a parameter on an NLP model object
+#' 
+#' @param x A Spark NLP object, either a pipeline stage or an annotator
+#' @param param The parameter to set
+#' @param value The value to use when setting the parameter
+#'  
+#' @return the NLP model object with the parameter set
+#' @export
+nlp_set_param <- function(x, param, value) {
+  valid_params <- names(sparklyr::ml_param_map(x))
+  if (!param %in% valid_params) {
+    stop("param ", param, " not found")
+  }
+  
+  sparklyr:::ml_set_param(x, param, value)
+}
+
 
 
 # Get a pretrained model.

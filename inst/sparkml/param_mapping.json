@@ -130,7 +130,7 @@
   "weightedDistPath": "weights",
   "wordMaxDistance": "word_max_dist",
   "alphabet": "alphabet",
-  "coelesceSentences": "coelesce_sentences",
+  "coalesceSentences": "coalesce_sentences",
   "buildFromTokens": "build_from_tokens",
   "graphFolder": "graph_folder"
 }
