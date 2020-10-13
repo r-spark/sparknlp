@@ -48,10 +48,21 @@ test_that("context_spell_checker param setting", {
 })
 
 test_that("nlp_context_spell_checker spark_connection", {
- test_annotator <- nlp_context_spell_checker(sc, input_cols = c("token"), output_col = "spell", lm_classes = 1400)
-   fit_model <- ml_fit(test_annotator, test_data)
- transformed_data <- ml_transform(fit_model, test_data)
- expect_true("spell" %in% colnames(transformed_data))
+  test_annotator <- nlp_context_spell_checker(sc, input_cols = c("token"), output_col = "spell", lm_classes = 1400)
+  fit_model <- ml_fit(test_annotator, test_data)
+  transformed_data <- ml_transform(fit_model, test_data)
+  expect_true("spell" %in% colnames(transformed_data))
+ 
+  expect_true(inherits(test_annotator, "nlp_context_spell_checker"))
+  expect_true(inherits(fit_model, "nlp_context_spell_checker_model"))
+  
+  # Test Float parameters
+  oldvalue <- ml_param(test_annotator, "error_threshold")
+  newmodel <- nlp_set_param(test_annotator, "error_threshold", 5)
+  newvalue <- ml_param(newmodel, "error_threshold")
+  
+  expect_false(oldvalue == newvalue)
+  expect_equal(newvalue, 5)
 })
 
 test_that("nlp_context_spell_checker ml_pipeline", {
@@ -69,4 +80,6 @@ test_that("nlp_context_spell_checker pretrained", {
   model <- nlp_context_spell_checker_pretrained(sc, input_cols = c("token"), output_col = "spell")
   transformed_data <- ml_transform(model, test_data)
   expect_true("spell" %in% colnames(transformed_data))
+  
+  expect_true(inherits(model, "nlp_context_spell_checker_model"))
 })

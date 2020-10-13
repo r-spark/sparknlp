@@ -109,3 +109,7 @@ validator_nlp_regex_matcher <- function(args) {
 new_nlp_regex_matcher <- function(jobj) {
   sparklyr::new_ml_estimator(jobj, class = "nlp_regex_matcher")
 }
+
+new_nlp_regex_matcher_model <- function(jobj) {
+  sparklyr::new_ml_transformer(jobj, class = "nlp_regex_matcher_model")
+}

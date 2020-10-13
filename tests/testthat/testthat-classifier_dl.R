@@ -41,8 +41,16 @@ test_that("classifier_dl param setting", {
 
 test_that("nlp_classifier_dl spark_connection", {
   test_annotator <- nlp_classifier_dl(sc, input_cols = c("sentence_embeddings"), output_col = "class", label_col = "category")
+  
   fit_model <- ml_fit(test_annotator, test_data)
   expect_equal(invoke(spark_jobj(fit_model), "getOutputCol"), "class")
+  
+  # Test Float parameters
+  oldvalue <- ml_param(test_annotator, "validation_split")
+  newmodel <- nlp_set_param(test_annotator, "validation_split", 0.2)
+  newvalue <- ml_param(newmodel, "validation_split")
+  
+  expect_equal(newvalue, 0.2)
 })
 
 test_that("nlp_classifier_dl ml_pipeline", {

@@ -37,8 +37,12 @@ teardown({
 
 test_that("nlp_recursive_tokenizer spark_connection", {
   test_annotator <- nlp_recursive_tokenizer(sc, input_cols = c("document"), output_col = "token")
-  transformed_data <- ml_fit_and_transform(test_annotator, test_data)
+  fit_model <- ml_fit(test_annotator, test_data)
+  transformed_data <- ml_transform(fit_model, test_data)
   expect_true("token" %in% colnames(transformed_data))
+  
+  expect_true(inherits(test_annotator, "nlp_recursive_tokenizer"))
+  expect_true(inherits(fit_model, "nlp_recursive_tokenizer_model"))
 })
 
 test_that("nlp_recursive_tokenizer ml_pipeline", {

@@ -43,10 +43,45 @@ nlp_set_param <- function(x, param, value) {
   if (!param %in% valid_params) {
     stop("param ", param, " not found")
   }
-  
-  sparklyr:::ml_set_param(x, param, value)
+
+  if (param %in% nlp_float_params(x)) {
+    setter <- nlp_setter_name(param)
+    
+    newobj <- invoke_static(sparklyr::spark_connection(x), "sparknlp.Utils", 
+                            "setFloatParam", sparklyr::spark_jobj(x), setter, value) %>%
+    sparklyr::ml_call_constructor()
+  } else {
+    newobj <- sparklyr:::ml_set_param(x, param, value)
+  }
+
+  return(newobj)
 }
 
+# Function that must be implemented for each class which returns a character 
+# vector of parameters that are Float type in the Scala implementation
+nlp_float_params <- function(x) {
+  UseMethod("nlp_float_params", x)
+}
+
+nlp_float_params.default <- function(x) {
+  return(NULL)
+}
+
+# Function to get the setter name for a parameter. This code is copied out of 
+# the sparklyr function ml_set_param()
+nlp_setter_name <- function(param) {
+  setter <- param %>%
+    sparklyr:::ml_map_param_names(direction = "rs") %>%
+    {
+      paste0(
+        "set",
+        toupper(substr(., 1, 1)),
+        substr(., 2, nchar(.))
+      )
+    }
+  
+  return(setter)
+}
 
 
 # Get a pretrained model.

@@ -41,6 +41,9 @@ test_that("nlp_perceptron spark_connection", {
  pos_model <- ml_fit(test_annotator, pos_dataset)
  transformed_data <- ml_transform(pos_model, test_data)
  expect_true("pos" %in% colnames(transformed_data))
+ 
+ expect_true(inherits(test_annotator, "nlp_perceptron"))
+ expect_true(inherits(pos_model, "nlp_perceptron_model"))
 })
 
 test_that("nlp_perceptron ml_pipeline", {
@@ -62,6 +65,8 @@ test_that("nlp_perceptron pretrained model", {
   pipeline <- ml_add_stage(pipeline, model)
   transformed_data <- ml_fit_and_transform(pipeline, test_data)
   expect_true("pos" %in% colnames(transformed_data))
+  
+  expect_true(inherits(model, "nlp_perceptron_model"))
 })
 
 test_that("nlp_pos read pos training dataset", {

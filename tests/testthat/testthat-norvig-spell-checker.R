@@ -45,6 +45,9 @@ test_that("nlp_norvig_spell_checker spark_connection", {
   fit_model <- ml_fit(test_annotator, test_data)
   transformed_data <- ml_transform(fit_model, test_data)
   expect_true("spell" %in% colnames(transformed_data))
+  
+  expect_true(inherits(test_annotator, "nlp_norvig_spell_checker"))
+  expect_true(inherits(fit_model, "nlp_norvig_spell_checker_model"))
 })
 
 test_that("nlp_norvig_spell_checker ml_pipeline", {
@@ -64,5 +67,7 @@ test_that("nlp_norvig_spell_checker pretrained", {
   model <- nlp_norvig_spell_checker_pretrained(sc, input_cols = c("normal"), output_col = "spell")
   transformed_data <- ml_transform(model, test_data)
   expect_true("spell" %in% colnames(transformed_data))
+  
+  expect_true(inherits(model, "nlp_norvig_spell_checker_model"))
 })
 

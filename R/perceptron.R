@@ -105,7 +105,7 @@ nlp_perceptron_pretrained <- function(sc, input_cols, output_col,
     sparklyr::jobj_set_param("setInputCols", args[["input_cols"]]) %>% 
     sparklyr::jobj_set_param("setOutputCol", args[["output_col"]])
   
-  new_ml_transformer(model)
+  new_nlp_perceptron_model(model)
 }
 
 #' @import forge
@@ -119,6 +119,10 @@ validator_nlp_perceptron <- function(args) {
 
 new_nlp_perceptron <- function(jobj) {
   sparklyr::new_ml_estimator(jobj, class = "nlp_perceptron")
+}
+
+new_nlp_perceptron_model <- function(jobj) {
+  sparklyr::new_ml_transformer(jobj, class = "nlp_perceptron_model")
 }
 
 #' Read a part of speech tagging training file into a dataset

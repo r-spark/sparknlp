@@ -39,6 +39,9 @@ test_that("nlp_typed_dependency_parser spark_connection", {
   fit_model <- ml_fit(test_annotator, test_data)
   transformed_data <- ml_transform(fit_model, test_data)
   expect_true("labdep" %in% colnames(transformed_data))
+  
+  expect_true(inherits(test_annotator, "nlp_typed_dependency_parser"))
+  expect_true(inherits(fit_model, "nlp_typed_dependency_parser_model"))
 })
 
 test_that("nlp_typed_dependency_parser ml_pipeline", {
@@ -58,5 +61,7 @@ test_that("nlp_typed_dependency_parser pretrained", {
   model <- nlp_typed_dependency_parser_pretrained(sc, input_cols = c("dependency", "pos", "token"), output_col = "labdep")
   transformed_data <- ml_transform(model, test_data)
   expect_true("labdep" %in% colnames(transformed_data))
+  
+  expect_true(inherits(model, "nlp_typed_dependency_parser_model"))
 })
 

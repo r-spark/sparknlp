@@ -116,3 +116,7 @@ validator_nlp_normalizer <- function(args) {
 new_nlp_normalizer <- function(jobj) {
   sparklyr::new_ml_estimator(jobj, class = "nlp_normalizer")
 }
+
+new_nlp_normalizer_model <- function(jobj) {
+  sparklyr::new_ml_transformer(jobj, class = "nlp_normalizer_model")
+}

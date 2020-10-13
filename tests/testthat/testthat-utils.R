@@ -27,5 +27,12 @@ test_that("nlp_set_param", {
   newvalue <- ml_param(newmodel, "coalesce_sentences")
   
   expect_equal(newvalue, !oldvalue)
+  
+  # Test setting a Float parameter
+  oldvalue <- ml_param(model, "threshold")
+  newmodel <- nlp_set_param(model, "threshold", 0.8)
+  newvalue <- ml_param(newmodel, "threshold")
+  
+  expect_equal(newvalue, 0.8)
 })
 

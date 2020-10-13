@@ -42,6 +42,9 @@ test_that("nlp_symmetric_delete spark_connection", {
   fit_model <- ml_fit(test_annotator, test_data)
   transformed_data <- ml_transform(fit_model, test_data)
   expect_true("spell" %in% colnames(transformed_data))
+  
+  expect_true(inherits(test_annotator, "nlp_symmetric_delete"))
+  expect_true(inherits(fit_model, "nlp_symmetric_delete_model"))
 })
 
 test_that("nlp_symmetric_delete ml_pipeline", {
@@ -56,8 +59,10 @@ test_that("nlp_symmetric_delete tbl_spark", {
 })
 
 test_that("nlp_symmetric_delete pretrained", {
-  model <- nlp_norvig_spell_checker_pretrained(sc, input_cols = c("token"), output_col = "spell")
+  model <- nlp_symmetric_delete_pretrained(sc, input_cols = c("token"), output_col = "spell")
   transformed_data <- ml_transform(model, test_data)
   expect_true("spell" %in% colnames(transformed_data))
+  
+  expect_true(inherits(model, "nlp_symmetric_delete_model"))
 })
 

@@ -45,6 +45,9 @@ test_that("nlp_vivekn_sentiment_detector spark_connection", {
   fit_model <- ml_fit(test_annotator, training_data)
   transformed_data <- ml_transform(fit_model, test_data)
   expect_true("sentiment" %in% colnames(transformed_data))
+  
+  expect_true(inherits(test_annotator, "nlp_vivekn_sentiment_detector"))
+  expect_true(inherits(fit_model, "nlp_vivekn_sentiment_detector_model"))
 })
 
 test_that("nlp_vivekn_sentiment_detector ml_pipeline", {
@@ -64,4 +67,6 @@ test_that("nlp_vivekn_sentiment pretrained", {
   model <- nlp_vivekn_sentiment_pretrained(sc, input_cols = c("token", "sentence"), output_col = "sentiment")
   transformed_data <- ml_transform(model, test_data)
   expect_true("sentiment" %in% colnames(transformed_data))
+  
+  expect_true(inherits(model, "nlp_vivekn_sentiment_detector_model"))
 })

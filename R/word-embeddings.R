@@ -150,6 +150,10 @@ new_nlp_word_embeddings <- function(jobj) {
   sparklyr::new_ml_estimator(jobj, class = "nlp_word_embeddings")
 }
 
+new_nlp_word_embeddings_model <- function(jobj) {
+  sparklyr::new_ml_transformer(jobj, class = "nlp_word_embeddings_model")
+}
+
 #' Load pretrained word embeddings
 #' 
 #' Loads pretrained word embeddings into a Spark NLP annotator
@@ -177,7 +181,7 @@ nlp_word_embeddings_pretrained <- function(sc, input_cols = NULL, output_col,
     sparklyr::jobj_set_param(spark_jobj(model), "setCaseSensitive", args[["case_sensitive"]])
   }
   
-  new_ml_transformer(model)
+  new_nlp_word_embeddings_model(model)
 }
 
 #' Create a Spark NLP WordEmbeddingsModel
@@ -221,6 +225,6 @@ nlp_word_embeddings_model <- function(sc, input_cols, output_col, storage_ref = 
     sparklyr::jobj_set_param("setReadCacheSize", args[["read_cache_size"]]) %>%
     sparklyr::jobj_set_param("setIncludeStorage", args[["include_storage"]])
 
-  new_ml_transformer(jobj)
+  new_nlp_word_embeddings_model(jobj)
 
 }

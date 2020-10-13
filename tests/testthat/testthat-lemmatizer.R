@@ -41,6 +41,9 @@ test_that("nlp_lemmatizer spark_connection", {
   fit_model <- ml_fit(test_annotator, test_data)
   transformed_data <- ml_transform(fit_model, test_data)
   expect_true("lemma" %in% colnames(transformed_data))
+  
+  expect_true(inherits(test_annotator, "nlp_lemmatizer"))
+  expect_true(inherits(fit_model, "nlp_lemmatizer_model"))
 })
 
 test_that("nlp_lemmatizer ml_pipeline", {
@@ -61,5 +64,7 @@ test_that("nlp_lemmatizer pretrained", {
   model <- nlp_lemmatizer_pretrained(sc, input_cols = c("token"), output_col = "lemma", name = "lemma_antbnc")
   transformed_data <- ml_transform(model, test_data)
   expect_true("lemma" %in% colnames(transformed_data))
+  
+  expect_true(inherits(model, "nlp_lemmatizer_model"))
 })
 

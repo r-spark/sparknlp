@@ -24,5 +24,14 @@ test_that("nlp_language_detector pretrained", {
   model <- nlp_language_detector_dl_pretrained(sc, input_cols = c("document"), output_col = "language")
   transformed_data <- ml_transform(model, test_data)
   expect_true("language" %in% colnames(transformed_data))
+  
+  # Test Float parameters
+  oldvalue <- ml_param(model, "threshold")
+  newmodel <- nlp_set_param(model, "threshold", 0.8)
+  newvalue <- ml_param(newmodel, "threshold")
+  
+  expect_equal(newvalue, 0.8)
 })
+
+
 

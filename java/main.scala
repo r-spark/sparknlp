@@ -8,10 +8,20 @@ import com.johnsnowlabs.nlp.RecursivePipeline
 import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
 import com.johnsnowlabs.nlp.LightPipeline
 import com.johnsnowlabs.nlp.JavaAnnotation
+import java.lang.reflect.Method
+import java.lang.Class
 import org.apache.spark.ml._
 import collection.JavaConverters._
 
 object Utils {
+  // Generic function to call Scala functions that need a single Float parameter
+  def setFloatParam(obj: Object, method: String, param: Double): Object = {
+    var cls: Class[_] = obj.getClass()
+    var meth: Method = cls.getMethod(method, java.lang.Float.TYPE)
+    var retobj: Object = meth.invoke(obj, new java.lang.Float(param.toFloat))
+    return retobj
+  }
+  
   // NER DL
   def setNerLrParam(nerDLApproach: NerDLApproach, lr: Double) : NerDLApproach = {
     nerDLApproach.setLr(lr.toFloat)

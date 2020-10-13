@@ -53,6 +53,17 @@ test_that("nlp_sentiment_dl spark_connection", {
                                      label_col = "label", max_epochs = 5, enable_output_logs = TRUE)
   fit_model <- ml_fit(test_annotator, test_data)
   expect_equal(invoke(spark_jobj(fit_model), "getOutputCol"), "sentiment")
+  
+  expect_true(inherits(test_annotator, "nlp_sentiment_dl"))
+  expect_true(inherits(fit_model, "nlp_sentiment_dl_model"))
+  
+  # Test Float parameters
+  oldvalue <- ml_param(test_annotator, "lr")
+  newmodel <- nlp_set_param(test_annotator, "lr", 0.8)
+  newvalue <- ml_param(newmodel, "lr")
+  
+  expect_false(oldvalue == newvalue)
+  expect_equal(newvalue, 0.8)
 })
 
 test_that("nlp_sentiment_dl ml_pipeline", {
@@ -72,6 +83,8 @@ test_that("nlp_sentiment_dl pretrained", {
                                        name = "sentimentdl_glove_imdb")
   transformed_data <- ml_transform(model, test_data)
   expect_true("sentiment" %in% colnames(transformed_data))
+  
+  expect_true(inherits(model, "nlp_sentiment_dl_model"))
 })
 
 test_that("nlp_get classes for SentimentDL model", {

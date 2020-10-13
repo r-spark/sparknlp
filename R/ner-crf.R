@@ -170,6 +170,10 @@ new_nlp_ner_crf <- function(jobj) {
   sparklyr::new_ml_estimator(jobj, class = "nlp_ner_crf")
 }
 
+new_nlp_ner_crf_model <- function(jobj) {
+  sparklyr::new_ml_transformer(jobj, class = "nlp_ner_crf_model")
+}
+
 #' Load a pretrained Spark NLP NER CRF model
 #' 
 #' Create a pretrained Spark NLP \code{NerCrfModel} model
@@ -193,5 +197,5 @@ nlp_ner_crf_pretrained <- function(sc, input_cols, output_col,
     sparklyr::jobj_set_param("setInputCols", args[["input_cols"]]) %>% 
     sparklyr::jobj_set_param("setOutputCol", args[["output_col"]])
   
-  new_ml_transformer(model)
+  new_nlp_ner_crf_model(model)
 }

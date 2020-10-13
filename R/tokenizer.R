@@ -169,3 +169,7 @@ validator_nlp_tokenizer <- function(args) {
 new_nlp_tokenizer <- function(jobj) {
   sparklyr::new_ml_estimator(jobj, class = "nlp_tokenizer")
 }
+
+new_nlp_tokenizer_model <- function(jobj) {
+  sparklyr::new_ml_transformer(jobj, class = "nlp_tokenizer_model")
+}

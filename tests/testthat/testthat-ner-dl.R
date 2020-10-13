@@ -56,6 +56,17 @@ test_that("nlp_ner_dl spark_connection", {
   test_annotator <- nlp_ner_dl(sc, input_cols = c("sentence", "token", "embeddings"), output_col = "ner", label_col = "label")
   fit_model <- ml_fit(test_annotator, train_data)
   expect_equal(invoke(spark_jobj(fit_model), "getOutputCol"), "ner")
+  
+  expect_true(inherits(test_annotator, "nlp_ner_dl"))
+  expect_true(inherits(fit_model, "nlp_ner_dl_model"))
+  
+  # Test Float parameters
+  oldvalue <- ml_param(test_annotator, "validation_split")
+  newmodel <- nlp_set_param(test_annotator, "validation_split", 0.8)
+  newvalue <- ml_param(newmodel, "validation_split")
+  
+  expect_false(oldvalue == newvalue)
+  expect_equal(newvalue, 0.8)
 })
 
 test_that("nlp_ner_dl ml_pipeline", {
@@ -74,11 +85,13 @@ test_that("nlp_ner_dl pretrained", {
   model <- nlp_ner_dl_pretrained(sc, input_cols = c("sentence", "token", "embeddings"), output_col = "ner")
   transformed_data <- ml_transform(model, test_data)
   expect_true("ner" %in% colnames(transformed_data))
+  
+  expect_true(inherits(model, "nlp_ner_dl_model"))
 })
 
 test_that("nlp_ner_dl classes", {
   model <- nlp_ner_dl_pretrained(sc, input_cols = c("sentence", "token", "embeddings"), output_col = "ner")
-  classes <- nlp_ner_dl_classes(model)
+  classes <- nlp_get_classes(model)
   expect_equal(sort(unlist(classes)), c("B-LOC", "B-MISC", "B-ORG", "B-PER", "I-LOC", "I-MISC", "I-ORG", "I-PER", "O"))
 })
 

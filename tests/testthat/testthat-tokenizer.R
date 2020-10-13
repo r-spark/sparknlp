@@ -40,6 +40,9 @@ test_that("nlp_tokenizer() spark_connection", {
   fit_model <- ml_fit(tokenizer, sentence_data)
   transformed_data <- ml_transform(fit_model, sentence_data)
   expect_true("token" %in% colnames(transformed_data))
+  
+  expect_true(inherits(tokenizer, "nlp_tokenizer"))
+  expect_true(inherits(fit_model, "nlp_tokenizer_model"))
 })
 
 test_that("nlp_tokenizer() ml_pipeline", {

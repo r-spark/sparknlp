@@ -140,7 +140,7 @@ nlp_dependency_parser_pretrained <- function(sc, input_cols, output_col,
     sparklyr::jobj_set_param("setInputCols", args[["input_cols"]]) %>% 
     sparklyr::jobj_set_param("setOutputCol", args[["output_col"]])
   
-  new_ml_transformer(model)
+  new_ml_transformer(model, class = "nlp_dependency_parser_model")
 }
 
 #' @import forge
@@ -157,4 +157,8 @@ validator_nlp_dependency_parser <- function(args) {
 
 new_nlp_dependency_parser <- function(jobj) {
   sparklyr::new_ml_estimator(jobj, class = "nlp_dependency_parser")
+}
+
+new_nlp_dependency_parser_model <- function(jobj) {
+  sparklyr::new_ml_transformer(jobj, class = "nlp_dependency_parser_model")
 }

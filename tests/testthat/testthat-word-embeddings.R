@@ -46,6 +46,9 @@ test_that("nlp_word_embeddings spark_connection", {
   fit_model <- ml_fit(test_annotator, test_data)
   transformed_data <- ml_transform(fit_model, test_data)
   expect_true("word_embeddings" %in% colnames(transformed_data))
+  
+  expect_true(inherits(test_annotator, "nlp_word_embeddings"))
+  expect_true(inherits(fit_model, "nlp_word_embeddings_model"))
 })
 
 test_that("nlp_word_embeddings ml_pipeline", {
@@ -69,6 +72,8 @@ test_that("nlp_word_embeddings pretrained model", {
   pipeline <- ml_add_stage(pipeline, model)
   transformed_data <- ml_fit_and_transform(pipeline, test_data)
   expect_true("word_embeddings" %in% colnames(transformed_data))
+  
+  expect_true(inherits(model, "nlp_word_embeddings_model"))
 })
 
 test_that("nlp_word_embeddings_model", {
@@ -82,5 +87,8 @@ test_that("nlp_word_embeddings_model", {
   emb_pipeline <- ml_pipeline(assembler, sentdetect, tokenizer, embeddings)
   transformed_data <- ml_fit_and_transform(emb_pipeline, test_data)
   expect_true("embeddings" %in% colnames(transformed_data))
+  
+  model <- ml_stage(emb_pipeline, ml_stages(emb_pipeline)[[4]])
+  expect_true(inherits(model, "nlp_word_embeddings_model"))
 })
 

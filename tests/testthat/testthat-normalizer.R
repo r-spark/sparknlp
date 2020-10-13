@@ -37,6 +37,9 @@ test_that("nlp_normalizer spark_connection", {
   fit_model <- ml_fit(test_annotator, test_data)
   transformed_data <- ml_transform(fit_model, test_data)
   expect_true("normalized" %in% colnames(transformed_data))
+  
+  expect_true(inherits(test_annotator, "nlp_normalizer"))
+  expect_true(inherits(fit_model, "nlp_normalizer_model"))
 })
 
 test_that("nlp_normalizer ml_pipeline", {

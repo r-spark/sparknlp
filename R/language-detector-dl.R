@@ -35,7 +35,7 @@ nlp_language_detector_dl_pretrained <- function(sc, input_cols, output_col, alph
     sparklyr::jobj_set_param("setThreshold", args[["threshold"]]) %>% 
     sparklyr::jobj_set_param("setThresholdLabel", args[["threshold_label"]])
 
-  new_ml_transformer(model)
+  new_nlp_language_detector_dl(model)
 }
 
 #' @import forge
@@ -48,6 +48,10 @@ validator_nlp_language_detector_dl <- function(args) {
   args[["threshold"]] <- cast_nullable_double(args[["threshold"]])
   args[["threshold_label"]] <- cast_nullable_string(args[["threshold_label"]])
   args
+}
+
+nlp_float_params.nlp_language_detector_dl <- function(x) {
+  return(c("threshold"))
 }
 
 new_nlp_language_detector_dl <- function(jobj) {

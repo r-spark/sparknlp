@@ -52,6 +52,9 @@ test_that("nlp_ner_crf spark_connection", {
   test_annotator <- nlp_ner_crf(sc, input_cols = c("sentence", "token", "pos", "embeddings"), output_col = "ner", label_col = "label")
   fit_model <- ml_fit(test_annotator, train_data)
   expect_equal(invoke(spark_jobj(fit_model), "getOutputCol"), "ner")
+  
+  expect_true(inherits(test_annotator, "nlp_ner_crf"))
+  expect_true(inherits(fit_model, "nlp_ner_crf_model"))
 })
 
 test_that("nlp_nlp_ner_crf ml_pipeline", {
@@ -70,6 +73,8 @@ test_that("nlp_ner_crf pretrained", {
   model <- nlp_ner_crf_pretrained(sc, input_cols = c("sentence", "token", "pos", "embeddings"), output_col = "ner")
   transformed_data <- ml_transform(model, test_data)
   expect_true("ner" %in% colnames(transformed_data))
+  
+  expect_true(inherits(model, "nlp_ner_crf_model"))
 })
 
 

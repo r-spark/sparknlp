@@ -142,6 +142,10 @@ validator_nlp_classifier_dl <- function(args) {
   args
 }
 
+nlp_float_params.nlp_classifier_dl <- function(x) {
+  return(c("lr", "validation_split", "dropout"))
+}
+
 new_nlp_classifier_dl <- function(jobj) {
   sparklyr::new_ml_estimator(jobj, class = "nlp_classifier_dl")
 }
@@ -169,5 +173,5 @@ nlp_classifier_dl_pretrained <- function(sc, input_cols, output_col, include_con
     sparklyr::jobj_set_param("setInputCols", args[["input_cols"]]) %>% 
     sparklyr::jobj_set_param("setOutputCol", args[["output_col"]])
 
-  new_ml_transformer(model)
+  new_ml_transformer(model, class = "nlp_classifier_dl")
 }

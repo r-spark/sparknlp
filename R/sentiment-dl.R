@@ -93,6 +93,10 @@ nlp_sentiment_dl.spark_connection <- function(x, input_cols, output_col,
   new_nlp_sentiment_dl(jobj)
 }
 
+nlp_float_params.nlp_sentiment_dl <- function(x) {
+  return(c("lr", "dropout", "validation_split", "threshold"))
+}
+
 #' @export
 nlp_sentiment_dl.ml_pipeline <- function(x, input_cols, output_col,
                                    label_col = NULL, max_epochs = NULL, lr = NULL, batch_size = NULL, dropout = NULL, 
@@ -169,6 +173,12 @@ new_nlp_sentiment_dl <- function(jobj) {
   sparklyr::new_ml_estimator(jobj, class = "nlp_sentiment_dl")
 }
 
+new_nlp_sentiment_dl_model <- function(jobj) {
+  sparklyr::new_ml_transformer(jobj, class = "nlp_sentiment_dl_model")
+}
+
+
+
 #' Load a pretrained Spark NLP Sentiment DL model
 #' 
 #' Create a pretrained Spark NLP \code{SentimentDLModel} model
@@ -191,7 +201,7 @@ nlp_sentiment_dl_pretrained <- function(sc, input_cols, output_col,
   model <- pretrained_model(sc, model_class, name, lang, remote_loc)
   spark_jobj(model) %>%
     sparklyr::jobj_set_param("setInputCols", args[["input_cols"]]) %>% 
-    sparklyr::jobj_set_param("setOutputCol", args[["output_col"]]) %>%
+    sparklyr::jobj_set_param("setOutputCol", args[["output_col"]])
 
-  new_ml_transformer(model)
+  new_nlp_sentiment_dl_model(model)
 }

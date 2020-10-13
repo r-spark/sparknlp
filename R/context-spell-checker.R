@@ -197,8 +197,17 @@ validator_nlp_context_spell_checker <- function(args) {
   args
 }
 
+nlp_float_params.nlp_context_spell_checker <- function(x) {
+  return(c("error_threshold", "final_learning_rate", "initial_learning_rate",
+           "tradeoff", "validation_fraction"))
+}
+
 new_nlp_context_spell_checker <- function(jobj) {
   sparklyr::new_ml_estimator(jobj, class = "nlp_context_spell_checker")
+}
+
+new_nlp_context_spell_checker_model <- function(jobj) {
+  sparklyr::new_ml_transformer(jobj, class = "nlp_context_spell_checker_model")
 }
 
 #' Load a pretrained Spark NLP ContextSpellChecker model
@@ -224,7 +233,7 @@ nlp_context_spell_checker_pretrained <- function(sc, input_cols, output_col,
     sparklyr::jobj_set_param("setInputCols", args[["input_cols"]]) %>% 
     sparklyr::jobj_set_param("setOutputCol", args[["output_col"]]) %>%
   
-  new_ml_transformer(model)
+  new_ml_transformer(model, class = "nlp_context_spell_checker_model")
 }
 
 

@@ -165,7 +165,7 @@ nlp_norvig_spell_checker_pretrained <- function(sc, input_cols, output_col,
     sparklyr::jobj_set_param("setInputCols", args[["input_cols"]]) %>% 
     sparklyr::jobj_set_param("setOutputCol", args[["output_col"]])
   
-  new_ml_transformer(model)
+  new_nlp_norvig_spell_checker_model(model)
 }
 
 #' @import forge
@@ -187,4 +187,8 @@ validator_nlp_norvig_spell_checker <- function(args) {
 
 new_nlp_norvig_spell_checker <- function(jobj) {
   sparklyr::new_ml_estimator(jobj, class = "nlp_norvig_spell_checker")
+}
+
+new_nlp_norvig_spell_checker_model <- function(jobj) {
+  sparklyr::new_ml_transformer(jobj, class = "nlp_norvig_spell_checker_model")
 }
