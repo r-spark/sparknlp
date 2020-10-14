@@ -104,6 +104,7 @@
   "reverseMultiplier": "reverse_multiplier",
   "sentimentCol": "sentiment_col",
   "shortCircuit": "short_circuit",
+  "shufflePerEpoch": "shuffle_per_epoch",
   "sourcePath": "source_path",
   "splitChars": "split_chars",
   "splitPattern": "split_pattern",
