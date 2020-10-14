@@ -32,9 +32,9 @@ test_that("nlp_bert_embeddings pretrained", {
 })
 
 test_that("nlp_bert_embeddings load", {
-  model_files <- list.files("~/cache_pretrained/")
-  bert_model_file <- max(Filter(function(s) startsWith(s, "bert_base"), model_files))
-  model <- ml_load(sc, paste0("~/cache_pretrained/", bert_model_file))
-  transformed_data <- ml_transform(model, test_data)
-  expect_true("bert" %in% colnames(transformed_data))
+ model_files <- list.files("~/cache_pretrained/")
+ bert_model_file <- max(Filter(function(s) startsWith(s, "small_bert"), model_files))
+ model <- ml_load(sc, paste0("~/cache_pretrained/", bert_model_file))
+ transformed_data <- ml_transform(model, test_data)
+ expect_true("bert" %in% colnames(transformed_data))
 })
