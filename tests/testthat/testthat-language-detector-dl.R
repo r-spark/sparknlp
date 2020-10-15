@@ -21,7 +21,7 @@ teardown({
 })
 
 test_that("nlp_language_detector pretrained", {
-  model <- nlp_language_detector_dl_pretrained(sc, input_cols = c("document"), output_col = "language")
+  model <- nlp_language_detector_dl_pretrained(sc, input_cols = c("document"), output_col = "language", threshold = 0.2)
   transformed_data <- ml_transform(model, test_data)
   expect_true("language" %in% colnames(transformed_data))
   

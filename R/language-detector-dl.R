@@ -32,10 +32,15 @@ nlp_language_detector_dl_pretrained <- function(sc, input_cols, output_col, alph
     sparklyr::jobj_set_param("setAlphabet", args[["alphabet"]]) %>% 
     sparklyr::jobj_set_param("setCoelesceSentences", args[["coelesce_sentences"]]) %>% 
     sparklyr::jobj_set_param("setLanguage", args[["language"]]) %>% 
-    sparklyr::jobj_set_param("setThreshold", args[["threshold"]]) %>% 
     sparklyr::jobj_set_param("setThresholdLabel", args[["threshold_label"]])
 
-  new_nlp_language_detector_dl(model)
+  model <- new_nlp_language_detector_dl(model)
+    
+  if (!is.null(threshold)) {
+    model <- nlp_set_param(model, "threshold", args[["threshold"]])
+  }
+  
+  return(model)
 }
 
 #' @import forge
