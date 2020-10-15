@@ -23,7 +23,12 @@ test_that("nlp_sentence_detector() param setting", {
     custom_bounds = c(":"),
     use_custom_only = FALSE,
     use_abbreviations = TRUE,
-    explode_sentences = FALSE)
+    explode_sentences = FALSE,
+    detect_lists = TRUE,
+    min_length = 20,
+    max_length = 400,
+    split_length = 250
+  )
   test_param_setting(sc, nlp_sentence_detector, test_args)
 })
 

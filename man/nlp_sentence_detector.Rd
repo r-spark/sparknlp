@@ -12,6 +12,10 @@ nlp_sentence_detector(
   use_custom_only = NULL,
   use_abbreviations = NULL,
   explode_sentences = NULL,
+  detect_lists = NULL,
+  min_length = NULL,
+  max_length = NULL,
+  split_length = NULL,
   uid = random_string("sentence_detector_")
 )
 }
@@ -29,6 +33,14 @@ nlp_sentence_detector(
 \item{use_abbreviations}{Whether to consider abbreviation strategies for better accuracy but slower performance. Defaults to true.}
 
 \item{explode_sentences}{Whether to split sentences into different Dataset rows. Useful for higher parallelism in fat rows. Defaults to false.}
+
+\item{detect_lists}{whether to take lists into consideration at sentence detection}
+
+\item{min_length}{set the minimum allowed length for each sentence}
+
+\item{max_length}{set the maximum allowed length for each sentence}
+
+\item{split_length}{length at which sentences will be forcibly set}
 
 \item{uid}{A character string used to uniquely identify the ML estimator.}
 
