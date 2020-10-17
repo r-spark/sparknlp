@@ -9,7 +9,7 @@ nlp_language_detector_dl_pretrained(
   input_cols,
   output_col,
   alphabet = NULL,
-  coelesce_sentences = NULL,
+  coalesce_sentences = NULL,
   language = NULL,
   threshold = NULL,
   threshold_label = NULL,
@@ -27,7 +27,7 @@ nlp_language_detector_dl_pretrained(
 
 \item{alphabet}{alphabet used to feed the TensorFlow model for prediction (Map\link{String, Int}) This should be an R environment}
 
-\item{coelesce_sentences}{If sets to true the output of all sentences will be averaged to one output instead of one output per sentence. (boolean)}
+\item{coalesce_sentences}{If sets to true the output of all sentences will be averaged to one output instead of one output per sentence. (boolean)}
 
 \item{language}{used to map prediction to two-letter (ISO 639-1) language codes (Map\link{String, Int}) This should be an R environment}
 

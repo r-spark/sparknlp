@@ -5,19 +5,19 @@
 #' @template roxlate-pretrained-params
 #' @template roxlate-inputs-output-params
 #' @param alphabet alphabet used to feed the TensorFlow model for prediction (Map[String, Int]) This should be an R environment
-#' @param coelesce_sentences If sets to true the output of all sentences will be averaged to one output instead of one output per sentence. (boolean)
+#' @param coalesce_sentences If sets to true the output of all sentences will be averaged to one output instead of one output per sentence. (boolean)
 #' @param language used to map prediction to two-letter (ISO 639-1) language codes (Map[String, Int]) This should be an R environment
 #' @param threshold The minimum threshold for the final result otheriwse it will be either Unknown or the value set in thresholdLabel.
 #' @param threshold_label In case the score of prediction is less than threshold, what should be the label.
 #' @export
-nlp_language_detector_dl_pretrained <- function(sc, input_cols, output_col, alphabet = NULL, coelesce_sentences = NULL,
+nlp_language_detector_dl_pretrained <- function(sc, input_cols, output_col, alphabet = NULL, coalesce_sentences = NULL,
                                              language = NULL, threshold = NULL, threshold_label = NULL,
                                       name = NULL, lang = NULL, remote_loc = NULL) {
   args <- list(
     input_cols = input_cols,
     output_col = output_col,
     alphabet = alphabet,
-    coelesce_sentences = coelesce_sentences,
+    coalesce_sentences = coalesce_sentences,
     language = language,
     threshold = threshold,
     threshold_label = threshold_label
@@ -30,7 +30,7 @@ nlp_language_detector_dl_pretrained <- function(sc, input_cols, output_col, alph
     sparklyr::jobj_set_param("setInputCols", args[["input_cols"]]) %>% 
     sparklyr::jobj_set_param("setOutputCol", args[["output_col"]]) %>% 
     sparklyr::jobj_set_param("setAlphabet", args[["alphabet"]]) %>% 
-    sparklyr::jobj_set_param("setCoelesceSentences", args[["coelesce_sentences"]]) %>% 
+    sparklyr::jobj_set_param("setcoalesceSentences", args[["coalesce_sentences"]]) %>% 
     sparklyr::jobj_set_param("setLanguage", args[["language"]]) %>% 
     sparklyr::jobj_set_param("setThresholdLabel", args[["threshold_label"]])
 
@@ -48,7 +48,7 @@ validator_nlp_language_detector_dl <- function(args) {
   args[["input_cols"]] <- cast_string_list(args[["input_cols"]])
   args[["output_col"]] <- cast_string(args[["output_col"]])
 #  args[["alphabet"]] <- cast_nullable_(args[["alphabet"]])
-  args[["coelesce_sentences"]] <- cast_nullable_logical(args[["coelesce_sentences"]])
+  args[["coalesce_sentences"]] <- cast_nullable_logical(args[["coalesce_sentences"]])
 #  args[["language"]] <- cast_nullable_(args[["language"]])
   args[["threshold"]] <- cast_nullable_double(args[["threshold"]])
   args[["threshold_label"]] <- cast_nullable_string(args[["threshold_label"]])
