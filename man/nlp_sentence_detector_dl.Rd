@@ -13,6 +13,7 @@ nlp_sentence_detector_dl(
   model = NULL,
   output_logs_path = NULL,
   validation_split = NULL,
+  explode_sentences = NULL,
   uid = random_string("sentence_detector_dl_")
 )
 }
@@ -32,6 +33,8 @@ nlp_sentence_detector_dl(
 \item{output_logs_path}{path to folder to output logs}
 
 \item{validation_split}{choose the proportion of training dataset to be validated agaisnt the model on each epoch}
+
+\item{explode_sentences}{a flag indicating whether to split sentences into different Dataset rows.}
 
 \item{uid}{A character string used to uniquely identify the ML estimator.}
 

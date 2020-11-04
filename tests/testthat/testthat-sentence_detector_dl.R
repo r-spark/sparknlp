@@ -27,7 +27,8 @@ test_that("sentence_detector_dl param setting", {
     impossible_penultimates = c("string1", "string2"),
     model = "string1",
     output_logs_path = "string1",
-    validation_split = 0.8
+    validation_split = 0.8,
+    explode_sentences = TRUE
   )
 
   test_param_setting(sc, nlp_sentence_detector_dl, test_args)

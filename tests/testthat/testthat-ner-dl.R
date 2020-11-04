@@ -46,7 +46,8 @@ test_that("ner_dl param setting", {
     validation_split = 0.2,
     eval_log_extended = TRUE,
     enable_output_logs = TRUE,
-    output_logs_path = "string1"
+    output_logs_path = "string1",
+    enable_memory_optimizer = TRUE
   )
 
   test_param_setting(sc, nlp_ner_dl, test_args)

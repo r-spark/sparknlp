@@ -10,11 +10,12 @@
 #' @param model model architecture
 #' @param output_logs_path path to folder to output logs
 #' @param validation_split choose the proportion of training dataset to be validated agaisnt the model on each epoch
+#' @param explode_sentences a flag indicating whether to split sentences into different Dataset rows.
 #' 
 #' @export
 nlp_sentence_detector_dl <- function(x, input_cols, output_col,
                  epochs_number = NULL, impossible_penultimates = NULL, model = NULL,
-                 output_logs_path = NULL, validation_split = NULL,
+                 output_logs_path = NULL, validation_split = NULL, explode_sentences = NULL,
                  uid = random_string("sentence_detector_dl_")) {
   UseMethod("nlp_sentence_detector_dl")
 }
@@ -22,7 +23,7 @@ nlp_sentence_detector_dl <- function(x, input_cols, output_col,
 #' @export
 nlp_sentence_detector_dl.spark_connection <- function(x, input_cols, output_col,
                  epochs_number = NULL, impossible_penultimates = NULL, model = NULL,
-                 output_logs_path = NULL, validation_split = NULL,
+                 output_logs_path = NULL, validation_split = NULL, explode_sentences = NULL,
                  uid = random_string("sentence_detector_dl_")) {
   args <- list(
     input_cols = input_cols,
@@ -32,6 +33,7 @@ nlp_sentence_detector_dl.spark_connection <- function(x, input_cols, output_col,
     model = model,
     output_logs_path = output_logs_path,
     validation_split = validation_split,
+    explode_sentences = explode_sentences,
     uid = uid
   ) %>%
   validator_nlp_sentence_detector_dl()
@@ -45,7 +47,8 @@ nlp_sentence_detector_dl.spark_connection <- function(x, input_cols, output_col,
     sparklyr::jobj_set_param("setEpochsNumber", args[["epochs_number"]])  %>%
     sparklyr::jobj_set_param("setImpossiblePenultimates", args[["impossible_penultimates"]])  %>%
     sparklyr::jobj_set_param("setModel", args[["model"]])  %>%
-    sparklyr::jobj_set_param("setOutputLogsPath", args[["output_logs_path"]])
+    sparklyr::jobj_set_param("setOutputLogsPath", args[["output_logs_path"]]) %>% 
+    sparklyr::jobj_set_param("setExplodeSentences", args[["explode_sentences"]])
 
     model <- new_nlp_sentence_detector_dl(jobj)
     
@@ -59,7 +62,7 @@ nlp_sentence_detector_dl.spark_connection <- function(x, input_cols, output_col,
 #' @export
 nlp_sentence_detector_dl.ml_pipeline <- function(x, input_cols, output_col,
                  epochs_number = NULL, impossible_penultimates = NULL, model = NULL,
-                 output_logs_path = NULL, validation_split = NULL,
+                 output_logs_path = NULL, validation_split = NULL, explode_sentences = NULL,
                  uid = random_string("sentence_detector_dl_")) {
 
   stage <- nlp_sentence_detector_dl.spark_connection(
@@ -71,6 +74,7 @@ nlp_sentence_detector_dl.ml_pipeline <- function(x, input_cols, output_col,
     model = model,
     output_logs_path = output_logs_path,
     validation_split = validation_split,
+    explode_sentences = explode_sentences,
     uid = uid
   )
 
@@ -80,7 +84,7 @@ nlp_sentence_detector_dl.ml_pipeline <- function(x, input_cols, output_col,
 #' @export
 nlp_sentence_detector_dl.tbl_spark <- function(x, input_cols, output_col,
                  epochs_number = NULL, impossible_penultimates = NULL, model = NULL,
-                 output_logs_path = NULL, validation_split = NULL,
+                 output_logs_path = NULL, validation_split = NULL, explode_sentences = NULL,
                  uid = random_string("sentence_detector_dl_")) {
   stage <- nlp_sentence_detector_dl.spark_connection(
     x = sparklyr::spark_connection(x),
@@ -91,6 +95,7 @@ nlp_sentence_detector_dl.tbl_spark <- function(x, input_cols, output_col,
     model = model,
     output_logs_path = output_logs_path,
     validation_split = validation_split,
+    explode_sentences = explode_sentences,
     uid = uid
   )
 
@@ -105,6 +110,7 @@ validator_nlp_sentence_detector_dl <- function(args) {
   args[["model"]] <- cast_nullable_string(args[["model"]])
   args[["output_logs_path"]] <- cast_nullable_string(args[["output_logs_path"]])
   args[["validation_split"]] <- cast_nullable_double(args[["validation_split"]])
+  args[["explode_sentences"]] <- cast_nullable_logical(args[["explode_sentences"]]) 
   args
 }
 
@@ -116,10 +122,11 @@ validator_nlp_sentence_detector_dl <- function(args) {
 #' @template roxlate-inputs-output-params
 #' @param impossible_penultimates impossible penultimates
 #' @param model model architecture
+#' @param explode_sentences a flag indicating whether to split sentences into different Dataset rows
 #' 
 #' @export
 nlp_sentence_detector_dl_pretrained <- function(sc, input_cols, output_col, impossible_penultimates = NULL,
-                                  model = NULL,
+                                  model = NULL, explode_sentences = NULL,
                                   name = NULL, lang = NULL, remote_loc = NULL) {
   args <- list(
     input_cols = input_cols,
@@ -130,6 +137,7 @@ nlp_sentence_detector_dl_pretrained <- function(sc, input_cols, output_col, impo
   args[["output_col"]] <- forge::cast_string(args[["output_col"]])
   args[["impossible_penultimates"]] <- forge::cast_nullable_string_list(args[["impossible_penultimates"]])
   args[["model"]] <- forge::cast_nullable_string(args[["model"]])
+  args[["explode_sentences"]] <- forge::cast_nullable_logical(args[["explode_sentences"]])
   
   model_class <- "com.johnsnowlabs.nlp.annotators.sentence_detector_dl.SentenceDetectorDLModel"
   model <- pretrained_model(sc, model_class, name, lang, remote_loc)
@@ -137,7 +145,8 @@ nlp_sentence_detector_dl_pretrained <- function(sc, input_cols, output_col, impo
     sparklyr::jobj_set_param("setInputCols", args[["input_cols"]]) %>% 
     sparklyr::jobj_set_param("setOutputCol", args[["output_col"]]) %>%
     sparklyr::jobj_set_param("setImpossiblePenultimates", args[["impossible_penultimates"]]) %>% 
-    sparklyr::jobj_set_param("setModel", args[["model"]])
+    sparklyr::jobj_set_param("setModel", args[["model"]]) %>% 
+    sparklyr::jobj_set_param("setExplodeSentences", args[["explode_sentences"]])
   
   new_nlp_sentence_detector_dl_model(model)
 }

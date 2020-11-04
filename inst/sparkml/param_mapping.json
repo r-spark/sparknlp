@@ -29,6 +29,7 @@
   "dupsLimit": "dups_limit",
   "embeddingsFormat": "embeddings_format",
   "enableCumulative": "enable_cumulative",
+  "enableMemoryOptimizer": "enable_memory_optimizer",
   "enableOutputLogs": "enable_output_logs",
   "enableScore": "enable_score",
   "endPunctuation": "end_punctuation",

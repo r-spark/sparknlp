@@ -22,6 +22,7 @@ nlp_ner_dl(
   eval_log_extended = NULL,
   enable_output_logs = NULL,
   output_logs_path = NULL,
+  enable_memory_optimizer = NULL,
   uid = random_string("ner_dl_")
 )
 }
@@ -59,6 +60,8 @@ nlp_ner_dl(
 \item{enable_output_logs}{whether to enable the TensorFlow output logs (boolean)}
 
 \item{output_logs_path}{path for the output logs}
+
+\item{enable_memory_optimizer}{allow training NerDLApproach on a dataset larger than the memory}
 
 \item{uid}{A character string used to uniquely identify the ML estimator.}
 
