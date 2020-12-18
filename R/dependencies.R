@@ -1,4 +1,4 @@
-spark_nlp_version <- "2.6.3"
+spark_nlp_version <- "2.6.5"
 
 spark_dependencies <- function(spark_version, scala_version, ...) {
   sparklyr::spark_dependency(

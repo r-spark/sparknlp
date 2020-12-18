@@ -16,6 +16,7 @@ setup({
 })
 
 teardown({
+  spark_disconnect(sc)
   rm(sc, envir = .GlobalEnv)
   rm(fit_pipeline, envir = .GlobalEnv)
   rm(text_tbl, envir = .GlobalEnv)

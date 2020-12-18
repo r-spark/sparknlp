@@ -3,17 +3,17 @@ setup({
   text_tbl <- testthat_tbl("test_text")
 
   train_data_file <- here::here("tests", "testthat", "data", "e2e.csv")
-  csv_data <- spark_read_csv(sc, train_data_file) %>% 
-    dplyr::mutate(label = split(mr, ", ")) %>% 
+  csv_data <- spark_read_csv(sc, train_data_file) %>%
+    dplyr::mutate(label = split(mr, ", ")) %>%
     dplyr::select(-mr, text = ref)
 
-  
+
   # These lines should set a pipeline that will ultimately create the columns needed for testing the annotator
   assembler <- nlp_document_assembler(sc, input_col = "text", output_col = "document")
   tokenizer <- nlp_tokenizer(sc, input_cols = c("document"), output_col = "token")
   word_embeddings <- nlp_word_embeddings_pretrained(sc, input_cols = c("document", "token"), output_col = "word_embeddings")
   sentence_embeddings <- nlp_sentence_embeddings(sc, input_cols = c("document", "word_embeddings"), output_col = "sentence_embeddings")
-  
+
   use <- nlp_univ_sent_encoder_pretrained(sc, input_cols = c("document"), output_col = "sentence_embeddings")
   test_pipeline <- ml_pipeline(assembler, use)
   test_data <- ml_fit_and_transform(test_pipeline, text_tbl)
@@ -28,6 +28,7 @@ setup({
 })
 
 teardown({
+  spark_disconnect(sc)
   rm(sc, envir = .GlobalEnv)
   rm(pipeline, envir = .GlobalEnv)
   rm(test_data, envir = .GlobalEnv)

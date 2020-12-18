@@ -11,6 +11,7 @@ setup({
 })
 
 teardown({
+  spark_disconnect(sc)
   rm(sc, envir = .GlobalEnv)
   rm(pipeline, envir = .GlobalEnv)
   rm(document_data, envir = .GlobalEnv)

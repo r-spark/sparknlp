@@ -7,6 +7,7 @@ setup({
 })
 
 teardown({
+  spark_disconnect(sc)
   rm(sc, envir = .GlobalEnv)
   rm(text_tbl, envir = .GlobalEnv)
 })
