@@ -33,6 +33,14 @@ testthat_spark_connection <- function() {
   if (!connected) {
     config <- sparklyr::spark_config()
     config$`sparklyr.shell.driver-memory` <- "16G"
+
+    secretCode <- Sys.getenv("SPARK_NLP_SECRET_CODE", unset = NA)
+    
+    if (!is.na(secretCode)) {
+      jsl_version <- strsplit(secretCode, "-")[[1]][1]
+      jsl_url <- paste0("https://pypi.johnsnowlabs.com/", secretCode, "/spark-nlp-jsl-", jsl_version, ".jar")
+      config$`spark.jars` <- c(jsl_url)
+    }
     
     options(sparklyr.sanitize.column.names.verbose = TRUE)
     options(sparklyr.verbose = TRUE)

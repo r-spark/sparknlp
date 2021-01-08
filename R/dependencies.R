@@ -17,7 +17,7 @@ spark_dependencies <- function(spark_version, scala_version, ...) {
     )    
   } else {
     jsl_version <- strsplit(secretCode, "-")[[1]][1]
-    jsl_url <- paste0("https://pypi.johnsnowlabs.com/", secretCode)
+    jsl_url <- paste0("https://pypi.johnsnowlabs.com/", secretCode, "/spark-nlp-jsl-", jsl_version, ".jar")
     
     sparklyr::spark_dependency(
       jars = c(
@@ -25,12 +25,11 @@ spark_dependencies <- function(spark_version, scala_version, ...) {
           sprintf("java/sparknlp-%s-%s.jar", spark_version, scala_version),
           package = "sparknlp"
         )
+        #jsl_url
       ),
       packages = c(
-        sprintf("com.johnsnowlabs.nlp:spark-nlp_2.11:%s", spark_nlp_version),
-                "com.johnsnowlabs.nlp:spark-nlp-jsl:2.7.2"
-      ),
-      repositories = c(jsl_url)
+        sprintf("com.johnsnowlabs.nlp:spark-nlp_2.11:%s", spark_nlp_version)
+      )
     )  
   }
 }
