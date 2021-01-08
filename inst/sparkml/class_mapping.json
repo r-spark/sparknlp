@@ -49,6 +49,7 @@
   "com.johnsnowlabs.nlp.annotators.sentence_detector_dl.SentenceDetectorDLApproach": "nlp_sentence_detector_dl",
   "com.johnsnowlabs.nlp.annotators.sentence_detector_dl.SentenceDetectorDLModel": "nlp_sentence_detector_dl_model",
   "com.johnsnowlabs.nlp.annotators.seq2seq.MarianTransformer": "nlp_marian_transformer",
+  "com.johnsnowlabs.nlp.annotators.seq2seq.T5Transformer": "nlp_t5_transformer",
   "com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerApproach": "nlp_context_spell_checker",
   "com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerModel": "nlp_context_spell_checker_model",
   "com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingApproach": "nlp_norvig_spell_checker",

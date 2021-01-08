@@ -131,6 +131,7 @@
   "suffixPattern": "suffix_pattern",
   "suffixes": "suffixes",
   "targetPattern": "target_pattern",
+  "task": "task",
   "threshold": "threshold",
   "thresholdLabel": "threshold_label",
   "tradeoff": "tradeoff",
