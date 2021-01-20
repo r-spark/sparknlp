@@ -25,8 +25,6 @@ nlp_embeddings_finisher(
 \item{output_as_vector}{if enabled, it will output the embeddings as Vectors instead of arrays}
 
 \item{uid}{A character string used to uniquely identify the ML estimator.}
-
-\item{...}{Optional arguments, see Details.}
 }
 \value{
 The object returned depends on the class of \code{x}.

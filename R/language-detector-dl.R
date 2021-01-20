@@ -4,9 +4,9 @@
 #' 
 #' @template roxlate-pretrained-params
 #' @template roxlate-inputs-output-params
-#' @param alphabet alphabet used to feed the TensorFlow model for prediction (Map[String, Int]) This should be an R environment
+#' @param alphabet alphabet used to feed the TensorFlow model for prediction (Map of string to integer) This should be an R environment
 #' @param coalesce_sentences If sets to true the output of all sentences will be averaged to one output instead of one output per sentence. (boolean)
-#' @param language used to map prediction to two-letter (ISO 639-1) language codes (Map[String, Int]) This should be an R environment
+#' @param language used to map prediction to two-letter (ISO 639-1) language codes (Map of string to integer) This should be an R environment
 #' @param threshold The minimum threshold for the final result otheriwse it will be either Unknown or the value set in thresholdLabel.
 #' @param threshold_label In case the score of prediction is less than threshold, what should be the label.
 #' @export

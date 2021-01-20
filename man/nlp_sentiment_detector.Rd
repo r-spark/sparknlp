@@ -38,7 +38,7 @@ nlp_sentiment_detector(
 
 \item{dictionary_options}{options to pass to the Spark reader. Defaults to {"format" = "text"}}
 
-\item{enable_score}{}
+\item{enable_score}{if true, score will show as the double value, else will output string "positive" or "negative"}
 
 \item{increment_multiplier}{defaults to 2.0}
 
@@ -49,8 +49,6 @@ nlp_sentiment_detector(
 \item{reverse_multiplier}{defaults to -1.0}
 
 \item{uid}{A character string used to uniquely identify the ML estimator.}
-
-\item{...}{Optional arguments, see Details.}
 }
 \value{
 The object returned depends on the class of \code{x}.

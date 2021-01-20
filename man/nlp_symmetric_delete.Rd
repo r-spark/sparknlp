@@ -39,21 +39,19 @@ nlp_symmetric_delete(
 
 \item{max_edit_distance}{Maximum edit distance to calculate possible derived words. Defaults to 3.}
 
-\item{dups_limit}{}
+\item{dups_limit}{maximum duplicate of characters in a word to consider.}
 
-\item{deletes_threshold}{}
+\item{deletes_threshold}{minimum frequency of corrections a word needs to have to be considered from training.}
 
-\item{frequency_threshold}{}
+\item{frequency_threshold}{minimum frequency of words to be considered from training.}
 
-\item{longest_word_length}{}
+\item{longest_word_length}{ength of longest word in corpus}
 
-\item{max_frequency}{}
+\item{max_frequency}{maximum frequency of a word in the corpus}
 
-\item{min_frequency}{}
+\item{min_frequency}{minimum frequency of a word in the corpus}
 
 \item{uid}{A character string used to uniquely identify the ML estimator.}
-
-\item{...}{Optional arguments, see Details.}
 }
 \value{
 The object returned depends on the class of \code{x}.

@@ -5,7 +5,7 @@
 #' To use them, simply plug in a trained (fitted) pipeline.
 #' 
 #' @param x a trained (fitted) pipeline
-#' @param parse_embeddings 
+#' @param parse_embeddings whether to parse the embeddings
 #' 
 #' @return a LightPipeline object
 #'  

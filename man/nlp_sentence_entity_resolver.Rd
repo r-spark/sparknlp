@@ -43,8 +43,6 @@ nlp_sentence_entity_resolver(
 \item{distance_function}{what distance function to use for KNN: 'EUCLIDEAN' or 'COSINE'}
 
 \item{uid}{A character string used to uniquely identify the ML estimator.}
-
-\item{...}{Optional arguments, see Details.}
 }
 \value{
 The object returned depends on the class of \code{x}.

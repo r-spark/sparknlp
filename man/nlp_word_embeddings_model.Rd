@@ -19,17 +19,27 @@ nlp_word_embeddings_model(
 )
 }
 \arguments{
+\item{sc}{Spark connection}
+
 \item{input_cols}{Input columns. String array.}
 
 \item{output_col}{Output column. String.}
 
+\item{storage_ref}{binding to NerDLModel trained by that embeddings}
+
 \item{dimension}{number of word embeddings dimensions}
 
+\item{case_sensitive}{whether to ignore case in tokens for embeddings matching}
+
+\item{include_storage}{include the storage}
+
+\item{lazy_annotator}{boolean for laziness}
+
+\item{read_cache_size}{size for the read cache}
+
+\item{include_embeddings}{whether or not to include word embeddings when saving this annotator to disk (single or within pipeline)}
+
 \item{uid}{unique identifier for this instance}
-
-\item{Spark}{connection}
-
-\item{embeddings_ref}{the reference name for the embeddings cache that the model will use}
 }
 \value{
 a Spark transformer WordEmbeddingsModel

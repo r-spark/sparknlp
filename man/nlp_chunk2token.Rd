@@ -14,8 +14,6 @@ nlp_chunk2token(x, input_cols, output_col, uid = random_string("chunk2token_"))
 \item{output_col}{Output column. String.}
 
 \item{uid}{A character string used to uniquely identify the ML estimator.}
-
-\item{...}{Optional arguments, see Details.}
 }
 \value{
 The object returned depends on the class of \code{x}.

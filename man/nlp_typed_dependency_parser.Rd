@@ -25,7 +25,7 @@ nlp_typed_dependency_parser(
 
 \item{output_col}{Output column. String.}
 
-\item{n_iterations}{}
+\item{n_iterations}{number of iterations}
 
 \item{conll_u_path}{path to a file in CoNLL-U format}
 
@@ -40,8 +40,6 @@ nlp_typed_dependency_parser(
 \item{conll_2009_options}{options to pass to the Spark reader}
 
 \item{uid}{A character string used to uniquely identify the ML estimator.}
-
-\item{...}{Optional arguments, see Details.}
 }
 \value{
 The object returned depends on the class of \code{x}.

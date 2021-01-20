@@ -5,19 +5,11 @@ setup({
   train_data_file <- here::here("tests", "testthat", "data", "AskAPatient.fold-0.test.txt")
   train_data <- sparklyr::spark_read_csv(sc, "train", train_data_file, delimiter = "\t", 
                                          columns = c("conceptId", "_term", "term"))
-  
-  # These lines should set a pipeline that will ultimately create the columns needed for testing the annotator
+
   assembler <- nlp_document_assembler(sc, input_col = "term", output_col = "document")
   bert_emb <- nlp_bert_sentence_embeddings_pretrained(sc, input_cols = c("document"), output_col = "sentence_embeddings",
                                                       name = "sbiobert_base_cased_mli", remote_loc = "clinical/models")
-  
-  #chunk <- nlp_doc2chunk(sc, input_cols = c("document"), output_col = "chunk")
-  #tokenizer <- nlp_tokenizer(sc, input_cols = c("document"), output_col = "token")
-  #embeddings <- nlp_word_embeddings_pretrained(sc, name = "embeddings_clinical",
-  #                                             remote_loc = "clinical/models", 
-  #                                            input_cols = c("document", "token"), output_col = "embeddings")
-  #sentence_emb <- nlp_sentence_embeddings(sc, input_cols = c("document", "embeddings"), output_col = "sentence_embeddings")
-  
+
   pipeline <- ml_pipeline(assembler, bert_emb)
   test_data <- ml_fit_and_transform(pipeline, train_data)
 

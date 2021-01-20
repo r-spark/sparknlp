@@ -7,9 +7,9 @@
 #' @template roxlate-inputs-output-params
 #' @param sentiment_col Column with sentiment analysis row’s result for training.
 #' @param prune_corpus when training on small data you may want to disable this to not cut off infrequent words
-#' @param feature_limit 
-#' @param unimportant_feature_step 
-#' @param important_feature_ratio 
+#' @param feature_limit Set content feature limit, to boost performance in very dirt text.
+#' @param unimportant_feature_step Set Proportion to lookahead in unimportant features.
+#' @param important_feature_ratio Set Proportion of feature content to be considered relevant.
 #' 
 #' @export
 nlp_vivekn_sentiment_detector <- function(x, input_cols, output_col,

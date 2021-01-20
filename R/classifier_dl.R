@@ -156,6 +156,7 @@ new_nlp_classifier_dl <- function(jobj) {
 #' 
 #' @template roxlate-pretrained-params
 #' @template roxlate-inputs-output-params
+#' @param include_confidence whether to include the confidence scores in the predictions
 #' @export
 nlp_classifier_dl_pretrained <- function(sc, input_cols, output_col, include_confidence = NULL,
                                   name = NULL, lang = NULL, remote_loc = NULL) {

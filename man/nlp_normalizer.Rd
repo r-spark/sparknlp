@@ -24,7 +24,7 @@ nlp_normalizer(
 
 \item{output_col}{Output column. String.}
 
-\item{cleanup_patterns}{Regular expressions list for normalization, defaults \link{^A-Za-z}}
+\item{cleanup_patterns}{Regular expressions list for normalization, defaults (^A-Za-z)}
 
 \item{lowercase}{lowercase tokens, default true}
 
@@ -37,8 +37,6 @@ nlp_normalizer(
 \item{dictionary_options}{options to pass to the Spark reader}
 
 \item{uid}{A character string used to uniquely identify the ML estimator.}
-
-\item{...}{Optional arguments, see Details.}
 }
 \value{
 The object returned depends on the class of \code{x}.

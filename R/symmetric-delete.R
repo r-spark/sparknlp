@@ -11,12 +11,12 @@
 #' @param dictionary_read_as LINE_BY_LINE or SPARK_DATASET
 #' @param dictionary_options options to pass to the Spark reader
 #' @param max_edit_distance Maximum edit distance to calculate possible derived words. Defaults to 3.
-#' @param dups_limit 
-#' @param deletes_threshold 
-#' @param frequency_threshold 
-#' @param longest_word_length 
-#' @param max_frequency 
-#' @param min_frequency 
+#' @param dups_limit maximum duplicate of characters in a word to consider.
+#' @param deletes_threshold minimum frequency of corrections a word needs to have to be considered from training.
+#' @param frequency_threshold minimum frequency of words to be considered from training.
+#' @param longest_word_length ength of longest word in corpus
+#' @param max_frequency maximum frequency of a word in the corpus
+#' @param min_frequency minimum frequency of a word in the corpus
 #' 
 #' @export
 nlp_symmetric_delete <- function(x, input_cols, output_col,

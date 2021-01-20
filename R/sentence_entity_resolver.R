@@ -132,11 +132,11 @@ validator_nlp_sentence_entity_resolver <- function(args) {
 #' @param distance_function what distance function to use for KNN: 'EUCLIDEAN' or 'COSINE'
 #' @param miss_as_empty whether or not to return an empty annotation on unmatched chunks
 #' @param neighbors number of neighbours to consider in the KNN query to calculate WMD
-#' @param threshold threshold value for the aggregated distance#' 
+#' @param threshold threshold value for the aggregated distance
 #' 
 #' @export
 nlp_sentence_entity_resolver_pretrained <- function(sc, input_cols, output_col, 
-                                                 case_sensitive = NULL, confidence_function = NULL, distance_function = NULL, extra_mass_penalty = NULL, miss_as_empty = NULL, neighbors = NULL, threshold = NULL,
+                                                 case_sensitive = NULL, confidence_function = NULL, distance_function = NULL, miss_as_empty = NULL, neighbors = NULL, threshold = NULL,
                                                  name = NULL, lang = NULL, remote_loc = NULL) {
   args <- list(
     input_cols = input_cols,
@@ -144,7 +144,6 @@ nlp_sentence_entity_resolver_pretrained <- function(sc, input_cols, output_col,
     case_sensitive = case_sensitive,
     confidence_function = confidence_function,
     distance_function = distance_function,
-    extra_mass_penalty = extra_mass_penalty,
     miss_as_empty = miss_as_empty,
     neighbors = neighbors,
     threshold = threshold
@@ -159,7 +158,6 @@ nlp_sentence_entity_resolver_pretrained <- function(sc, input_cols, output_col,
     sparklyr::jobj_set_param("setCaseSensitive", args[["case_sensitive"]])  %>%
     sparklyr::jobj_set_param("setConfidenceFunction", args[["confidence_function"]])  %>%
     sparklyr::jobj_set_param("setDistanceFunction", args[["distance_function"]])  %>%
-    sparklyr::jobj_set_param("setExtramassPenalty", args[["extra_mass_penalty"]])  %>%
     sparklyr::jobj_set_param("setMissAsEmpty", args[["miss_as_empty"]])  %>%
     sparklyr::jobj_set_param("setNeighbours", args[["neighbors"]])  %>%
     sparklyr::jobj_set_param("setThreshold", args[["threshold"]]) 

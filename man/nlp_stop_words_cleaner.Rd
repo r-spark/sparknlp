@@ -28,8 +28,6 @@ nlp_stop_words_cleaner(
 \item{stop_words}{The words to be filtered out.}
 
 \item{uid}{A character string used to uniquely identify the ML estimator.}
-
-\item{...}{Optional arguments, see Details.}
 }
 \value{
 The object returned depends on the class of \code{x}.

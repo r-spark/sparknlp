@@ -37,8 +37,6 @@ nlp_doc2chunk(
 \item{lowercase}{whether to increase matching by lowercasing everything before matching}
 
 \item{uid}{A character string used to uniquely identify the ML estimator.}
-
-\item{...}{Optional arguments, see Details.}
 }
 \value{
 The object returned depends on the class of \code{x}.
@@ -57,7 +55,7 @@ immediately fit with the input \code{tbl_spark}, returning an NLP model.
 }
 \description{
 Spark ML transformer that Converts DOCUMENT type annotations into CHUNK type with the contents of a chunkCol.
-Chunk text must be contained within input DOCUMENT. May be either StringType or ArrayType\link{StringType}
+Chunk text must be contained within input DOCUMENT. May be either a string or an array of strings
 (using isArray Param) Useful for annotators that require a CHUNK type input.
 See \url{https://nlp.johnsnowlabs.com/docs/en/transformers#doc2chunk}
 }

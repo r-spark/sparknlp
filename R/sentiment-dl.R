@@ -9,7 +9,7 @@
 #' 
 #' @template roxlate-nlp-algo
 #' @template roxlate-inputs-output-params
-#' @param label_col If DatasetPath is not provided, this Seq[Annotation] type of column should have labeled data per token (string)
+#' @param label_col If DatasetPath is not provided, this seq of Annotation type of column should have labeled data per token (string)
 #' @param max_epochs Maximum number of epochs to train (integer)
 #' @param lr Initial learning rate (float)
 #' @param batch_size Batch size for training (integer)
@@ -185,7 +185,6 @@ new_nlp_sentiment_dl_model <- function(jobj) {
 #' 
 #' @template roxlate-pretrained-params
 #' @template roxlate-inputs-output-params
-#' @param include_confidence whether to include confidence values
 #' @export
 nlp_sentiment_dl_pretrained <- function(sc, input_cols, output_col,
                                    name = NULL, lang = NULL, remote_loc = NULL) {

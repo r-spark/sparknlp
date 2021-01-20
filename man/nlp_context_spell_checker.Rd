@@ -71,8 +71,6 @@ FIRST_LETTER_CAPITALIZED = 1, ALL = 2. Defaults to 2.}
 \item{word_max_dist}{Maximum distance for the generated candidates for every word. Defaults to 3.}
 
 \item{uid}{A character string used to uniquely identify the ML estimator.}
-
-\item{...}{Optional arguments, see Details.}
 }
 \value{
 The object returned depends on the class of \code{x}.

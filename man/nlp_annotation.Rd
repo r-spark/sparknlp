@@ -6,10 +6,13 @@
 \usage{
 nlp_annotation(x)
 }
-\description{
-Spark NLP Annotation object
+\arguments{
+\item{x}{a spark_jobj or list}
 }
-\details{
+\value{
+an nlp_annotation object
+}
+\description{
 A Spark NLP annotation object has the following fields:
 \itemize{
 \item annotatorType: the type of annotation (String)
@@ -19,6 +22,7 @@ A Spark NLP annotation object has the following fields:
 \item result: the main output of the annotation (String)
 \item embeddings: vector of embeddings (Array(Float))
 }
-
+}
+\details{
 See \url{https://nlp.johnsnowlabs.com/docs/en/concepts#annotation}
 }

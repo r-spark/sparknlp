@@ -34,8 +34,6 @@ nlp_regex_matcher(
 \item{rules_path_options}{options passed to Spark reader if read_as is SPARK_DATASET}
 
 \item{uid}{A character string used to uniquely identify the ML estimator.}
-
-\item{...}{Optional arguments, see Details.}
 }
 \value{
 The object returned depends on the class of \code{x}.

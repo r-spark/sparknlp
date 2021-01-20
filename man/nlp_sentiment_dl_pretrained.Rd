@@ -25,8 +25,6 @@ nlp_sentiment_dl_pretrained(
 \item{lang}{the language of the model to be loaded. If NULL will use the default value}
 
 \item{remote_loc}{the remote location of the model. If NULL will use the default value}
-
-\item{include_confidence}{whether to include confidence values}
 }
 \value{
 The Spark NLP model with the pretrained model loaded

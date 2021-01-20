@@ -25,11 +25,9 @@ nlp_ngram_generator(
 
 \item{enable_cumulative}{whether to calculate just the actual n-grams or all n-grams from 1 through n}
 
+\item{delimiter}{glue character used to join the tokens}
+
 \item{uid}{A character string used to uniquely identify the ML estimator.}
-
-\item{...}{Optional arguments, see Details.}
-
-\item{delimter}{glue character used to join the tokens}
 }
 \value{
 The object returned depends on the class of \code{x}.

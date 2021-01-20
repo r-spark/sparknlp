@@ -25,11 +25,11 @@ nlp_language_detector_dl_pretrained(
 
 \item{output_col}{Output column. String.}
 
-\item{alphabet}{alphabet used to feed the TensorFlow model for prediction (Map\link{String, Int}) This should be an R environment}
+\item{alphabet}{alphabet used to feed the TensorFlow model for prediction (Map of string to integer) This should be an R environment}
 
 \item{coalesce_sentences}{If sets to true the output of all sentences will be averaged to one output instead of one output per sentence. (boolean)}
 
-\item{language}{used to map prediction to two-letter (ISO 639-1) language codes (Map\link{String, Int}) This should be an R environment}
+\item{language}{used to map prediction to two-letter (ISO 639-1) language codes (Map of string to integer) This should be an R environment}
 
 \item{threshold}{The minimum threshold for the final result otheriwse it will be either Unknown or the value set in thresholdLabel.}
 

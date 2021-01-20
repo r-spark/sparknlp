@@ -34,8 +34,6 @@ nlp_finisher(
 \item{output_as_array}{Boolean. Optional. Whether to output as Array. Useful as input for other Spark transformers}
 
 \item{uid}{A character string used to uniquely identify the ML estimator.}
-
-\item{...}{Optional arguments, see Details.}
 }
 \value{
 The object returned depends on the class of \code{x}.

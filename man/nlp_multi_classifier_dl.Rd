@@ -49,8 +49,6 @@ nlp_multi_classifier_dl(
 \item{verbose}{level of verbosity during training (integer)}
 
 \item{uid}{A character string used to uniquely identify the ML estimator.}
-
-\item{...}{Optional arguments, see Details.}
 }
 \value{
 The object returned depends on the class of \code{x}.

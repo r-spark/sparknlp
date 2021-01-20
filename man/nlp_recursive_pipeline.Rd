@@ -6,6 +6,13 @@
 \usage{
 nlp_recursive_pipeline(x, ..., uid = random_string("recursive_pipeline_"))
 }
+\arguments{
+\item{x}{Either a \code{spark_connection} or \code{ml_pipeline_stage} objects}
+
+\item{...}{\code{ml_pipeline_stage} objects}
+
+\item{uid}{uid for the pipeline}
+}
 \value{
 When \code{x} is a \code{spark_connection}, \code{ml_pipeline()} returns an empty pipeline object.
 When \code{x} is a \code{ml_pipeline_stage}, \code{ml_pipeline()} returns an \code{ml_pipeline} with the stages
@@ -17,8 +24,4 @@ Pipeline Stage task, allowing annotators to utilize this same pipeline against e
 in the same way the user decides. Only some of our annotators take advantage of this. RecursivePipeline behaves
 exactly the same than normal Spark ML pipelines, so they can be used with the same intention.
 See \url{https://nlp.johnsnowlabs.com/docs/en/concepts#recursivepipeline}
-
-@param x Either a \code{spark_connection} or \code{ml_pipeline_stage} objects
-@param uid uid for the pipeline
-@param ... \code{ml_pipeline_stage} objects
 }

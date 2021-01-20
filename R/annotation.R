@@ -1,6 +1,5 @@
 #' Spark NLP Annotation object
 #' 
-#' @details
 #' A Spark NLP annotation object has the following fields:
 #' * annotatorType: the type of annotation (String)
 #' * begin: the index of the first character under this annotation (integer)
@@ -10,6 +9,10 @@
 #' * embeddings: vector of embeddings (Array(Float))
 #' 
 #'  See \url{https://nlp.johnsnowlabs.com/docs/en/concepts#annotation}
+#'  
+#' @param x a spark_jobj or list
+#'  
+#' @return an nlp_annotation object
 #' 
 #' @exportClass nlp_annotation
 #' @export

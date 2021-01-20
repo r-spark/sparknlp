@@ -37,11 +37,9 @@ nlp_dependency_parser(
 
 \item{conll_u_read_as}{TEXT or SPARK_DATASET}
 
+\item{conll_u_options}{options to pass to Spark reader}
+
 \item{uid}{A character string used to uniquely identify the ML estimator.}
-
-\item{...}{Optional arguments, see Details.}
-
-\item{conll_u_optiopns}{options to pass to Spark reader}
 }
 \value{
 The object returned depends on the class of \code{x}.

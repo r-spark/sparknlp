@@ -32,7 +32,7 @@ nlp_ner_crf(
 
 \item{output_col}{Output column. String.}
 
-\item{label_col}{If DatasetPath is not provided, this Seq\link{Annotation} type of column should have labeled data per token}
+\item{label_col}{If DatasetPath is not provided, this sequence of Annotation type of column should have labeled data per token}
 
 \item{min_epochs}{Minimum number of epochs to train}
 
@@ -61,8 +61,6 @@ nlp_ner_crf(
 \item{random_seed}{random seed}
 
 \item{uid}{A character string used to uniquely identify the ML estimator.}
-
-\item{...}{Optional arguments, see Details.}
 }
 \value{
 The object returned depends on the class of \code{x}.

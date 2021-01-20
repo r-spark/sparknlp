@@ -51,8 +51,6 @@ nlp_word_embeddings(
 \item{include_storage}{whether or not to include word embeddings when saving this annotator to disk (single or within pipeline)}
 
 \item{uid}{A character string used to uniquely identify the ML estimator.}
-
-\item{...}{Optional arguments, see Details.}
 }
 \value{
 The object returned depends on the class of \code{x}.

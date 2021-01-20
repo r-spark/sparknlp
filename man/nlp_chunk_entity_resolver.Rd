@@ -76,8 +76,6 @@ nlp_chunk_entity_resolver(
 \item{threshold}{threshold value for the aggregated distance}
 
 \item{uid}{A character string used to uniquely identify the ML estimator.}
-
-\item{...}{Optional arguments, see Details.}
 }
 \value{
 The object returned depends on the class of \code{x}.

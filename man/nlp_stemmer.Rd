@@ -19,11 +19,9 @@ nlp_stemmer(
 
 \item{output_col}{Output column. String.}
 
-\item{language}{}
+\item{language}{language to use}
 
 \item{uid}{A character string used to uniquely identify the ML estimator.}
-
-\item{...}{Optional arguments, see Details.}
 }
 \value{
 The object returned depends on the class of \code{x}.

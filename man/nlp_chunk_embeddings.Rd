@@ -22,8 +22,6 @@ nlp_chunk_embeddings(
 \item{pooling_strategy}{Choose how you would like to aggregate Word Embeddings to Sentence Embeddings: AVERAGE or SUM}
 
 \item{uid}{A character string used to uniquely identify the ML estimator.}
-
-\item{...}{Optional arguments, see Details.}
 }
 \value{
 The object returned depends on the class of \code{x}.

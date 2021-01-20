@@ -22,8 +22,6 @@ nlp_chunker(
 \item{regex_parsers}{the regular expression parsers to use for the chunking}
 
 \item{uid}{A character string used to uniquely identify the ML estimator.}
-
-\item{...}{Optional arguments, see Details.}
 }
 \value{
 The object returned depends on the class of \code{x}.

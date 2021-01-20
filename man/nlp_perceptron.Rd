@@ -25,8 +25,6 @@ nlp_perceptron(
 \item{pos_column}{Column containing an array of POS Tags matching every token on the line.}
 
 \item{uid}{A character string used to uniquely identify the ML estimator.}
-
-\item{...}{Optional arguments, see Details.}
 }
 \value{
 The object returned depends on the class of \code{x}.

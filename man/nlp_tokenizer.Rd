@@ -55,8 +55,6 @@ nlp_tokenizer(
 \item{infix_patterns}{String array. extension pattern regex with groups to the top of the rules (will target first, from more specific to the more general).}
 
 \item{uid}{A character string used to uniquely identify the ML estimator.}
-
-\item{...}{Optional arguments, see Details.}
 }
 \value{
 The object returned depends on the class of \code{x}.

@@ -11,7 +11,6 @@ nlp_sentence_entity_resolver_pretrained(
   case_sensitive = NULL,
   confidence_function = NULL,
   distance_function = NULL,
-  extra_mass_penalty = NULL,
   miss_as_empty = NULL,
   neighbors = NULL,
   threshold = NULL,
@@ -37,7 +36,7 @@ nlp_sentence_entity_resolver_pretrained(
 
 \item{neighbors}{number of neighbours to consider in the KNN query to calculate WMD}
 
-\item{threshold}{threshold value for the aggregated distance#'}
+\item{threshold}{threshold value for the aggregated distance}
 
 \item{name}{the name of the model to load. If NULL will use the default value}
 

@@ -55,8 +55,6 @@ nlp_norvig_spell_checker(
 \item{vowel_swap_limit}{Vowel swap attempts. Defaults to 6.}
 
 \item{uid}{A character string used to uniquely identify the ML estimator.}
-
-\item{...}{Optional arguments, see Details.}
 }
 \value{
 The object returned depends on the class of \code{x}.

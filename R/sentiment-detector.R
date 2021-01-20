@@ -10,7 +10,7 @@
 #' @param dictionary_delimiter delimiter in dictionary file
 #' @param dictionary_read_as TEXT or SPARK_DATASET
 #' @param dictionary_options options to pass to the Spark reader. Defaults to {"format" = "text"}
-#' @param enable_score 
+#' @param enable_score if true, score will show as the double value, else will output string "positive" or "negative"
 #' @param increment_multiplier defaults to 2.0
 #' @param negative_multiplier defaults to -1.0
 #' @param positive_multiplier defaults to 1.0

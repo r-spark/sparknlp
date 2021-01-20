@@ -32,8 +32,6 @@ nlp_text_matcher(
 \item{build_from_tokens}{Whether the TextMatcher should take the CHUNK from TOKEN or not. TRUE or FALSE}
 
 \item{uid}{A character string used to uniquely identify the ML estimator.}
-
-\item{...}{Optional arguments, see Details.}
 }
 \value{
 The object returned depends on the class of \code{x}.

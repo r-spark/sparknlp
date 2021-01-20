@@ -5,7 +5,7 @@
 #' 
 #' @template roxlate-nlp-ml-algo
 #' @template roxlate-inputs-output-params
-#' @param cleanup_patterns  Regular expressions list for normalization, defaults [^A-Za-z]
+#' @param cleanup_patterns  Regular expressions list for normalization, defaults (^A-Za-z)
 #' @param lowercase lowercase tokens, default true
 #' @param dictionary_path txt file with delimited words to be transformed into something else
 #' @param dictionary_delimiter delimiter of the dictionary text file 

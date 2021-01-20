@@ -188,10 +188,15 @@ nlp_word_embeddings_pretrained <- function(sc, input_cols = NULL, output_col,
 #' 
 #' This function creates a WordEmbeddingsModel which uses the provided embeddings_ref.
 #' 
-#' @param Spark connection
+#' @param sc Spark connection
 #' @template roxlate-inputs-output-params
-#' @param embeddings_ref the reference name for the embeddings cache that the model will use
 #' @param dimension number of word embeddings dimensions
+#' @param storage_ref binding to NerDLModel trained by that embeddings
+#' @param case_sensitive whether to ignore case in tokens for embeddings matching
+#' @param lazy_annotator boolean for laziness
+#' @param read_cache_size size for the read cache
+#' @param include_embeddings whether or not to include word embeddings when saving this annotator to disk (single or within pipeline)
+#' @param include_storage include the storage
 #' @param uid unique identifier for this instance
 #' 
 #' @return a Spark transformer WordEmbeddingsModel

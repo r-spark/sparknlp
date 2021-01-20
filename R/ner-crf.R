@@ -8,7 +8,7 @@
 #' 
 #' @template roxlate-nlp-algo
 #' @template roxlate-inputs-output-params
-#' @param label_col If DatasetPath is not provided, this Seq[Annotation] type of column should have labeled data per token
+#' @param label_col If DatasetPath is not provided, this sequence of Annotation type of column should have labeled data per token
 #' @param min_epochs Minimum number of epochs to train
 #' @param max_epochs Maximum number of epochs to train
 #' @param l2 L2 regularization coefficient for CRF

@@ -21,6 +21,8 @@ nlp_classifier_dl_pretrained(
 
 \item{output_col}{Output column. String.}
 
+\item{include_confidence}{whether to include the confidence scores in the predictions}
+
 \item{name}{the name of the model to load. If NULL will use the default value}
 
 \item{lang}{the language of the model to be loaded. If NULL will use the default value}

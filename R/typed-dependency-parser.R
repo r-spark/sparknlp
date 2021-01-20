@@ -6,7 +6,7 @@
 #' 
 #' @template roxlate-nlp-algo
 #' @template roxlate-inputs-output-params
-#' @param n_iterations 
+#' @param n_iterations number of iterations
 #' @param conll_u_path path to a file in CoNLL-U format
 #' @param conll_u_read_as TEXT or SPARK_DATASET
 #' @param conll_u_options options to pass to the Spark reader

@@ -12,7 +12,7 @@
 #' @param tree_bank_options options to pass to Spark reader
 #' @param conll_u_path Path to a file in CoNLL-U format
 #' @param conll_u_read_as TEXT or SPARK_DATASET
-#' @param conll_u_optiopns options to pass to Spark reader
+#' @param conll_u_options options to pass to Spark reader
 #' 
 #' @export
 nlp_dependency_parser <- function(x, input_cols, output_col,

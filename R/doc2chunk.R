@@ -1,7 +1,7 @@
 #' Spark NLP Doc2Chunk
 #'
 #' Spark ML transformer that Converts DOCUMENT type annotations into CHUNK type with the contents of a chunkCol. 
-#' Chunk text must be contained within input DOCUMENT. May be either StringType or ArrayType[StringType] 
+#' Chunk text must be contained within input DOCUMENT. May be either a string or an array of strings 
 #' (using isArray Param) Useful for annotators that require a CHUNK type input.
 #' See \url{https://nlp.johnsnowlabs.com/docs/en/transformers#doc2chunk}
 #' 

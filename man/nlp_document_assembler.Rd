@@ -35,8 +35,6 @@ shrink_full \tab removews new lines and tabs, including stringified values, plus
 }}
 
 \item{uid}{A character string used to uniquely identify the ML estimator.}
-
-\item{...}{Optional arguments, see Details.}
 }
 \value{
 The object returned depends on the class of \code{x}.

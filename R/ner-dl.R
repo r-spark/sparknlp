@@ -9,7 +9,7 @@
 #' 
 #' @template roxlate-nlp-algo
 #' @template roxlate-inputs-output-params
-#' @param label_col If DatasetPath is not provided, this Seq[Annotation] type of column should have labeled data per token (string)
+#' @param label_col If DatasetPath is not provided, this seq of Annotation type of column should have labeled data per token (string)
 #' @param max_epochs Maximum number of epochs to train (integer)
 #' @param lr Initial learning rate (float)
 #' @param po Learning rate decay coefficient. Real Learning Rate: lr / (1 + po * epoch) (float)

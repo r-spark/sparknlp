@@ -10,7 +10,7 @@
 #' @template roxlate-inputs-output-params
 #' @param n number elements per n-gram (>=1)
 #' @param enable_cumulative whether to calculate just the actual n-grams or all n-grams from 1 through n
-#' @param delimter glue character used to join the tokens
+#' @param delimiter glue character used to join the tokens
 #' 
 #' @export
 nlp_ngram_generator <- function(x, input_cols, output_col,

@@ -5,7 +5,7 @@
 #' 
 #' @template roxlate-nlp-algo
 #' @template roxlate-inputs-output-params
-#' @param language 
+#' @param language language to use
 #' 
 #' @export
 nlp_stemmer <- function(x, input_cols, output_col,

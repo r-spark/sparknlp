@@ -1,6 +1,5 @@
 #' @param x A \code{spark_connection}, \code{ml_pipeline}, or a \code{tbl_spark}.
 #' @param uid A character string used to uniquely identify the ML estimator.
-#' @param ... Optional arguments, see Details.
 #'
 #' @return The object returned depends on the class of \code{x}.
 #'

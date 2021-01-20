@@ -27,15 +27,13 @@ nlp_vivekn_sentiment_detector(
 
 \item{prune_corpus}{when training on small data you may want to disable this to not cut off infrequent words}
 
-\item{feature_limit}{}
+\item{feature_limit}{Set content feature limit, to boost performance in very dirt text.}
 
-\item{unimportant_feature_step}{}
+\item{unimportant_feature_step}{Set Proportion to lookahead in unimportant features.}
 
-\item{important_feature_ratio}{}
+\item{important_feature_ratio}{Set Proportion of feature content to be considered relevant.}
 
 \item{uid}{A character string used to uniquely identify the ML estimator.}
-
-\item{...}{Optional arguments, see Details.}
 }
 \value{
 The object returned depends on the class of \code{x}.

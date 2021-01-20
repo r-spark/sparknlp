@@ -29,7 +29,7 @@ nlp_sentiment_dl(
 
 \item{output_col}{Output column. String.}
 
-\item{label_col}{If DatasetPath is not provided, this Seq\link{Annotation} type of column should have labeled data per token (string)}
+\item{label_col}{If DatasetPath is not provided, this seq of Annotation type of column should have labeled data per token (string)}
 
 \item{max_epochs}{Maximum number of epochs to train (integer)}
 
@@ -52,8 +52,6 @@ nlp_sentiment_dl(
 \item{output_logs_path}{path for the output logs}
 
 \item{uid}{A character string used to uniquely identify the ML estimator.}
-
-\item{...}{Optional arguments, see Details.}
 }
 \value{
 The object returned depends on the class of \code{x}.

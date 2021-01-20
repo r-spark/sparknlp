@@ -37,8 +37,6 @@ nlp_yake_model(
 \item{window_size}{Yake will construct a co-occurence matrix. You can set the window size for the cooccurence matrix construction from this method. ex: windowSize=2 will look at two words to both left and right of a candidate word.}
 
 \item{uid}{A character string used to uniquely identify the ML estimator.}
-
-\item{...}{Optional arguments, see Details.}
 }
 \value{
 The object returned depends on the class of \code{x}.

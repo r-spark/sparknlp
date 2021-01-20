@@ -43,8 +43,6 @@ nlp_sentence_detector(
 \item{split_length}{length at which sentences will be forcibly set}
 
 \item{uid}{A character string used to uniquely identify the ML estimator.}
-
-\item{...}{Optional arguments, see Details.}
 }
 \value{
 The object returned depends on the class of \code{x}.
