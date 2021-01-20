@@ -87,13 +87,13 @@ nlp_setter_name <- function(param) {
 # Get a pretrained model.
 # The model_class is the Scala class for the model.
   pretrained_model <- function(sc, model_class, name = NULL, lang = NULL, remote_loc = NULL) {
-  default_name <- invoke(invoke_static(sc, model_class, "defaultModelName"), "x")
-  default_lang <- invoke_static(sc, model_class, "defaultLang")
-  default_remote_loc <- invoke_static(sc, model_class, "defaultLoc")
+  #default_name <- invoke(invoke_static(sc, model_class, "defaultModelName"), "x")
+  #default_lang <- invoke_static(sc, model_class, "defaultLang")
+  #default_remote_loc <- invoke_static(sc, model_class, "defaultLoc")
   
-  if (is.null(name)) name = default_name
-  if (is.null(lang)) lang = default_lang
-  if (is.null(remote_loc)) remote_loc = default_remote_loc
+  if (is.null(name)) name = invoke(invoke_static(sc, model_class, "defaultModelName"), "x")
+  if (is.null(lang)) lang = invoke_static(sc, model_class, "defaultLang")
+  if (is.null(remote_loc)) remote_loc = invoke_static(sc, model_class, "defaultLoc")
   
   invoke_static(sc, model_class, "pretrained", name, lang, remote_loc)
 }

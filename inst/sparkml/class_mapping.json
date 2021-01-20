@@ -67,5 +67,8 @@
   "com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel": "nlp_word_embeddings_model",
   "com.johnsnowlabs.nlp.embeddings.XlnetEmbeddings": "nlp_xlnet_embeddings",
   "com.johnsnowlabs.nlp.jsl.annotator.AssertionLogRegApproach": "nlp_assertion_log_reg",
-  "com.johnsnowlabs.nlp.jsl.annotator.AssertionLogRegModel": "nlp_assertion_log_reg_model"
+  "com.johnsnowlabs.nlp.jsl.annotator.AssertionLogRegModel": "nlp_assertion_log_reg_model",
+  "com.johnsnowlabs.nlp.annotators.Chunk2Token": "nlp_chunk2token",
+  "com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverApproach": "nlp_chunk_entity_resolver",
+  "com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel": "nlp_chunk_entity_resolver_model"
 }
