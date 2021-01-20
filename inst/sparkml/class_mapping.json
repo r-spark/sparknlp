@@ -70,5 +70,7 @@
   "com.johnsnowlabs.nlp.jsl.annotator.AssertionLogRegModel": "nlp_assertion_log_reg_model",
   "com.johnsnowlabs.nlp.annotators.Chunk2Token": "nlp_chunk2token",
   "com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverApproach": "nlp_chunk_entity_resolver",
-  "com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel": "nlp_chunk_entity_resolver_model"
-}
+  "com.johnsnowlabs.nlp.annotators.resolution.ChunkEntityResolverModel": "nlp_chunk_entity_resolver_model",
+  "com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverApproach": "nlp_sentence_entity_resolver",
+  "com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverModel": "nlp_sentence_entity_resolver_model"
+  }

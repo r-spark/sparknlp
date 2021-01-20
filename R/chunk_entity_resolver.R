@@ -183,9 +183,9 @@ validator_nlp_chunk_entity_resolver <- function(args) {
   args
 }
 
-#' Load a pretrained Spark NLP T5 Transformer model
+#' Load a pretrained Spark NLP Chunk Entity Resolver model
 #' 
-#' Create a pretrained Spark NLP \code{T5TransformerModel} model
+#' Create a pretrained Spark NLP \code{ChunkEntityResolverModel} model
 #' 
 #' @template roxlate-pretrained-params
 #' @template roxlate-inputs-output-params

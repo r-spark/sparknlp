@@ -2,7 +2,7 @@
 % Please edit documentation in R/chunk_entity_resolver.R
 \name{nlp_chunk_entity_resolver_pretrained}
 \alias{nlp_chunk_entity_resolver_pretrained}
-\title{Load a pretrained Spark NLP T5 Transformer model}
+\title{Load a pretrained Spark NLP Chunk Entity Resolver model}
 \usage{
 nlp_chunk_entity_resolver_pretrained(
   sc,
@@ -81,5 +81,5 @@ nlp_chunk_entity_resolver_pretrained(
 The Spark NLP model with the pretrained model loaded
 }
 \description{
-Create a pretrained Spark NLP \code{T5TransformerModel} model
+Create a pretrained Spark NLP \code{ChunkEntityResolverModel} model
 }
