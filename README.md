@@ -25,7 +25,6 @@ The following features/annotators have not been implemented yet
 ## Spark NLP for Healthcare
 * DocumentLogRegClassifier
 * DeIdentificator
-* ContextualParser
 * RelationExtraction
 
 # Usage

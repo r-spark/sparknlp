@@ -1,0 +1,5 @@
+{
+  "entity": "Gender",
+  "ruleScope": "sentence", 
+  "completeMatchRegex": "true"
+}
