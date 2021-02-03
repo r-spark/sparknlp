@@ -9,3 +9,4 @@ derby.log
 scripts
 examples/*.html
 *.nb.html
+tests/testthat/training_logs/
