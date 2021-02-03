@@ -6,9 +6,8 @@
 #' @template roxlate-nlp-algo
 #' @template roxlate-inputs-output-params
 #' @param path a path to a file that contains the entities in the specified format.
-#' @param read_as the format of the file, can be one of {ReadAs.LINE_BY_LINE, ReadAs.SPARK_DATASET}. Defaults to LINE_BY_LINE.
-#' @param options an named list containing additional parameters. Defaults to {“format”: “text”}. NOTE THIS IS CURRENTLY NOT USED. (see
-#' \url{https://github.com/rstudio/sparklyr/issues/1058})
+#' @param read_as the format of the file, can be one of {TEXT, SPARK, BINARY.
+#' @param options an named list containing additional parameters. Defaults to {“format”: “text”}.
 #' @param build_from_tokens Whether the TextMatcher should take the CHUNK from TOKEN or not. TRUE or FALSE
 #' 
 #' @return When \code{x} is a \code{spark_connection} the function returns a TextMatcher transformer.
@@ -95,7 +94,7 @@ validator_nlp_text_matcher <- function(args) {
   args[["output_col"]] <- cast_string(args[["output_col"]])
   args[["path"]] <- cast_string(args[["path"]])
   args[["read_as"]] <- cast_choice(args[["read_as"]], choices = c("TEXT", "SPARK", "BINARY"))
-  args[["options"]] <- cast_nullable_string_list(args[["options"]])
+  #args[["options"]] <- cast_nullable_string_list(args[["options"]])
   args[["build_from_tokens"]] <- cast_nullable_logical(args[["build_from_tokens"]])
   args
 }

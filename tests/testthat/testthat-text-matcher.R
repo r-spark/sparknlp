@@ -27,13 +27,19 @@ teardown({
 #     input_cols = c("string1", "string2"),
 #     output_col = "string1",
 #     build_from_tokens = TRUE,
-#     path = "/tmp/path"
+#     #path = "/tmp/path"
 #     #read_as = "LINE_BY_LINE"
 #     #options = list(format = "text")
 #   )
 # 
 #   test_param_setting(sc, nlp_text_matcher, test_args)
 # })
+
+test_that("text_matcher path set", {
+  annotator <- nlp_text_matcher(sc, input_cols = c("sentence", "token"), output_col = "entities",
+                               path = "data/test.csv", read_as = "TEXT", options = list(format = "text"))
+  expect_true(!is.null(annotator))
+})
 
 test_that("nlp_text_matcher spark_connection", {
   test_annotator <- nlp_text_matcher(sc, input_cols = c("sentence", "token"), output_col = "entities", 
