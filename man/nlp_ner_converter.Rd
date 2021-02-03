@@ -22,8 +22,6 @@ nlp_ner_converter(
 \item{white_list}{If defined, list of entities to process. The rest will be ignored. Do not include IOB prefix on labels"}
 
 \item{uid}{A character string used to uniquely identify the ML transformer.}
-
-\item{...}{Optional arguments, see Details.}
 }
 \value{
 The object returned depends on the class of \code{x}.

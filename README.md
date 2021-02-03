@@ -23,10 +23,6 @@ The following features/annotators have not been implemented yet
 * Spark NLP Display
 
 ## Spark NLP for Healthcare
-* AssertionDL
-* Chunk2Token
-* ChunkEntityResolver
-* SentenceEntityResolver
 * DocumentLogRegClassifier
 * DeIdentificator
 * ContextualParser
@@ -42,11 +38,11 @@ Note that not all the Jupyter notebooks found there have been ported yet, but al
 package.
 
 # Licensed models and annotators
-In order to use the licensed models and annotators you must have a valid license
-from John Snow Labs and have followed the steps in [Spark NLP for Healthcare Getting Started](https://nlp.johnsnowlabs.com/docs/en/licensed_install#install-spark-nlp-for-healthcare).
+If you have purchased a license to the licensed models and annotators, first follow the 
+normal steps in [Spark NLP for Healthcare Getting Started](https://nlp.johnsnowlabs.com/docs/en/licensed_install#install-spark-nlp-for-healthcare).
 
-First you must have setup your AWS-CLI credentials in order to use the 
-licensed pretrained models.
+Once you've done this you should have your AWS-CLI credentials setup and can use the 
+licensed pretrained models in the unlicensed annotators (such as ner_dl).
 
 In order to use the licensed annotators you must also setup the environment variable
 SPARK_NLP_SECRET_CODE with the secret code provided by John Snow Labs with your
