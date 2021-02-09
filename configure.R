@@ -10,7 +10,7 @@ spec <- sparklyr::spark_compilation_spec(jar_name = sprintf("%s-2.4-2.11.jar", p
                                          spark_version = "2.4.5")
 
 #  map(function(x) {
-spec$jar_dep <- list.files("~/.m2/repository/com/johnsnowlabs/nlp/spark-nlp_2.11/2.7.1/", full.names = TRUE) %>% 
+spec$jar_dep <- list.files("~/.m2/repository/com/johnsnowlabs/nlp/spark-nlp_2.11/2.7.3/", full.names = TRUE) %>% 
     map_chr(normalizePath)
 #    x
 #  })
