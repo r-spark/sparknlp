@@ -17,23 +17,21 @@
 #' @param start_col the name of the column with the value for the start index of the target
 #' @param end_col the name of the column with the value for the ending index of the target
 #' @param chunk_col the name of the column containing the chunks
-#' @param classes number of classes of assertion
 #' @param enable_output_logs Whether to output to annotators log folder
 #' @param output_logs_path path for the output logs to go
-#' @param target_col the name of the column containing the target text
 #' @param validation_split Choose the proportion of training dataset to be validated against the model on each Epoch.
 #' @param verbose level of verbosity. One of All, PerStep, Epochs, TrainingStat, Silent
 #' 
 #' @export
 nlp_assertion_dl <- function(x, input_cols, output_col,
-                 graph_folder = NULL, config_proto_bytes = NULL, label_column = NULL, batch_size = NULL, epochs = NULL, learning_rate = NULL, dropout = NULL, max_sent_len = NULL, start_col = NULL, end_col = NULL, chunk_col = NULL, classes = NULL, enable_output_logs = NULL, output_logs_path = NULL, target_col = NULL, validation_split = NULL, verbose = NULL,
+                 graph_folder = NULL, config_proto_bytes = NULL, label_column = NULL, batch_size = NULL, epochs = NULL, learning_rate = NULL, dropout = NULL, max_sent_len = NULL, start_col = NULL, end_col = NULL, chunk_col = NULL,  enable_output_logs = NULL, output_logs_path = NULL, validation_split = NULL, verbose = NULL,
                  uid = random_string("assertion_dl_")) {
   UseMethod("nlp_assertion_dl")
 }
 
 #' @export
 nlp_assertion_dl.spark_connection <- function(x, input_cols, output_col,
-                 graph_folder = NULL, config_proto_bytes = NULL, label_column = NULL, batch_size = NULL, epochs = NULL, learning_rate = NULL, dropout = NULL, max_sent_len = NULL, start_col = NULL, end_col = NULL, chunk_col = NULL, classes = NULL, enable_output_logs = NULL, output_logs_path = NULL, target_col = NULL, validation_split = NULL, verbose = NULL,
+                 graph_folder = NULL, config_proto_bytes = NULL, label_column = NULL, batch_size = NULL, epochs = NULL, learning_rate = NULL, dropout = NULL, max_sent_len = NULL, start_col = NULL, end_col = NULL, chunk_col = NULL,  enable_output_logs = NULL, output_logs_path = NULL, validation_split = NULL, verbose = NULL,
                  uid = random_string("assertion_dl_")) {
   args <- list(
     input_cols = input_cols,
@@ -49,10 +47,8 @@ nlp_assertion_dl.spark_connection <- function(x, input_cols, output_col,
     start_col = start_col,
     end_col = end_col,
     chunk_col = chunk_col,
-    classes = classes,
     enable_output_logs = enable_output_logs,
     output_logs_path = output_logs_path,
-    target_col = target_col,
     validation_split = validation_split,
     verbose = verbose,
     uid = uid
@@ -73,23 +69,12 @@ nlp_assertion_dl.spark_connection <- function(x, input_cols, output_col,
     sparklyr::jobj_set_param("setStartCol", args[["start_col"]])  %>%
     sparklyr::jobj_set_param("setEndCol", args[["end_col"]])  %>%
     sparklyr::jobj_set_param("setChunkCol", args[["chunk_col"]])  %>%
-    sparklyr::jobj_set_param("setClasses", args[["classes"]])  %>%
+    sparklyr::jobj_set_param("setLabelCol", args[["label_column"]])  %>%
     sparklyr::jobj_set_param("setEnableOutputLogs", args[["enable_output_logs"]])  %>%
     sparklyr::jobj_set_param("setOutputLogsPath", args[["output_logs_path"]])
 
   annotator <- new_nlp_assertion_dl(jobj)
   
-  if (!is.null(args[["label_col"]])) {
-    annotator <- nlp_set_param(annotator, "label_column", args[["label_column"]])
-  }
-  
-  if (!is.null(args[["target_col"]])) {
-    #spark_jobj(x) %>% invoke(setter, value) %>% ml_call_constructor()
-    #annotator <- sparklyr:::ml_set_param(annotator, "target_col", args[["target_col"]])
-    annotator <- sparklyr::invoke(sparklyr::spark_jobj(annotator), "setTargetCol", args[["target_col"]]) %>% 
-      sparklyr::ml_call_constructor()
-  }
-
   if (!is.null(args[["verbose"]])) {
     verbose_level <- invoke_static(sc, "com.johnsnowlabs.nlp.annotators.ner.Verbose", "withName", args[["verbose"]])
     annotator <- nlp_set_param(annotator, "verbose", verbose_level)
@@ -112,7 +97,7 @@ nlp_assertion_dl.spark_connection <- function(x, input_cols, output_col,
 
 #' @export
 nlp_assertion_dl.ml_pipeline <- function(x, input_cols, output_col,
-                 graph_folder = NULL, config_proto_bytes = NULL, label_column = NULL, batch_size = NULL, epochs = NULL, learning_rate = NULL, dropout = NULL, max_sent_len = NULL, start_col = NULL, end_col = NULL, chunk_col = NULL, classes = NULL, enable_output_logs = NULL, output_logs_path = NULL, target_col = NULL, validation_split = NULL, verbose = NULL,
+                 graph_folder = NULL, config_proto_bytes = NULL, label_column = NULL, batch_size = NULL, epochs = NULL, learning_rate = NULL, dropout = NULL, max_sent_len = NULL, start_col = NULL, end_col = NULL, chunk_col = NULL,  enable_output_logs = NULL, output_logs_path = NULL, validation_split = NULL, verbose = NULL,
                  uid = random_string("assertion_dl_")) {
 
   stage <- nlp_assertion_dl.spark_connection(
@@ -130,10 +115,8 @@ nlp_assertion_dl.ml_pipeline <- function(x, input_cols, output_col,
     start_col = start_col,
     end_col = end_col,
     chunk_col = chunk_col,
-    classes = classes,
     enable_output_logs = enable_output_logs,
     output_logs_path = output_logs_path,
-    target_col = target_col,
     validation_split = validation_split,
     verbose = verbose,
     uid = uid
@@ -144,7 +127,7 @@ nlp_assertion_dl.ml_pipeline <- function(x, input_cols, output_col,
 
 #' @export
 nlp_assertion_dl.tbl_spark <- function(x, input_cols, output_col,
-                 graph_folder = NULL, config_proto_bytes = NULL, label_column = NULL, batch_size = NULL, epochs = NULL, learning_rate = NULL, dropout = NULL, max_sent_len = NULL, start_col = NULL, end_col = NULL, chunk_col = NULL, classes = NULL, enable_output_logs = NULL, output_logs_path = NULL, target_col = NULL, validation_split = NULL, verbose = NULL,
+                 graph_folder = NULL, config_proto_bytes = NULL, label_column = NULL, batch_size = NULL, epochs = NULL, learning_rate = NULL, dropout = NULL, max_sent_len = NULL, start_col = NULL, end_col = NULL, chunk_col = NULL, enable_output_logs = NULL, output_logs_path = NULL, validation_split = NULL, verbose = NULL,
                  uid = random_string("assertion_dl_")) {
   stage <- nlp_assertion_dl.spark_connection(
     x = sparklyr::spark_connection(x),
@@ -161,10 +144,8 @@ nlp_assertion_dl.tbl_spark <- function(x, input_cols, output_col,
     start_col = start_col,
     end_col = end_col,
     chunk_col = chunk_col,
-    classes = classes,
     enable_output_logs = enable_output_logs,
     output_logs_path = output_logs_path,
-    target_col = target_col,
     validation_split = validation_split,
     verbose = verbose,
     uid = uid
@@ -187,10 +168,8 @@ validator_nlp_assertion_dl <- function(args) {
   args[["start_col"]] <- cast_nullable_string(args[["start_col"]])
   args[["end_col"]] <- cast_nullable_string(args[["end_col"]])
   args[["chunk_col"]] <- cast_nullable_string(args[["chunk_col"]])
-  args[["classes"]] <- cast_nullable_integer(args[["classes"]])
   args[["enable_output_logs"]] <- cast_nullable_logical(args[["enable_output_logs"]])
   args[["output_logs_path"]] <- cast_nullable_string(args[["output_logs_path"]])
-  args[["target_col"]] <- cast_nullable_string(args[["target_col"]])
   args[["validation_split"]] <- cast_nullable_double(args[["validation_split"]])
   args[["verbose"]] <- cast_nullable_string(args[["verbose"]])
   args

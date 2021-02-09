@@ -41,28 +41,26 @@ teardown({
   rm(test_data, envir = .GlobalEnv)
 })
 
-# TODO: there is a defect in Spark NLP 2.7.2 in the label_col and target_col parameters
+# NO GETTER FOR REQUIRED PARAM labelCol
 # test_that("assertion_dl param setting", {
 #   test_args <- list(
 #     input_cols = c("string1", "string2", "string3"),
 #     output_col = "string1",
 #     graph_folder = "/tmp",
 #     config_proto_bytes = c(1, 2),
-#     label_column = "string1",
+#     #label_column = "string1", # no getter
 #     batch_size = 100,
 #     epochs = 5,
-#     learning_rate = 0.01,
+#     #learning_rate = 0.01, # float
 #     dropout = 0.5,
-#     max_sent_len = 10,
+#     #max_sent_len = 10, # no getter
 #     start_col = "string1",
 #     end_col = "string1",
 #     chunk_col = "string1",
-#     classes = 6,
 #     enable_output_logs = TRUE,
 #     output_logs_path = "string1",
-#     target_col = "string1",
 #     validation_split = 0.2,
-#     verbose = "Epochs"
+#     # verbose = "Epochs" # enum type
 #   )
 # 
 #   test_param_setting(sc, nlp_assertion_dl, test_args)
@@ -74,7 +72,7 @@ test_that("nlp_assertion_dl spark_connection", {
                                      learning_rate = 0.001, epochs = 50, validation_split = 0.2,
                                      start_col = "start", end_col = "end", max_sent_len = 250,
                                      enable_output_logs = TRUE, output_logs_path = "training_logs",
-                                     classes = 6, graph_folder = here::here("tests", "testthat", "tf_graphs"))
+                                     graph_folder = here::here("tests", "testthat", "tf_graphs"))
   fit_model <- ml_fit(test_annotator, train_data)
   transformed_data <- ml_transform(fit_model, train_data)
   expect_true("assertion" %in% colnames(transformed_data))
@@ -88,7 +86,7 @@ test_that("nlp_assertion_dl ml_pipeline", {
                                      learning_rate = 0.001, epochs = 50, validation_split = 0.2,
                                      start_col = "start", end_col = "end", max_sent_len = 250,
                                      enable_output_logs = TRUE, output_logs_path = "training_logs",
-                                     classes = 6, graph_folder = here::here("tests", "testthat", "tf_graphs"))
+                                     graph_folder = here::here("tests", "testthat", "tf_graphs"))
   transformed_data <- ml_fit_and_transform(test_annotator, train_data)
   expect_true("assertion" %in% colnames(transformed_data))
 })
@@ -99,7 +97,7 @@ test_that("nlp_assertion_dl tbl_spark", {
                                      learning_rate = 0.001, epochs = 50, validation_split = 0.2,
                                      start_col = "start", end_col = "end", max_sent_len = 250,
                                      enable_output_logs = TRUE, output_logs_path = "training_logs",
-                                     classes = 6, graph_folder = here::here("tests", "testthat", "tf_graphs"))
+                                     graph_folder = here::here("tests", "testthat", "tf_graphs"))
 
   expect_true("assertion" %in% colnames(transformed_data))
 })
@@ -109,7 +107,7 @@ test_that("nlp_assertion_dl pretrained", {
                                        name = "assertion_dl", remote_loc = "clinical/models")
   transformed_data <- ml_transform(model, test_data)
   expect_true("assertion" %in% colnames(transformed_data))
-  
+
   expect_true(inherits(model, "nlp_assertion_dl_model"))
 })
 
