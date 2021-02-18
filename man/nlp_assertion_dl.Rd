@@ -19,10 +19,8 @@ nlp_assertion_dl(
   start_col = NULL,
   end_col = NULL,
   chunk_col = NULL,
-  classes = NULL,
   enable_output_logs = NULL,
   output_logs_path = NULL,
-  target_col = NULL,
   validation_split = NULL,
   verbose = NULL,
   uid = random_string("assertion_dl_")
@@ -57,13 +55,9 @@ nlp_assertion_dl(
 
 \item{chunk_col}{the name of the column containing the chunks}
 
-\item{classes}{number of classes of assertion}
-
 \item{enable_output_logs}{Whether to output to annotators log folder}
 
 \item{output_logs_path}{path for the output logs to go}
-
-\item{target_col}{the name of the column containing the target text}
 
 \item{validation_split}{Choose the proportion of training dataset to be validated against the model on each Epoch.}
 
