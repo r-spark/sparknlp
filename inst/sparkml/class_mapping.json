@@ -25,6 +25,7 @@
   "com.johnsnowlabs.nlp.annotators.TextMatcherModel": "nlp_text_matcher_model",
   "com.johnsnowlabs.nlp.annotators.Tokenizer": "nlp_tokenizer",
   "com.johnsnowlabs.nlp.annotators.TokenizerModel": "nlp_tokenizer_model",
+  "com.johnsnowlabs.nlp.annotators.chunker.ChunkFilterer": "nlp_chunk_filterer",
   "com.johnsnowlabs.nlp.annotators.classifier.dl.ClassifierDLApproach": "nlp_classifier_dl",
   "com.johnsnowlabs.nlp.annotators.classifier.dl.ClassifierDLModel": "nlp_classifier_dl",
   "com.johnsnowlabs.nlp.annotators.classifier.dl.MultiClassifierDLApproach": "nlp_multi_classifier_dl",
