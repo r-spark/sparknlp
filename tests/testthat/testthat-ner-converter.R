@@ -27,7 +27,10 @@ teardown({
 test_that("ner_converter param setting", {
   test_args <- list(
     input_cols = c("string1", "string2", "string3"),
-    output_col = "string1"
+    output_col = "string1",
+    #white_list = c("string1", "string2"), # no getter
+    #preserve_position = TRUE # no getter
+    lazy_annotator = FALSE
   )
 
   test_param_setting(sc, nlp_ner_converter, test_args)

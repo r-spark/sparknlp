@@ -139,6 +139,7 @@
   "positiveMultiplier": "positive_multiplier",
   "prefixPattern": "prefix_pattern",
   "prefixes": "prefixes",
+  "preservePosition": "preserve_position",
   "pruneCorpus": "prune_corpus",
   "randomSeed": "random_seed",
   "readAs": "read_as",

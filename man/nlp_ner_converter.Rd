@@ -9,6 +9,8 @@ nlp_ner_converter(
   input_cols,
   output_col,
   white_list = NULL,
+  preserve_position = NULL,
+  lazy_annotator = NULL,
   uid = random_string("ner_converter_")
 )
 }
@@ -19,7 +21,14 @@ nlp_ner_converter(
 
 \item{output_col}{Output column. String.}
 
-\item{white_list}{If defined, list of entities to process. The rest will be ignored. Do not include IOB prefix on labels"}
+\item{white_list}{If defined, list of entities to process. The rest will be ignored.
+Do not include IOB prefix on labels"}
+
+\item{preserve_position}{Whether to preserve the original position of the tokens
+in the original document or use the modified tokens}
+
+\item{lazy_annotator}{allows annotators to stand idle in the Pipeline and do nothing.
+Can be called by other Annotators in a RecursivePipeline}
 
 \item{uid}{A character string used to uniquely identify the ML transformer.}
 }
