@@ -35,6 +35,7 @@
   "com.johnsnowlabs.nlp.annotators.keyword.yake.YakeModel": "nlp_yake_model",
   "com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL": "nlp_language_detector_dl",
   "com.johnsnowlabs.nlp.annotators.ner.NerChunker": "nlp_ner_chunker",
+  "com.johnsnowlabs.nlp.annotators.ner.NerConverter": "nlp_ner_converter",
   "com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfApproach": "nlp_ner_crf",
   "com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfModel": "nlp_ner_crf_model",
   "com.johnsnowlabs.nlp.annotators.ner.dl.NerDLApproach": "nlp_ner_dl",
