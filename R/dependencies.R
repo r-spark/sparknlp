@@ -1,4 +1,4 @@
-spark_nlp_version <- "2.7.3"
+spark_nlp_version <- "2.7.5"
 
 spark_dependencies <- function(spark_version, scala_version, ...) {
   secretCode <- Sys.getenv("SPARK_NLP_SECRET_CODE", unset = NA)
