@@ -41,6 +41,12 @@ The `examples` directory structure here follows the notebook examples found at
 Note that not all the Jupyter notebooks found there have been ported yet, but all functionality still exists in the 
 package.
 
+# GPU usage
+John Snow Labs does provide GPU enabled versions of the library jars. If you would like
+to use these jars set the environment variable `SPARK_NLP_GPU` to "TRUE". If this 
+is not set or is set to something that R doesn't treat as TRUE using `as.logical` then
+the regular CPU library will be used.
+
 # Licensed models and annotators
 If you have purchased a license to the licensed models and annotators, first follow the 
 normal steps in [Spark NLP for Healthcare Getting Started](https://nlp.johnsnowlabs.com/docs/en/licensed_install#install-spark-nlp-for-healthcare).
