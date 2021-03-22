@@ -75,6 +75,8 @@ nlp_assertion_dl.spark_connection <- function(x, input_cols, output_col,
 
   annotator <- new_nlp_assertion_dl(jobj)
   
+  sc <- spark_connection(x)
+  
   if (!is.null(args[["verbose"]])) {
     verbose_level <- invoke_static(sc, "com.johnsnowlabs.nlp.annotators.ner.Verbose", "withName", args[["verbose"]])
     annotator <- nlp_set_param(annotator, "verbose", verbose_level)
