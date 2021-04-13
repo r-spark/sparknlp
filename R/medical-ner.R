@@ -69,7 +69,7 @@ nlp_medical_ner.spark_connection <- function(x, input_cols, output_col,
   validator_nlp_medical_ner()
 
   jobj <- sparklyr::spark_pipeline_stage(
-    x, "com.johnsnowlabs.nlp.annotators.ner.MedicalNerModel",
+    x, "com.johnsnowlabs.nlp.annotators.ner.MedicalNerApproach",
     input_cols = args[["input_cols"]],
     output_col = args[["output_col"]],
     uid = args[["uid"]]
@@ -86,23 +86,25 @@ nlp_medical_ner.spark_connection <- function(x, input_cols, output_col,
     sparklyr::jobj_set_param("setOutputLogsPath", args[["output_logs_path"]]) %>% 
     sparklyr::jobj_set_param("setEnableMemoryOptimizer", args[["enable_memory_optimizer"]])
   
+  annotator <- new_nlp_medical_ner(jobj)
+  
   if (!is.null(args[["lr"]])) {
-    jobj <- sparklyr::invoke_static(x, "sparknlp.Utils", "setNerLrParam", jobj, args[["lr"]])
+    annotator <- nlp_set_param(annotator, "lr", args[["lr"]])
   }
 
   if (!is.null(args[["po"]])) {
-    jobj <- sparklyr::invoke_static(x, "sparknlp.Utils", "setNerPoParam", jobj, args[["po"]])
+    annotator <- nlp_set_param(annotator, "po", args[["po"]])
   }
 
   if (!is.null(args[["dropout"]])) {
-    jobj <- sparklyr::invoke_static(x, "sparknlp.Utils", "setNerDropoutParam", jobj, args[["dropout"]])
+    annotator <- nlp_set_param(annotator, "dropout", args[["dropout"]])
   }
 
   if (!is.null(args[["validation_split"]])) {
-    jobj <- sparklyr::invoke_static(x, "sparknlp.Utils", "setNerValidationSplitParam", jobj, args[["validation_split"]])
+    annotator <- nlp_set_param(annotator, "validation_split", args[["validation_split"]])
   }
 
-  new_nlp_medical_ner(jobj)
+  return(annotator)
 }
 
 nlp_float_params.nlp_medical_ner <- function(x) {
@@ -110,7 +112,7 @@ nlp_float_params.nlp_medical_ner <- function(x) {
 }
 
 
-nlp_float_params.nlp_medical_ner <- function(x) {
+nlp_float_params.nlp_medical_ner_model <- function(x) {
   return(c("min_probability"))
 }
 
