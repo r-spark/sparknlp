@@ -14,6 +14,7 @@ setup({
 
   assign("sc", sc, envir = parent.frame())
   assign("pipeline", pipeline, envir = parent.frame())
+  assign("text_tbl", text_tbl, envir = parent.frame())
   assign("test_data", test_data, envir = parent.frame())
 })
 
@@ -21,6 +22,7 @@ teardown({
   spark_disconnect(sc)
   rm(sc, envir = .GlobalEnv)
   rm(pipeline, envir = .GlobalEnv)
+  rm(text_tbl, envir = .GlobalEnv)
   rm(test_data, envir = .GlobalEnv)
 })
 
@@ -44,7 +46,7 @@ test_that("nlp_ner_converter spark_connection", {
 
 test_that("nlp_ner_converter ml_pipeline", {
   test_annotator <- nlp_ner_converter(pipeline, input_cols = c("document","token","ner"), output_col = "ner_span")
-  transformed_data <- ml_fit_and_transform(test_annotator, test_data)
+  transformed_data <- ml_fit_and_transform(test_annotator, text_tbl)
   expect_true("ner_span" %in% colnames(transformed_data))
 })
 

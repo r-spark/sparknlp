@@ -67,6 +67,7 @@
   "finalRate": "final_learning_rate",
   "frequencyThreshold": "frequency_threshold",
   "graphFolder": "graph_folder",
+  "greedyMode": "greedy_mode",
   "idCol": "id_col",
   "impossiblePenultimates": "impossible_penultimates",
   "importantFeatureRatio": "important_feature_ratio",
