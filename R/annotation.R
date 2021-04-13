@@ -62,6 +62,26 @@ print.nlp_annotation <- function(x, ...) {
   print(result)
 }
 
+#' @export
+as_tibble.nlp_annotation <- function(x) {
+  tibble::tibble(annotatorType = x$annotatorType,
+                 begin = x$begin,
+                 end = x$end,
+                 metadata = list(x$metadata),
+                 result = x$result,
+                 embeddings = ifelse(is.null(x$embeddings), NA, list(x$embeddings)))
+}
+
+#' @export
+as.data.frame.nlp_annotation <- function(x) {
+  tibble::tibble(annotatorType = x$annotatorType,
+                 begin = x$begin,
+                 end = x$end,
+                 metadata = I(list(x$metadata)),
+                 result = x$result,
+                 embeddings = ifelse(is.null(x$embeddings), NA, I(list(x$embeddings))))
+}
+
 new_nlp_annotation <- function(annotatorType, begin, end, metadata, result, embeddings) {
     obj <- list(annotatorType = annotatorType, 
                 begin = begin, 
