@@ -11,7 +11,6 @@ nlp_bert_embeddings_pretrained(
   case_sensitive = NULL,
   batch_size = NULL,
   dimension = NULL,
-  pooling_layer = NULL,
   lazy_annotator = NULL,
   max_sentence_length = NULL,
   storage_ref = NULL,
@@ -32,8 +31,6 @@ nlp_bert_embeddings_pretrained(
 \item{batch_size}{batch size}
 
 \item{dimension}{the embedding dimension}
-
-\item{pooling_layer}{0, -1 or -2}
 
 \item{lazy_annotator}{use as a lazy annotator or not}
 

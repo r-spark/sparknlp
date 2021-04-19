@@ -7,13 +7,12 @@
 #' @param case_sensitive whether to treat the tokens as case insensitive when looking up their embedding
 #' @param batch_size batch size
 #' @param dimension the embedding dimension
-#' @param pooling_layer 0, -1 or -2
 #' @param lazy_annotator use as a lazy annotator or not
 #' @param max_sentence_length set the maximum sentence length
 #' @param storage_ref storage reference name
 #' @export
 nlp_bert_embeddings_pretrained <- function(sc, input_cols, output_col, case_sensitive = NULL,
-                                           batch_size = NULL, dimension = NULL, pooling_layer = NULL,
+                                           batch_size = NULL, dimension = NULL,
                                            lazy_annotator = NULL, max_sentence_length = NULL, storage_ref = NULL,
                                       name = NULL, lang = NULL, remote_loc = NULL) {
   args <- list(
@@ -22,7 +21,6 @@ nlp_bert_embeddings_pretrained <- function(sc, input_cols, output_col, case_sens
     case_sensitive = case_sensitive,
     batch_size = batch_size,
     dimension = dimension,
-    pooling_layer = pooling_layer,
     lazy_annotator = lazy_annotator,
     max_sentence_length = max_sentence_length,
     storage_ref = storage_ref
@@ -37,7 +35,6 @@ nlp_bert_embeddings_pretrained <- function(sc, input_cols, output_col, case_sens
     sparklyr::jobj_set_param("setCaseSensitive", args[["case_sensitive"]]) %>% 
     sparklyr::jobj_set_param("setBatchSize", args[["batch_size"]]) %>% 
     sparklyr::jobj_set_param("setDimension", args[["dimension"]]) %>% 
-    sparklyr::jobj_set_param("setPoolingLayer", args[["pooling_layer"]]) %>% 
     sparklyr::jobj_set_param("setLazyAnnotator", args[["lazy_annotator"]]) %>% 
     sparklyr::jobj_set_param("setMaxSentenceLength", args[["max_sentence_length"]]) %>% 
     sparklyr::jobj_set_param("setStorageRef", args[["storage_ref"]])
@@ -52,7 +49,6 @@ validator_nlp_bert_embeddings <- function(args) {
   args[["case_sensitive"]] <- cast_nullable_logical(args[["case_sensitive"]])
   args[["batch_size"]] <- cast_nullable_integer(args[["batch_size"]])
   args[["dimension"]] <- cast_nullable_integer(args[["dimension"]])
-  args[["pooling_layer"]] <- cast_nullable_integer(args[["pooling_layer"]])
   args[["lazy_annotator"]] <- cast_nullable_logical(args[["lazy_annotator"]])
   args[["max_sentence_length"]] <- cast_nullable_integer(args[["max_sentence_length"]])
   args[["storage_ref"]] <- cast_nullable_string(args[["storage_ref"]])
