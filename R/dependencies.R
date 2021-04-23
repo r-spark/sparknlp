@@ -1,8 +1,19 @@
-spark_nlp_version <- "3.0.2"
-spark_jsl_version <- ""
+spark_nlp_version <- "3.0.1"
+
+spark_jsl_version <- function() {
+  secretCode <- Sys.getenv("SPARK_NLP_SECRET_CODE", unset = NA)
+
+  if (!is.na(secretCode)) {
+    jsl_version <- strsplit(secretCode, "-")[[1]][1]
+    return(jsl_version)    
+  } else {
+    return(NA)
+  }
+}
 
 spark_dependencies <- function(spark_version, scala_version, ...) {
-  secretCode <- Sys.getenv("SPARK_NLP_SECRET_CODE", unset = NA)
+  #secretCode <- Sys.getenv("SPARK_NLP_SECRET_CODE", unset = NA)
+  jsl_version <- spark_jsl_version()
   gpu <- as.logical(Sys.getenv("SPARK_NLP_GPU", unset = FALSE))
   
   if (!is.na(gpu) & gpu) {
@@ -24,7 +35,7 @@ spark_dependencies <- function(spark_version, scala_version, ...) {
   }
 
   # Determine if the JSL license is setup
-  if (is.na(secretCode)) {
+  if (is.na(jsl_version)) {
     sparklyr::spark_dependency(
       jars = c(
         system.file(
@@ -37,8 +48,7 @@ spark_dependencies <- function(spark_version, scala_version, ...) {
       )
     )    
   } else {
-    jsl_version <- strsplit(secretCode, "-")[[1]][1]
-    spark_jsl_version <- jsl_version
+    secretCode <- Sys.getenv("SPARK_NLP_SECRET_CODE")
     jsl_url <- paste0("https://pypi.johnsnowlabs.com/", secretCode, "/spark-nlp-jsl-", jsl_version, ".jar")
     
     sparklyr::spark_dependency(
