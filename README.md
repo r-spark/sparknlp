@@ -33,6 +33,13 @@ The following features/annotators have not been implemented yet
 * AssertionFilterer
 * MedicalNerModel
 
+# Version Compatibility
+
+| R package version | Spark NLP version |
+|-------------------|-------------------|
+| 0.2.0 | 3.0.1 |
+
+
 # Usage
 There are a lot of examples in R notebooks inside the `examples` directory. I recommended starting with the 
 notebooks in [tutorials/certification_trainings](https://github.com/r-spark/sparknlp/tree/master/examples/tutorials/certification_trainings).
@@ -41,6 +48,8 @@ The `examples` directory structure here follows the notebook examples found at
 [spark-nlp-workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop).
 Note that not all the Jupyter notebooks found there have been ported yet, but all functionality still exists in the 
 package.
+
+
 
 # GPU usage
 John Snow Labs does provide GPU enabled versions of the library jars. If you would like
