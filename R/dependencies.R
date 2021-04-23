@@ -1,4 +1,5 @@
-spark_nlp_version <- "3.0.1"
+spark_nlp_version <- "3.0.2"
+spark_jsl_version <- ""
 
 spark_dependencies <- function(spark_version, scala_version, ...) {
   secretCode <- Sys.getenv("SPARK_NLP_SECRET_CODE", unset = NA)
@@ -37,6 +38,7 @@ spark_dependencies <- function(spark_version, scala_version, ...) {
     )    
   } else {
     jsl_version <- strsplit(secretCode, "-")[[1]][1]
+    spark_jsl_version <- jsl_version
     jsl_url <- paste0("https://pypi.johnsnowlabs.com/", secretCode, "/spark-nlp-jsl-", jsl_version, ".jar")
     
     sparklyr::spark_dependency(
