@@ -44,8 +44,8 @@ The following features/annotators have not been implemented yet
 
 | R package version | Spark NLP version |
 |-------------------|-------------------|
-| 0.2.0 | 3.0.1 |
-| 0.3.0 | 3.0.2 |
+| 0.2.x | 3.0.1 |
+| 0.3.x | 3.0.2 |
 
 
 # Usage

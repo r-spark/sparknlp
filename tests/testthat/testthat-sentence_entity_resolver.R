@@ -16,12 +16,14 @@ setup({
   assign("sc", sc, envir = parent.frame())
   assign("pipeline", pipeline, envir = parent.frame())
   assign("test_data", test_data, envir = parent.frame())
+  assign("train_data", train_data, envir = parent.frame())
 })
 
 teardown({
   rm(sc, envir = .GlobalEnv)
   rm(pipeline, envir = .GlobalEnv)
   rm(test_data, envir = .GlobalEnv)
+  rm(train_data, envir = .GlobalEnv)
 })
 
 test_that("sentence_entity_resolver param setting", {
@@ -42,7 +44,7 @@ test_that("sentence_entity_resolver param setting", {
 })
 
 test_that("nlp_sentence_entity_resolver spark_connection", {
-  test_annotator <- nlp_sentence_entity_resolver(sc, input_cols = c("sentence_embeddings"), 
+  test_annotator <- nlp_sentence_entity_resolver(sc, input_cols = c("sentence_embeddings"),
                                                  output_col = "prediction", label_column = "conceptId")
   fit_model <- ml_fit(test_annotator, test_data)
   transformed_data <- ml_transform(fit_model, test_data)
@@ -52,8 +54,11 @@ test_that("nlp_sentence_entity_resolver spark_connection", {
 })
 
 test_that("nlp_sentence_entity_resolver ml_pipeline", {
-  test_annotator <- nlp_sentence_entity_resolver(pipeline, input_cols = c("sentence_embeddings"), output_col = "prediction", label_column = "conceptId")
-  transformed_data <- ml_fit_and_transform(test_annotator, test_data)
+  test_annotator <- nlp_sentence_entity_resolver(pipeline, 
+                                                 input_cols = c("sentence_embeddings"), 
+                                                 output_col = "prediction", 
+                                                 label_column = "conceptId")
+  transformed_data <- ml_fit_and_transform(test_annotator, train_data)
   expect_true("prediction" %in% colnames(transformed_data))
 })
 
@@ -63,11 +68,11 @@ test_that("nlp_sentence_entity_resolver tbl_spark", {
 })
 
 test_that("nlp_sentence_entity_resolver pretrained", {
-  model <- nlp_sentence_entity_resolver_pretrained(sc, input_cols = c("sentence_embeddings"), 
+  model <- nlp_sentence_entity_resolver_pretrained(sc, input_cols = c("sentence_embeddings"),
                                                 output_col = "recognized",
                                                 name = "sbiobertresolve_icd10cm", lang = "en", remote_loc = "clinical/models")
   transformed_data <- ml_transform(model, test_data)
   expect_true("recognized" %in% colnames(transformed_data))
-  
+
   expect_true(inherits(model, "nlp_sentence_entity_resolver_model"))
 })
