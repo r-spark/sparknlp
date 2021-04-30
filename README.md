@@ -55,14 +55,17 @@ is created with `spark_connect`. This is usually the latest version.
 
 ### Default Spark NLP versions
 
-| R package version | Spark NLP version |
+| R package version | Default Spark NLP version |
 |-------------------|-------------------|
 | 0.2.x | 3.0.1 |
 | 0.3.x | 3.0.2 |
 
 The function `nlp_version()`
 will show you the version that will be used. If you wish to change the version call 
-the function `set_nlp_version()` before connecting to Spark.
+the function `set_nlp_version()` before connecting to Spark. This will only change the
+version of the Spark NLP jar that is loaded by Spark. There could be some code changes
+that won't work with older versions of the library. If that happens, the best thing to
+do would be to use an older version of this package.
 
 *Note: the version used when the licensed healthcare library is enabled is determined
 separately based on the secret code provided by John Snow Labs. See the section Licensed
