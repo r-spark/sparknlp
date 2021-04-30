@@ -1,4 +1,4 @@
-spark_nlp_version_default <- "3.0.2"
+spark_nlp_version <- "3.0.2"
 
 spark_jsl_version <- function() {
   secretCode <- Sys.getenv("SPARK_NLP_SECRET_CODE", unset = NA)
@@ -11,16 +11,7 @@ spark_jsl_version <- function() {
   }
 }
 
-get_spark_nlp_version <- function() {
-  if (exists("spark_nlp_version", envir = parent.frame())) {
-    return(get("spark_nlp_version", envir = parent.frame()))
-  } else {
-    return(spark_nlp_version_default)
-  }
-}
-
 spark_dependencies <- function(spark_version, scala_version, ...) {
-  nlp_version <- get_spark_nlp_version()
   jsl_version <- spark_jsl_version()
   gpu <- as.logical(Sys.getenv("SPARK_NLP_GPU", unset = FALSE))
   
@@ -39,7 +30,7 @@ spark_dependencies <- function(spark_version, scala_version, ...) {
     artifact_id <- sprintf("spark-nlp%s_%s", gpu, scala_version)
   } else {
     stop(sprintf("Incompatible versions of Spark (%s), Scala (%s) and Spark NLP (%s)!", 
-                 spark_version, scala_version, nlp_version))
+                 spark_version, scala_version, spark_nlp_version))
   }
 
   # Determine if the JSL license is setup
@@ -52,7 +43,7 @@ spark_dependencies <- function(spark_version, scala_version, ...) {
         )
       ),
       packages = c(
-        sprintf("com.johnsnowlabs.nlp:%s:%s", artifact_id, nlp_version)
+        sprintf("com.johnsnowlabs.nlp:%s:%s", artifact_id, spark_nlp_version)
       )
     )    
   } else {
@@ -68,7 +59,7 @@ spark_dependencies <- function(spark_version, scala_version, ...) {
         jsl_url
       ),
       packages = c(
-        sprintf("com.johnsnowlabs.nlp:%s:%s", artifact_id, nlp_version)
+        sprintf("com.johnsnowlabs.nlp:%s:%s", artifact_id, spark_nlp_version)
       )
     )  
   }

@@ -27,7 +27,7 @@ nlp_set_output_col <- function(jobj, output_col) {
 #' @return the version of the Spark NLP library in use
 #' @export
 nlp_version <- function() {
-  return(list(spark_nlp_version = get_spark_nlp_version(), 
+  return(list(spark_nlp_version = spark_nlp_version, 
               spark_jsl_version = spark_jsl_version()))
 }
 
@@ -39,7 +39,7 @@ nlp_version <- function() {
 #' @return NULL
 #' @export
 set_nlp_version <- function(version) {
-  assign("spark_nlp_version", version, envir = parent.frame())
+  assignInMyNamespace("spark_nlp_version", version)
 }
 
 #' Set a parameter on an NLP model object

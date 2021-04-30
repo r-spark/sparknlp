@@ -40,14 +40,6 @@ The following features/annotators have not been implemented yet
 * StructuredDeIdentification
 * NerChunker
 
-# Version Compatibility
-
-| R package version | Spark NLP version |
-|-------------------|-------------------|
-| 0.2.x | 3.0.1 |
-| 0.3.x | 3.0.2 |
-
-
 # Usage
 There are a lot of examples in R notebooks inside the `examples` directory. I recommended starting with the 
 notebooks in [tutorials/certification_trainings](https://github.com/r-spark/sparknlp/tree/master/examples/tutorials/certification_trainings).
@@ -57,6 +49,24 @@ The `examples` directory structure here follows the notebook examples found at
 Note that not all the Jupyter notebooks found there have been ported yet, but all functionality still exists in the 
 package.
 
+## Spark NLP version
+The package has a default Spark NLP version that will be used when a Spark Session 
+is created with `spark_connect`. This is usually the latest version. 
+
+### Default Spark NLP versions
+
+| R package version | Spark NLP version |
+|-------------------|-------------------|
+| 0.2.x | 3.0.1 |
+| 0.3.x | 3.0.2 |
+
+The function `nlp_version()`
+will show you the version that will be used. If you wish to change the version call 
+the function `set_nlp_version()` before connecting to Spark.
+
+*Note: the version used when the licensed healthcare library is enabled is determined
+separately based on the secret code provided by John Snow Labs. See the section Licensed
+models and annotators below for more information.*
 
 ## GPU usage
 John Snow Labs does provide GPU enabled versions of the library jars. If you would like
