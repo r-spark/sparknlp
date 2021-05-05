@@ -44,7 +44,26 @@ nlp_pretrained_pipeline.tbl_spark <- function(x, download_name, lang = "en", sou
 }
 
 new_nlp_pretrained_pipeline <- function(jobj) {
-  structure(list(.jobj = jobj), class = c("nlp_pretrained_pipeline", "ml_transformer", "ml_pipeline_model"))
+  structure(list(.jobj = jobj), class = c("nlp_pretrained_pipeline", "ml_transformer"))
+}
+
+#' Get the PipelineModel from a Spark NLP pretrained pipeline
+#' 
+#' Spark NLP pretrained pipelines are not Spark ML pipeline models. This function
+#' will retrieve the ML pipeline model from the pretrained pipeline object.
+#' 
+#' @param pretrained_pipeline the Spark NLP PretrainedPipeline object
+#' @return the Spark ML pipeline model from the input
+#' 
+#' @export
+as_pipeline_model <- function(pipeline) {
+  UseMethod("as_pipeline_model")
+}
+
+#' @export
+as_pipeline_model.nlp_pretrained_pipeline <- function(pretrained_pipeline) {
+  pm <- sparklyr:::new_ml_pipeline_model(invoke(pretrained_pipeline$.jobj, "model"))
+  return(pm)
 }
 
 #' @export

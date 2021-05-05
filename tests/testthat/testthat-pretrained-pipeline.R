@@ -27,3 +27,9 @@ test_that("nlp_pretrained_pipeline annotate", {
   annotations <- nlp_annotate(pipeline, text_tbl, column = "text")
   expect_true("entities" %in% colnames(annotations))
 })
+
+test_that("as_pipeline_model().nlp_pretrained_pipeline", {
+  pipeline <- nlp_pretrained_pipeline(sc, "recognize_entities_dl")
+  pm <- as_pipeline_model(pipeline)
+  expect_s3_class(pm, "ml_pipeline_model")
+})
