@@ -1,8 +1,8 @@
-#' Spark NLP DateMatcher
+#' Spark NLP MultiDateMatcher
 #'
 #' Spark ML transformer that reads from different forms of date and time expressions and converts them to a provided 
-#' date format. Extracts only ONE date per sentence. Use with sentence detector for more matches.
-#' See \url{https://nlp.johnsnowlabs.com/docs/en/annotators#datematcher}
+#' date format. E
+#' See \url{https://nlp.johnsnowlabs.com/docs/en/annotators#multidatematcher}
 #' 
 #' @template roxlate-nlp-algo
 #' @template roxlate-inputs-output-params
@@ -17,18 +17,18 @@
 #' @param read_month_first Whether to interpret dates as MM/DD/YYYY instead of DD/MM/YYYY (Default: true)
 #' 
 #' @export
-nlp_date_matcher <- function(x, input_cols, output_col,
+nlp_multi_date_matcher <- function(x, input_cols, output_col,
                              anchor_date_day = NULL, anchor_date_month = NULL, anchor_date_year = NULL,
                              default_day_when_missing = NULL, read_month_first = NULL, format = NULL,
-                             uid = random_string("date_matcher_")) {
-  UseMethod("nlp_date_matcher")
+                             uid = random_string("multi_date_matcher_")) {
+  UseMethod("nlp_multi_date_matcher")
 }
 
 #' @export
-nlp_date_matcher.spark_connection <- function(x, input_cols, output_col,
+nlp_multi_date_matcher.spark_connection <- function(x, input_cols, output_col,
                                               anchor_date_day = NULL, anchor_date_month = NULL, anchor_date_year = NULL,
                                               default_day_when_missing = NULL, read_month_first = NULL, format = NULL,
-                                              uid = random_string("date_matcher_")) {
+                                              uid = random_string("multi_date_matcher_")) {
   args <- list(
     input_cols = input_cols,
     output_col = output_col,
@@ -43,7 +43,7 @@ nlp_date_matcher.spark_connection <- function(x, input_cols, output_col,
   validator_nlp_date_matcher()
 
   jobj <- sparklyr::spark_pipeline_stage(
-    x, "com.johnsnowlabs.nlp.annotators.DateMatcher",
+    x, "com.johnsnowlabs.nlp.annotators.MultiDateMatcher",
     input_cols = args[["input_cols"]],
     output_col = args[["output_col"]],
     uid = args[["uid"]]
@@ -59,12 +59,12 @@ nlp_date_matcher.spark_connection <- function(x, input_cols, output_col,
 }
 
 #' @export
-nlp_date_matcher.ml_pipeline <- function(x, input_cols, output_col,
+nlp_multi_date_matcher.ml_pipeline <- function(x, input_cols, output_col,
                                          anchor_date_day = NULL, anchor_date_month = NULL, anchor_date_year = NULL,
                                          default_day_when_missing = NULL, read_month_first = NULL, format = NULL,
-                                         uid = random_string("date_matcher_")) {
+                                         uid = random_string("multi_date_matcher_")) {
 
-  stage <- nlp_date_matcher.spark_connection(
+  stage <- nlp_multi_date_matcher.spark_connection(
     x = sparklyr::spark_connection(x),
     input_cols = input_cols,
     output_col = output_col,
@@ -81,11 +81,11 @@ nlp_date_matcher.ml_pipeline <- function(x, input_cols, output_col,
 }
 
 #' @export
-nlp_date_matcher.tbl_spark <- function(x, input_cols, output_col,
+nlp_multi_date_matcher.tbl_spark <- function(x, input_cols, output_col,
                                        anchor_date_day = NULL, anchor_date_month = NULL, anchor_date_year = NULL,
                                        default_day_when_missing = NULL, read_month_first = NULL, format = NULL,
-                                       uid = random_string("date_matcher_")) {
-  stage <- nlp_date_matcher.spark_connection(
+                                       uid = random_string("multi_date_matcher_")) {
+  stage <- nlp_multi_date_matcher.spark_connection(
     x = sparklyr::spark_connection(x),
     input_cols = input_cols,
     output_col = output_col,
@@ -101,7 +101,7 @@ nlp_date_matcher.tbl_spark <- function(x, input_cols, output_col,
   stage %>% sparklyr::ml_transform(x)
 }
 #' @import forge
-validator_nlp_date_matcher <- function(args) {
+validator_nlp_multi_date_matcher <- function(args) {
   args[["input_cols"]] <- cast_string_list(args[["input_cols"]])
   args[["output_col"]] <- cast_string(args[["output_col"]])
   args[["anchor_date_day"]] <- cast_nullable_integer(args[["anchor_date_day"]])
@@ -113,6 +113,6 @@ validator_nlp_date_matcher <- function(args) {
   args
 }
 
-new_nlp_date_matcher <- function(jobj) {
-  sparklyr::new_ml_transformer(jobj, class = "nlp_date_matcher")
+new_nlp_multi_date_matcher <- function(jobj) {
+  sparklyr::new_ml_transformer(jobj, class = "nlp_multi_date_matcher")
 }

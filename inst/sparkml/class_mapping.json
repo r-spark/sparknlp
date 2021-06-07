@@ -14,6 +14,7 @@
   "com.johnsnowlabs.nlp.annotators.DrugNormalizer": "nlp_drug_normalizer",
   "com.johnsnowlabs.nlp.annotators.Lemmatizer": "nlp_lemmatizer",
   "com.johnsnowlabs.nlp.annotators.LemmatizerModel": "nlp_lemmatizer_model",
+  "com.johnsnowlabs.nlp.annotators.MultiDateMatcher": "nlp_multi_date_matcher",
   "com.johnsnowlabs.nlp.annotators.NGramGenerator": "nlp_ngram_generator",
   "com.johnsnowlabs.nlp.annotators.Normalizer": "nlp_normalizer",
   "com.johnsnowlabs.nlp.annotators.NormalizerModel": "nlp_normalizer_model",
