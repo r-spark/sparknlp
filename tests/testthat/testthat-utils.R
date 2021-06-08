@@ -36,3 +36,13 @@ test_that("nlp_set_param", {
   expect_equal(newvalue, 0.8)
 })
 
+test_that("nlp_conll_read_dataset", {
+  conll_data <- nlp_conll_read_dataset(sc, here::here("tests", "testthat", "data", "eng.testa.conll"))
+  expect_true("text" %in% colnames(conll_data))
+})
+
+test_that("nlp_conllu_read_dataset", {
+  conllu_data <- nlp_conllu_read_dataset(sc, here::here("tests", "testthat", "data", "en.test.conllu"))
+  expect_true("text" %in% colnames(conllu_data))
+})
+

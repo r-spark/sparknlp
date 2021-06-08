@@ -168,6 +168,29 @@ nlp_conll_read_dataset <- function(sc, path, read_as = NULL, document_col = NULL
   sdf_register(invoke(conll, "readDataset", spark_session(sc), path, read_as))
 }
 
+#' Transform CoNLLU format text file to Spark dataframe
+#' 
+#' In order to train a Lemmatizer annotator, we need to get CoNLLU format data as a spark dataframe. 
+#' There is a component that does this for us: it reads a plain text file and transforms it to a spark dataset.
+#' See \url{https://nlp.johnsnowlabs.com/docs/en/annotators#conllu-dataset}. All the function arguments have defaults. 
+#' See \url{https://nlp.johnsnowlabs.com/api/index.html#com.johnsnowlabs.nlp.training.CoNLLU} for the defaults.
+#' 
+#' @param sc a Spark connection
+#' @param path path to the file to read
+#' @param read_as Can be LINE_BY_LINE or SPARK_DATASET, with options if latter is used (default LINE_BY_LINE)
+#' @export
+nlp_conllu_read_dataset <- function(sc, path, read_as = NULL, explode_sentences = NULL) {
+  model_class <- "com.johnsnowlabs.nlp.training.CoNLLU"
+  module <- invoke_static(sc, paste0(model_class, "$"), "MODULE$")
+  default_explode_sentences <- invoke(module, "apply$default$1")
+  
+  explode_sentences <- ifelse(is.null(explode_sentences), default_explode_sentences, explode_sentences)
+  conllu <- invoke_new(sc, model_class, explode_sentences)
+  default_read_as <- invoke(conllu, "readDataset$default$3")
+  read_as <- ifelse(is.null(read_as), default_read_as, read_as)
+  sdf_register(invoke(conllu, "readDataset", spark_session(sc), path, read_as))
+}
+
 #' PubTator Dataset
 #' 
 #' The PubTator format includes medical papers’ titles, abstracts, and tagged chunks 
