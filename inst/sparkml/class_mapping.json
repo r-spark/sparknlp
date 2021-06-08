@@ -53,6 +53,8 @@
   "com.johnsnowlabs.nlp.annotators.parser.typdep.TypedDependencyParserModel": "nlp_typed_dependency_parser_model",
   "com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronApproach": "nlp_perceptron",
   "com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel": "nlp_perceptron_model",  
+  "com.johnsnowlabs.nlp.annotators.re.RelationExtractionDLModel": "nlp_relation_extraction_dl",
+  "com.johnsnowlabs.nlp.annotators.re.RENerChunksFilter": "nlp_re_ner_chunks_filter",
   "com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector": "nlp_sentence_detector",
   "com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetector": "nlp_sentiment_detector",
   "com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentApproach": "nlp_vivekn_sentiment_detector",
