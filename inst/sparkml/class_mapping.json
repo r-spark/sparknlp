@@ -11,6 +11,8 @@
   "com.johnsnowlabs.nlp.annotators.Chunker": "nlp_chunker",
   "com.johnsnowlabs.nlp.annotators.DateMatcher": "nlp_date_matcher",
   "com.johnsnowlabs.nlp.annotators.DeepSentenceDetector": "nlp_deep_sentence_detector",
+  "com.johnsnowlabs.nlp.annotators.DocumentLogRegClassifierApproach": "nlp_document_logreg_classifier",
+  "com.johnsnowlabs.nlp.annotators.classification.DocumentLogRegClassifierModel": "nlp_document_logreg_classifier_model",
   "com.johnsnowlabs.nlp.annotators.DocumentNormalizer": "nlp_document_normalizer",
   "com.johnsnowlabs.nlp.annotators.DrugNormalizer": "nlp_drug_normalizer",
   "com.johnsnowlabs.nlp.annotators.Lemmatizer": "nlp_lemmatizer",
