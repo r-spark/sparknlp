@@ -9,7 +9,7 @@ nlp_re_ner_chunks_filter(
   input_cols,
   output_col,
   max_syntactic_distance = NULL,
-  relation_pairs = NULL,
+  relation_pairs,
   uid = random_string("re_ner_chunks_filter_")
 )
 }

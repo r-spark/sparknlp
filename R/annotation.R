@@ -1,6 +1,6 @@
-#' Spark NLP Annotation object
+#' Spark NLP S3 Annotation object
 #' 
-#' A Spark NLP annotation object has the following fields:
+#' A Spark NLP annotation S3 object has the following fields:
 #' * annotatorType: the type of annotation (String)
 #' * begin: the index of the first character under this annotation (integer)
 #' * end: the index after the last character under this annotation (integer)
@@ -10,9 +10,9 @@
 #' 
 #'  See \url{https://nlp.johnsnowlabs.com/docs/en/concepts#annotation}
 #'  
-#' @param x a spark_jobj or list
+#' @param x a spark_jobj that is an Annotation object or a named list
 #'  
-#' @return an nlp_annotation object
+#' @return a local nlp_annotation object
 #' 
 #' @exportClass nlp_annotation
 #' @export
@@ -92,3 +92,46 @@ new_nlp_annotation <- function(annotatorType, begin, end, metadata, result, embe
     class(obj) <- "nlp_annotation"
     return(obj)
 }
+
+
+#' Create a Spark NLP Annotation object inside of Spark
+#' 
+#' This S3 generic is used for a Spark NLP Annotation object that exists inside of
+#' a Spark session.
+#' 
+#' @seealso \url{https://nlp.johnsnowlabs.com/docs/en/concepts#annotation}
+#' 
+#' @param sc A \code{spark_connection}
+#' @param annotatorType the type of annotation (string)
+#' @param begin the index of the first character under this annotation (integer)
+#' @param end the index after the last character under this annotation (integer)
+#' @param metadata associated metadata for this annotation (named list)
+#' @param result the main output of the annotation (string)
+#' @param embeddings vector of embeddings (Array(Float)). Currently unimplemented.
+#' 
+#' @return the Spark NLP Annotation object
+#' 
+#' @export
+nlp_spark_annotation <- function(sc, annotatorType, begin, end, result, metadata, embeddings = NULL) {
+  annotatorType <- forge::cast_string(annotatorType)
+  begin <- forge::cast_integer(begin)
+  end <- forge::cast_integer(end)
+  result <- forge::cast_string(result)
+  #embeddings <- forge::cast_nullable_double_list(embeddings)
+
+  obj <- invoke_new(sc, "com.johnsnowlabs.nlp.Annotation", annotatorType, begin, end,
+                    result, list2env(metadata), NULL)
+  
+  structure(list(.jobj = obj), class ="nlp_spark_annotation")
+}
+
+#' @export
+spark_jobj.nlp_spark_annotation <- function(x) {
+  x$.jobj
+}
+
+#' @export
+print.nlp_spark_annotation <- function(x) {
+  print(x$.jobj)
+}
+

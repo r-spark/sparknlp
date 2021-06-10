@@ -2,18 +2,18 @@
 % Please edit documentation in R/annotation.R
 \name{nlp_annotation}
 \alias{nlp_annotation}
-\title{Spark NLP Annotation object}
+\title{Spark NLP S3 Annotation object}
 \usage{
 nlp_annotation(x)
 }
 \arguments{
-\item{x}{a spark_jobj or list}
+\item{x}{a spark_jobj that is an Annotation object or a named list}
 }
 \value{
-an nlp_annotation object
+a local nlp_annotation object
 }
 \description{
-A Spark NLP annotation object has the following fields:
+A Spark NLP annotation S3 object has the following fields:
 \itemize{
 \item annotatorType: the type of annotation (String)
 \item begin: the index of the first character under this annotation (integer)
