@@ -30,15 +30,10 @@ The following features/annotators have not been implemented yet
 
 ## Spark NLP
 * WordSegmenter
-* DocumentNormalizer
 
 ## Spark NLP for Healthcare
-* DocumentLogRegClassifier
-* DeIdentificator
-* RelationExtraction
-* RelationExtractionDL
+* DeIdentification
 * StructuredDeIdentification
-* NerChunker
 
 # Usage
 There are a lot of examples in R notebooks inside the `examples` directory. I recommended starting with the 
