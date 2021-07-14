@@ -19,11 +19,19 @@
 #' @param include_confidence whether to include confidence values (boolean)
 #' @param random_seed Random seed (integer)
 #' @param validation_split proportion of the data to use for validation (float)
-#' @param eval_log_extended ? (boolean)
+#' @param eval_log_extended whether logs for validation to be extended: it displays time and evaluation of each label. (boolean)
 #' @param enable_output_logs whether to enable the TensorFlow output logs (boolean)
 #' @param output_logs_path path for the output logs
 #' @param graph_folder folder path that contain external graph files
 #' @param enable_memory_optimizer allow training NerDLApproach on a dataset larger than the memory
+#' @param pretrained_model_path set the location of an already trained MedicalNerModel, which is used as a starting point for training the new model.
+#' @param override_existing_tags controls whether to override already learned tags when using a pretrained model to initialize the new model.
+#' @param tags_mapping a string list specifying how old tags are mapped to new ones. (e.g. c("B-PER,B-VIP", "I-PER,I-VIP"))
+#' @param test_dataset path to test dataset
+#' @param use_contrib whether to use contrib LSTM cells
+#' @param log_prefix a string prefix to be included in the logs
+#' @param include_all_confidence_scores whether to include confidence scores in annotation metadata
+#' @param graph_file Folder path that contain external graph files
 #' 
 #' @return When \code{x} is a \code{spark_connection} the function returns a NerDLApproach estimator.
 #' When \code{x} is a \code{ml_pipeline} the pipeline with the NerDLApproach added. When \code{x}
@@ -34,7 +42,9 @@ nlp_medical_ner <- function(x, input_cols, output_col,
                  label_col = NULL, max_epochs = NULL, lr = NULL, po = NULL, batch_size = NULL, dropout = NULL, 
                  verbose = NULL, include_confidence = NULL, random_seed = NULL, graph_folder = NULL,
                  validation_split = NULL, eval_log_extended = NULL, enable_output_logs = NULL, output_logs_path = NULL,
-                 enable_memory_optimizer = NULL,
+                 enable_memory_optimizer = NULL, pretrained_model_path = NULL, override_existing_tags = NULL,
+                 tags_mapping = NULL, test_dataset = NULL, use_contrib = NULL, log_prefix = NULL, include_all_confidence_scores = NULL,
+                 graph_file = NULL,
                  uid = random_string("medical_ner_")) {
   UseMethod("nlp_medical_ner")
 }
@@ -44,7 +54,9 @@ nlp_medical_ner.spark_connection <- function(x, input_cols, output_col,
                  label_col = NULL, max_epochs = NULL, lr = NULL, po = NULL, batch_size = NULL, dropout = NULL, 
                  verbose = NULL, include_confidence = NULL, random_seed = NULL, graph_folder = NULL,
                  validation_split = NULL, eval_log_extended = NULL, enable_output_logs = NULL, output_logs_path = NULL,
-                 enable_memory_optimizer = NULL,
+                 enable_memory_optimizer = NULL, pretrained_model_path = NULL, override_existing_tags = NULL,
+                 tags_mapping = NULL, test_dataset = NULL, use_contrib = NULL, log_prefix = NULL, include_all_confidence_scores = NULL,
+                 graph_file = NULL,
                  uid = random_string("medical_ner_")) {
   args <- list(
     input_cols = input_cols,
@@ -64,6 +76,14 @@ nlp_medical_ner.spark_connection <- function(x, input_cols, output_col,
     enable_output_logs = enable_output_logs,
     output_logs_path = output_logs_path,
     enable_memory_optimizer = enable_memory_optimizer,
+    pretrained_model_path = pretrained_model_path,
+    override_existing_tags = override_existing_tags,
+    tags_mapping = tags_mapping,
+    test_dataset = test_dataset,
+    use_contrib = use_contrib,
+    log_prefix = log_prefix,
+    include_all_confidence_scores = include_all_confidence_scores,
+    graph_file = graph_file,
     uid = uid
   ) %>%
   validator_nlp_medical_ner()
@@ -84,7 +104,14 @@ nlp_medical_ner.spark_connection <- function(x, input_cols, output_col,
     sparklyr::jobj_set_param("setEvaluationLogExtended", args[["eval_log_extended"]]) %>% 
     sparklyr::jobj_set_param("setEnableOutputLogs", args[["enable_output_logs"]]) %>% 
     sparklyr::jobj_set_param("setOutputLogsPath", args[["output_logs_path"]]) %>% 
-    sparklyr::jobj_set_param("setEnableMemoryOptimizer", args[["enable_memory_optimizer"]])
+    sparklyr::jobj_set_param("setEnableMemoryOptimizer", args[["enable_memory_optimizer"]]) %>% 
+    sparklyr::jobj_set_param("setPretrainedModelPath", args[["pretrained_model_path"]]) %>% 
+    sparklyr::jobj_set_param("setOverrideExistingTags", args[["override_existing_tags"]]) %>% 
+    sparklyr::jobj_set_param("setTagsMapping", args[["tags_mapping"]]) %>% 
+    sparklyr::jobj_set_param("setUseContrib", args[["use_contrib"]]) %>% 
+    sparklyr::jobj_set_param("setLogPrefix", args[["log_prefix"]]) %>% 
+    sparklyr::jobj_set_param("setIncludeAllConfidenceScores", args[["include_all_confidence_scores"]]) %>% 
+    sparklyr::jobj_set_param("setGraphFile", args[["graph_file"]])
   
   annotator <- new_nlp_medical_ner(jobj)
   
@@ -121,7 +148,9 @@ nlp_medical_ner.ml_pipeline <- function(x, input_cols, output_col,
                  label_col = NULL, max_epochs = NULL, lr = NULL, po = NULL, batch_size = NULL, dropout = NULL, 
                  verbose = NULL, include_confidence = NULL, random_seed = NULL, graph_folder = NULL,
                  validation_split = NULL, eval_log_extended = NULL, enable_output_logs = NULL, output_logs_path = NULL,
-                 enable_memory_optimizer = NULL,
+                 enable_memory_optimizer = NULL, pretrained_model_path = NULL, override_existing_tags = NULL,
+                 tags_mapping = NULL, test_dataset = NULL, use_contrib = NULL, log_prefix = NULL, include_all_confidence_scores = NULL,
+                 graph_file = NULL,
                  uid = random_string("ner_dl_")) {
 
   stage <- nlp_medical_ner.spark_connection(
@@ -143,6 +172,14 @@ nlp_medical_ner.ml_pipeline <- function(x, input_cols, output_col,
     enable_output_logs = enable_output_logs,
     output_logs_path = output_logs_path,
     enable_memory_optimizer = enable_memory_optimizer,
+    pretrained_model_path = pretrained_model_path,
+    override_existing_tags = override_existing_tags,
+    tags_mapping = tags_mapping,
+    test_dataset = test_dataset,
+    use_contrib = use_contrib,
+    log_prefix = log_prefix,
+    include_all_confidence_scores = include_all_confidence_scores,
+    graph_file = graph_file,
     uid = uid
   )
 
@@ -154,7 +191,9 @@ nlp_medical_ner.tbl_spark <- function(x, input_cols, output_col,
                  label_col = NULL, max_epochs = NULL, lr = NULL, po = NULL, batch_size = NULL, dropout = NULL, 
                  verbose = NULL, include_confidence = NULL, random_seed = NULL, graph_folder = NULL,
                  validation_split = NULL, eval_log_extended = NULL, enable_output_logs = NULL, output_logs_path = NULL,
-                 enable_memory_optimizer = NULL,
+                 enable_memory_optimizer = NULL, pretrained_model_path = NULL, override_existing_tags = NULL,
+                 tags_mapping = NULL, test_dataset = NULL, use_contrib = NULL, log_prefix = NULL, include_all_confidence_scores = NULL,
+                 graph_file = NULL,
                  uid = random_string("medical_ner_")) {
   stage <- nlp_medical_ner.spark_connection(
     x = sparklyr::spark_connection(x),
@@ -175,6 +214,14 @@ nlp_medical_ner.tbl_spark <- function(x, input_cols, output_col,
     enable_output_logs = enable_output_logs,
     output_logs_path = output_logs_path,
     enable_memory_optimizer = enable_memory_optimizer,
+    pretrained_model_path = pretrained_model_path,
+    override_existing_tags = override_existing_tags,
+    tags_mapping = tags_mapping,
+    test_dataset = test_dataset,
+    use_contrib = use_contrib,
+    log_prefix = log_prefix,
+    include_all_confidence_scores = include_all_confidence_scores,
+    graph_file = graph_file,
     uid = uid
   )
 
@@ -199,6 +246,13 @@ validator_nlp_medical_ner <- function(args) {
   args[["enable_output_logs"]] <- cast_nullable_logical(args[["enable_output_logs"]])
   args[["output_logs_path"]] <- cast_nullable_string(args[["output_logs_path"]])
   args[["enable_memory_optimizer"]] <- cast_nullable_logical(args[["enable_memory_optimizer"]])
+  args[["pretrained_model_path"]] <- cast_nullable_string(args[["pretrained_model_path"]])
+  args[["override_existing_tags"]] <- cast_nullable_logical(args[["override_existing_tags"]])
+  args[["tags_mapping"]] <- cast_nullable_string_list(args[["tags_mapping"]])
+  args[["use_contrib"]] <- cast_nullable_logical(args[["use_contrib"]])
+  args[["log_prefix"]] <- cast_nullable_string(args[["log_prefix"]])
+  args[["include_all_confidence_scores"]] <- cast_nullable_logical(args[["include_all_confidence_scores"]])
+  args[["graph_file"]] <- cast_nullable_string(args[["graph_file"]])
   args
 }
 

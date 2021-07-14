@@ -23,6 +23,14 @@ nlp_medical_ner(
   enable_output_logs = NULL,
   output_logs_path = NULL,
   enable_memory_optimizer = NULL,
+  pretrained_model_path = NULL,
+  override_existing_tags = NULL,
+  tags_mapping = NULL,
+  test_dataset = NULL,
+  use_contrib = NULL,
+  log_prefix = NULL,
+  include_all_confidence_scores = NULL,
+  graph_file = NULL,
   uid = random_string("medical_ner_")
 )
 }
@@ -55,13 +63,29 @@ nlp_medical_ner(
 
 \item{validation_split}{proportion of the data to use for validation (float)}
 
-\item{eval_log_extended}{? (boolean)}
+\item{eval_log_extended}{whether logs for validation to be extended: it displays time and evaluation of each label. (boolean)}
 
 \item{enable_output_logs}{whether to enable the TensorFlow output logs (boolean)}
 
 \item{output_logs_path}{path for the output logs}
 
 \item{enable_memory_optimizer}{allow training NerDLApproach on a dataset larger than the memory}
+
+\item{pretrained_model_path}{set the location of an already trained MedicalNerModel, which is used as a starting point for training the new model.}
+
+\item{override_existing_tags}{controls whether to override already learned tags when using a pretrained model to initialize the new model.}
+
+\item{tags_mapping}{a string list specifying how old tags are mapped to new ones. (e.g. c("B-PER,B-VIP", "I-PER,I-VIP"))}
+
+\item{test_dataset}{path to test dataset}
+
+\item{use_contrib}{whether to use contrib LSTM cells}
+
+\item{log_prefix}{a string prefix to be included in the logs}
+
+\item{include_all_confidence_scores}{whether to include confidence scores in annotation metadata}
+
+\item{graph_file}{Folder path that contain external graph files}
 
 \item{uid}{A character string used to uniquely identify the ML estimator.}
 }

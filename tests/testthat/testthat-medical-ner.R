@@ -50,10 +50,17 @@ test_that("medical_ner param setting", {
     eval_log_extended = TRUE,
     enable_output_logs = TRUE,
     output_logs_path = "string1",
-    enable_memory_optimizer = TRUE
+    enable_memory_optimizer = TRUE,
+    pretrained_model_path = "string3",
+    override_existing_tags = TRUE,
+    #tags_mapping = c("string4"), no getter
+    use_contrib = FALSE,
+    log_prefix = "string5",
+    include_all_confidence_scores = TRUE,
+    graph_file = "string6"
   )
 
-  test_param_setting(sc, nlp_ner_dl, test_args)
+  test_param_setting(sc, nlp_medical_ner, test_args)
 })
 
 test_that("nlp_ner_dl spark_connection", {
