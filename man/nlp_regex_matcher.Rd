@@ -9,8 +9,8 @@ nlp_regex_matcher(
   input_cols,
   output_col,
   strategy = NULL,
-  rules_path = NULL,
-  rules_path_delimiter = ",",
+  rules_path,
+  rules_path_delimiter,
   rules_path_read_as = "TEXT",
   rules_path_options = list(format = "text"),
   uid = random_string("regex_matcher_")
