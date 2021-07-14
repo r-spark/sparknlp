@@ -13,7 +13,7 @@
 #' 
 #' @export
 nlp_regex_matcher <- function(x, input_cols, output_col,
-                 strategy = NULL, rules_path = NULL, rules_path_delimiter = ",", rules_path_read_as = "TEXT", 
+                 strategy = NULL, rules_path, rules_path_delimiter, rules_path_read_as = "TEXT", 
                  rules_path_options = list("format" = "text"),
                  uid = random_string("regex_matcher_")) {
   UseMethod("nlp_regex_matcher")
@@ -21,7 +21,7 @@ nlp_regex_matcher <- function(x, input_cols, output_col,
 
 #' @export
 nlp_regex_matcher.spark_connection <- function(x, input_cols, output_col,
-                 strategy = NULL, rules_path = NULL, rules_path_delimiter = ",", 
+                 strategy = NULL, rules_path, rules_path_delimiter, 
                  rules_path_read_as = "TEXT", rules_path_options = list("format" = "text"),
                  uid = random_string("regex_matcher_")) {
 
@@ -50,7 +50,7 @@ nlp_regex_matcher.spark_connection <- function(x, input_cols, output_col,
     sparklyr::jobj_set_param("setStrategy", args[["strategy"]])
   
   if (!is.null(args[["rules_path"]])) {
-    sparklyr::invoke(jobj, "setRules", args[["rules_path"]], args[["rules_path_delimiter"]],
+    sparklyr::invoke(jobj, "setExternalRules", args[["rules_path"]], args[["rules_path_delimiter"]],
                      read_as(x, args[["rules_path_read_as"]]), args[["rules_path_options"]])
   }
 
@@ -59,7 +59,8 @@ nlp_regex_matcher.spark_connection <- function(x, input_cols, output_col,
 
 #' @export
 nlp_regex_matcher.ml_pipeline <- function(x, input_cols, output_col,
-                 strategy = NULL, rules_path = NULL, rules_path_delimiter = ",", rules_path_read_as = "TEXT", rules_path_options = list("format"="text"),
+                 strategy = NULL, rules_path, rules_path_delimiter,
+                 rules_path_read_as = "TEXT", rules_path_options = list("format"="text"),
                  uid = random_string("regex_matcher_")) {
 
   stage <- nlp_regex_matcher.spark_connection(
@@ -79,7 +80,8 @@ nlp_regex_matcher.ml_pipeline <- function(x, input_cols, output_col,
 
 #' @export
 nlp_regex_matcher.tbl_spark <- function(x, input_cols, output_col,
-                 strategy = NULL, rules_path = NULL, rules_path_delimiter = ",", rules_path_read_as = "TEXT", rules_path_options = list("format"="text"),
+                 strategy = NULL, rules_path, rules_path_delimiter,
+                 rules_path_read_as = "TEXT", rules_path_options = list("format"="text"),
                  uid = random_string("regex_matcher_")) {
   stage <- nlp_regex_matcher.spark_connection(
     x = sparklyr::spark_connection(x),
