@@ -129,13 +129,14 @@ nlp_setter_name <- function(param) {
 #' @param conll_text_col name to use for the text column
 #' @param label_col name to use for the label column
 #' @param explode_sentences boolean whether the sentences should be exploded or not
+#' @param delimiter Delimiter used to separate columns inside CoNLL file
 #'  
 #' @return Spark dataframe containing the imported data
 #' 
 #' @export
 nlp_conll_read_dataset <- function(sc, path, read_as = NULL, document_col = NULL, sentence_col = NULL, token_col = NULL,
                                    pos_col = NULL, conll_label_index = NULL, conll_pos_index = NULL, conll_text_col = NULL,
-                                   label_col = NULL, explode_sentences = NULL) {
+                                   label_col = NULL, explode_sentences = NULL, delimiter = NULL) {
   model_class <- "com.johnsnowlabs.nlp.training.CoNLL"
   module <- invoke_static(sc, paste0(model_class, "$"), "MODULE$")
   default_document_col <- invoke(module, "apply$default$1")
@@ -147,6 +148,7 @@ nlp_conll_read_dataset <- function(sc, path, read_as = NULL, document_col = NULL
   default_conll_text_col <- invoke(module, "apply$default$7")
   default_label_col <- invoke(module, "apply$default$8")
   default_explode_sentences <- invoke(module, "apply$default$9")
+  default_delimiter <- invoke(module, "apply$default$10")
 
   document_col <- ifelse(is.null(document_col), default_document_col, document_col)
   sentence_col <- ifelse(is.null(sentence_col), default_sentence_col, sentence_col)
@@ -157,10 +159,11 @@ nlp_conll_read_dataset <- function(sc, path, read_as = NULL, document_col = NULL
   conll_text_col <- ifelse(is.null(conll_text_col), default_conll_text_col, conll_text_col)
   label_col <- ifelse(is.null(label_col), default_label_col, label_col)
   explode_sentences <- ifelse(is.null(explode_sentences), default_explode_sentences, explode_sentences)
+  delimiter <- ifelse(is.null(delimiter), default_delimiter, delimiter)
   
   conll <- invoke_new(sc, model_class, document_col, sentence_col, token_col,
                       pos_col, conll_label_index, conll_pos_index, conll_text_col,
-                      label_col, explode_sentences)
+                      label_col, explode_sentences, delimiter)
   
   default_read_as <- invoke(conll, "readDataset$default$3")
   read_as <- ifelse(is.null(read_as), default_read_as, read_as)

@@ -16,7 +16,8 @@ nlp_conll_read_dataset(
   conll_pos_index = NULL,
   conll_text_col = NULL,
   label_col = NULL,
-  explode_sentences = NULL
+  explode_sentences = NULL,
+  delimiter = NULL
 )
 }
 \arguments{
@@ -43,6 +44,8 @@ nlp_conll_read_dataset(
 \item{label_col}{name to use for the label column}
 
 \item{explode_sentences}{boolean whether the sentences should be exploded or not}
+
+\item{delimiter}{Delimiter used to separate columns inside CoNLL file}
 }
 \value{
 Spark dataframe containing the imported data
