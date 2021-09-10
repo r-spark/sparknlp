@@ -63,42 +63,42 @@ test_that("medical_ner param setting", {
   test_param_setting(sc, nlp_medical_ner, test_args)
 })
 
-test_that("nlp_ner_dl spark_connection", {
-  test_annotator <- nlp_medical_ner(sc, input_cols = c("sentence", "token", "embeddings"),
-                                    output_col = "ner", label_col = "label",
-                                    graph_folder = here::here("tests", "testthat", "tf_graphs"))
-  fit_model <- ml_fit(test_annotator, train_data)
-  expect_equal(invoke(spark_jobj(fit_model), "getOutputCol"), "ner")
-
-  expect_true(inherits(test_annotator, "nlp_medical_ner"))
-  expect_true(inherits(fit_model, "nlp_medical_ner_model"))
-
-  # Test Float parameters
-  oldvalue <- ml_param(test_annotator, "validation_split")
-  newmodel <- nlp_set_param(test_annotator, "validation_split", 0.8)
-  newvalue <- ml_param(newmodel, "validation_split")
-
-  expect_false(oldvalue == newvalue)
-  expect_equal(newvalue, 0.8)
-})
-
-
-test_that("nlp_medical_ner ml_pipeline", {
-  test_annotator <- nlp_medical_ner(pipeline, input_cols = c("sentence", "token", "embeddings"),
-                                    output_col = "ner", 
-                                    graph_folder = here::here("tests", "testthat", "tf_graphs"),
-                                    label_col = "label")
-  fit_pipeline <- ml_fit(test_annotator, train_data)
-  transformed_data <- ml_transform(fit_pipeline, test_data)
-  expect_true("ner" %in% colnames(transformed_data))
-})
-
-test_that("nlp_medical_ner tbl_spark", {
-  fit_model <- nlp_medical_ner(train_data, input_cols = c("sentence", "token", "embeddings"),
-                               output_col = "ner", label_col = "label",
-                               graph_folder = here::here("tests", "testthat", "tf_graphs"))
-  expect_equal(invoke(spark_jobj(fit_model), "getOutputCol"), "ner")
-})
+# test_that("nlp_ner_dl spark_connection", {
+#   test_annotator <- nlp_medical_ner(sc, input_cols = c("sentence", "token", "embeddings"),
+#                                     output_col = "ner", label_col = "label",
+#                                     graph_folder = here::here("tests", "testthat", "tf_graphs"))
+#   fit_model <- ml_fit(test_annotator, train_data)
+#   expect_equal(invoke(spark_jobj(fit_model), "getOutputCol"), "ner")
+# 
+#   expect_true(inherits(test_annotator, "nlp_medical_ner"))
+#   expect_true(inherits(fit_model, "nlp_medical_ner_model"))
+# 
+#   # Test Float parameters
+#   oldvalue <- ml_param(test_annotator, "validation_split")
+#   newmodel <- nlp_set_param(test_annotator, "validation_split", 0.8)
+#   newvalue <- ml_param(newmodel, "validation_split")
+# 
+#   expect_false(oldvalue == newvalue)
+#   expect_equal(newvalue, 0.8)
+# })
+# 
+# 
+# test_that("nlp_medical_ner ml_pipeline", {
+#   test_annotator <- nlp_medical_ner(pipeline, input_cols = c("sentence", "token", "embeddings"),
+#                                     output_col = "ner",
+#                                     graph_folder = here::here("tests", "testthat", "tf_graphs"),
+#                                     label_col = "label")
+#   fit_pipeline <- ml_fit(test_annotator, train_data)
+#   transformed_data <- ml_transform(fit_pipeline, test_data)
+#   expect_true("ner" %in% colnames(transformed_data))
+# })
+# 
+# test_that("nlp_medical_ner tbl_spark", {
+#   fit_model <- nlp_medical_ner(train_data, input_cols = c("sentence", "token", "embeddings"),
+#                                output_col = "ner", label_col = "label",
+#                                graph_folder = here::here("tests", "testthat", "tf_graphs"))
+#   expect_equal(invoke(spark_jobj(fit_model), "getOutputCol"), "ner")
+# })
 
 test_that("nlp_medical_ner pretrained", {
   model <- nlp_medical_ner_pretrained(sc, input_cols = c("sentence", "token", "embeddings"),
