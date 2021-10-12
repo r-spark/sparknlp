@@ -41,7 +41,7 @@ nlp_vivekn_sentiment_detector.spark_connection <- function(x, input_cols, output
     uid = args[["uid"]]
   ) %>%
     sparklyr::jobj_set_param("setSentimentCol", args[["sentiment_col"]])  %>%
-    sparklyr::jobj_set_param("setCorpusPrune", args[["prune_corpus"]])  %>%
+    sparklyr::jobj_set_param("setPruneCorpus", args[["prune_corpus"]])  %>%
     sparklyr::jobj_set_param("setFeatureLimit", args[["feature_limit"]])  %>%
     sparklyr::jobj_set_param("setUnimportantFeatureStep", args[["unimportant_feature_step"]])  %>%
     sparklyr::jobj_set_param("setImportantFeatureRatio", args[["important_feature_ratio"]]) 

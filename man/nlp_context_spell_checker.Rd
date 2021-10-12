@@ -9,9 +9,9 @@ nlp_context_spell_checker(
   input_cols,
   output_col,
   batch_size = NULL,
-  blacklist_min_freq = NULL,
+  compound_count = NULL,
   case_strategy = NULL,
-  class_threshold = NULL,
+  class_count = NULL,
   epochs = NULL,
   error_threshold = NULL,
   final_learning_rate = NULL,
@@ -23,7 +23,7 @@ nlp_context_spell_checker(
   min_count = NULL,
   tradeoff = NULL,
   validation_fraction = NULL,
-  weights = NULL,
+  weighted_dist_path = NULL,
   word_max_dist = NULL,
   uid = random_string("context_spell_checker_")
 )
@@ -37,12 +37,12 @@ nlp_context_spell_checker(
 
 \item{batch_size}{batch size for training in NLM. Defaults to 24}
 
-\item{blacklist_min_freq}{blacklist}
+\item{compound_count}{blacklist}
 
 \item{case_strategy}{What case combinations to try when generating candidates. ALL_UPPER_CASE = 0,
 FIRST_LETTER_CAPITALIZED = 1, ALL = 2. Defaults to 2.}
 
-\item{class_threshold}{class threshold}
+\item{class_count}{class threshold}
 
 \item{epochs}{Number of epochs to train the language model. Defaults to 2.}
 
@@ -66,7 +66,7 @@ FIRST_LETTER_CAPITALIZED = 1, ALL = 2. Defaults to 2.}
 
 \item{validation_fraction}{Percentage of datapoints to use for validation. Defaults to .1f.}
 
-\item{weights}{The path to the file containing the weights for the levenshtein distance.}
+\item{weighted_dist_path}{The path to the file containing the weighted_dist_path for the levenshtein distance.}
 
 \item{word_max_dist}{Maximum distance for the generated candidates for every word. Defaults to 3.}
 
