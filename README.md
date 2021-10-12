@@ -30,14 +30,19 @@ The following features/annotators have not been implemented yet
 
 ## Spark NLP
 * WordSegmenter
-* DistBertEmbeddings
-* RoBERTaEmbeddings
-* XlmRoBERTaEmbeddings
+* RoBertaSentenceEmbeddings
+* XlmRoBertaSentenceEmbeddings
+* AlbertForTokenClassification
+* XlnetForTokenClassification
+* RoBertaForTokenClassification
+* XlmRoBertaForTokenClassification
+* LongformerForTokenClassification
+* ResourceDownloader
 
 ## Spark NLP for Healthcare
 * DeIdentification
 * StructuredDeIdentification
-
+* BertSentenceChunkEmbeddings
 
 # Usage
 There are a lot of examples in R notebooks inside the `examples` directory. I recommended starting with the 
