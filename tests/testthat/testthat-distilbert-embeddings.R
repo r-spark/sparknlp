@@ -29,9 +29,7 @@ test_that("distilbert_embeddings param setting", {
     batch_size = 100,
     case_sensitive = FALSE,
     dimension = 768,
-    #input_annotator_types = c("string1", "string2"),
     max_sentence_length = 200,
-    #output_annotator_type = "string1",
     storage_ref = "string1"
   )
 
