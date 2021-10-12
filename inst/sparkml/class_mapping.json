@@ -77,6 +77,7 @@
   "com.johnsnowlabs.nlp.embeddings.BertEmbeddings": "nlp_bert_embeddings",
   "com.johnsnowlabs.nlp.embeddings.BertSentenceEmbeddings": "nlp_bert_sentence_embeddings",
   "com.johnsnowlabs.nlp.embeddings.ChunkEmbeddings": "nlp_chunk_embeddings",
+  "com.johnsnowlabs.nlp.embeddings.DistilBertEmbeddings": "nlp_distilbert_embeddings",
   "com.johnsnowlabs.nlp.embeddings.ElmoEmbeddings": "nlp_elmo_embeddings",
   "com.johnsnowlabs.nlp.embeddings.SentenceEmbeddings": "nlp_sentence_embeddings",
   "com.johnsnowlabs.nlp.embeddings.UniversalSentenceEncoder": "nlp_univ_sent_encoder",
