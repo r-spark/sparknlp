@@ -16,6 +16,7 @@ nlp_ner_dl(
   dropout = NULL,
   verbose = NULL,
   include_confidence = NULL,
+  include_all_confidence_scores = NULL,
   random_seed = NULL,
   graph_folder = NULL,
   validation_split = NULL,
@@ -48,6 +49,8 @@ nlp_ner_dl(
 \item{verbose}{Verbosity level (integer)}
 
 \item{include_confidence}{whether to include confidence values (boolean)}
+
+\item{include_all_confidence_scores}{whether to include all confidence scores in annotation metadata or just score of the predicted tag (boolean)}
 
 \item{random_seed}{Random seed (integer)}
 

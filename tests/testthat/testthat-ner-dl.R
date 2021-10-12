@@ -42,6 +42,7 @@ test_that("ner_dl param setting", {
     dropout = 0.5,
     verbose = 0,
     include_confidence = TRUE,
+    include_all_confidence_scores = TRUE,
     random_seed = 100,
     graph_folder = "folder1",
     validation_split = 0.2,

@@ -17,6 +17,7 @@
 #' @param dropout Dropout coefficient (float)
 #' @param verbose Verbosity level (integer)
 #' @param include_confidence whether to include confidence values (boolean)
+#' @param include_all_confidence_scores whether to include all confidence scores in annotation metadata or just score of the predicted tag (boolean)
 #' @param random_seed Random seed (integer)
 #' @param validation_split proportion of the data to use for validation (float)
 #' @param eval_log_extended ? (boolean)
@@ -32,7 +33,7 @@
 #' @export
 nlp_ner_dl <- function(x, input_cols, output_col,
                  label_col = NULL, max_epochs = NULL, lr = NULL, po = NULL, batch_size = NULL, dropout = NULL, 
-                 verbose = NULL, include_confidence = NULL, random_seed = NULL, graph_folder = NULL,
+                 verbose = NULL, include_confidence = NULL, include_all_confidence_scores = NULL, random_seed = NULL, graph_folder = NULL,
                  validation_split = NULL, eval_log_extended = NULL, enable_output_logs = NULL, output_logs_path = NULL,
                  enable_memory_optimizer = NULL,
                  uid = random_string("ner_dl_")) {
@@ -42,7 +43,7 @@ nlp_ner_dl <- function(x, input_cols, output_col,
 #' @export
 nlp_ner_dl.spark_connection <- function(x, input_cols, output_col,
                  label_col = NULL, max_epochs = NULL, lr = NULL, po = NULL, batch_size = NULL, dropout = NULL, 
-                 verbose = NULL, include_confidence = NULL, random_seed = NULL, graph_folder = NULL,
+                 verbose = NULL, include_confidence = NULL, include_all_confidence_scores = NULL,  random_seed = NULL, graph_folder = NULL,
                  validation_split = NULL, eval_log_extended = NULL, enable_output_logs = NULL, output_logs_path = NULL,
                  enable_memory_optimizer = NULL,
                  uid = random_string("ner_dl_")) {
@@ -57,6 +58,7 @@ nlp_ner_dl.spark_connection <- function(x, input_cols, output_col,
     dropout = dropout,
     verbose = verbose,
     include_confidence = include_confidence,
+    include_all_confidence_scores =  include_all_confidence_scores,
     random_seed = random_seed,
     graph_folder = graph_folder,
     validation_split = validation_split,
@@ -79,6 +81,7 @@ nlp_ner_dl.spark_connection <- function(x, input_cols, output_col,
     sparklyr::jobj_set_param("setBatchSize", args[["batch_size"]])  %>%
     sparklyr::jobj_set_param("setVerbose", args[["verbose"]])  %>%
     sparklyr::jobj_set_param("setIncludeConfidence", args[["include_confidence"]]) %>%
+    sparklyr::jobj_set_param("setIncludeAllConfidenceScores", args[["include_all_confidence_scores"]]) %>%
     sparklyr::jobj_set_param("setRandomSeed", args[["random_seed"]]) %>% 
     sparklyr::jobj_set_param("setGraphFolder", args[["graph_folder"]]) %>% 
     sparklyr::jobj_set_param("setEvaluationLogExtended", args[["eval_log_extended"]]) %>% 
@@ -117,7 +120,7 @@ nlp_float_params.nlp_ner_dl_model <- function(x) {
 #' @export
 nlp_ner_dl.ml_pipeline <- function(x, input_cols, output_col,
                  label_col = NULL, max_epochs = NULL, lr = NULL, po = NULL, batch_size = NULL, dropout = NULL, 
-                 verbose = NULL, include_confidence = NULL, random_seed = NULL, graph_folder = NULL,
+                 verbose = NULL, include_confidence = NULL, include_all_confidence_scores = NULL,  random_seed = NULL, graph_folder = NULL,
                  validation_split = NULL, eval_log_extended = NULL, enable_output_logs = NULL, output_logs_path = NULL,
                  enable_memory_optimizer = NULL,
                  uid = random_string("ner_dl_")) {
@@ -134,6 +137,7 @@ nlp_ner_dl.ml_pipeline <- function(x, input_cols, output_col,
     dropout = dropout,
     verbose = verbose,
     include_confidence = include_confidence,
+    include_all_confidence_scores =  include_all_confidence_scores,
     random_seed = random_seed,
     graph_folder = graph_folder,
     validation_split = validation_split,
@@ -150,7 +154,7 @@ nlp_ner_dl.ml_pipeline <- function(x, input_cols, output_col,
 #' @export
 nlp_ner_dl.tbl_spark <- function(x, input_cols, output_col,
                  label_col = NULL, max_epochs = NULL, lr = NULL, po = NULL, batch_size = NULL, dropout = NULL, 
-                 verbose = NULL, include_confidence = NULL, random_seed = NULL, graph_folder = NULL,
+                 verbose = NULL, include_confidence = NULL, include_all_confidence_scores = NULL, random_seed = NULL, graph_folder = NULL,
                  validation_split = NULL, eval_log_extended = NULL, enable_output_logs = NULL, output_logs_path = NULL,
                  enable_memory_optimizer = NULL,
                  uid = random_string("ner_dl_")) {
@@ -166,6 +170,7 @@ nlp_ner_dl.tbl_spark <- function(x, input_cols, output_col,
     dropout = dropout,
     verbose = verbose,
     include_confidence = include_confidence,
+    include_all_confidence_scores =  include_all_confidence_scores,
     random_seed = random_seed,
     graph_folder = graph_folder,
     validation_split = validation_split,
@@ -190,6 +195,7 @@ validator_nlp_ner_dl <- function(args) {
   args[["dropout"]] <- cast_nullable_double(args[["dropout"]])
   args[["verbose"]] <- cast_nullable_integer(args[["verbose"]])
   args[["include_confidence"]] <- cast_nullable_logical(args[["include_confidence"]])
+  args[["include_all_confidence_scores"]] <- cast_nullable_logical(args[["include_all_confidence_scores"]])
   args[["random_seed"]] <- cast_nullable_integer(args[["random_seed"]])
   args[["graph_folder"]] <- cast_nullable_string(args[["graph_folder"]])
   args[["validation_split"]] <- cast_nullable_double(args[["validation_split"]])
@@ -217,7 +223,7 @@ new_nlp_ner_dl_model <- function(jobj) {
 #' @param include_confidence whether to include confidence values
 #' @export
 nlp_ner_dl_pretrained <- function(sc, input_cols, output_col, include_confidence = NULL,
-                                   name = NULL, lang = NULL, remote_loc = NULL) {
+                                  include_all_confidence_scores = NULL, name = NULL, lang = NULL, remote_loc = NULL) {
   args <- list(
     input_cols = input_cols,
     output_col = output_col
@@ -226,13 +232,15 @@ nlp_ner_dl_pretrained <- function(sc, input_cols, output_col, include_confidence
   args[["input_cols"]] <- forge::cast_string_list(args[["input_cols"]])
   args[["output_col"]] <- forge::cast_string(args[["output_col"]])
   args[["include_confidence"]] <- forge::cast_nullable_logical(args[["include_confidence"]])
+  args[["include_all_confidence_scores"]] <- forge::cast_nullable_logical(args[["include_all_confidence_scores"]])
   
   model_class <- "com.johnsnowlabs.nlp.annotators.ner.dl.NerDLModel"
   model <- pretrained_model(sc, model_class, name, lang, remote_loc)
   spark_jobj(model) %>%
     sparklyr::jobj_set_param("setInputCols", args[["input_cols"]]) %>% 
     sparklyr::jobj_set_param("setOutputCol", args[["output_col"]]) %>%
-    sparklyr::jobj_set_param("setIncludeConfidence", args[["include_confidence"]])
+    sparklyr::jobj_set_param("setIncludeConfidence", args[["include_confidence"]]) %>% 
+    sparklyr::jobj_set_param("setIncludeAllConfidenceScores", args[["include_all_confidence_scores"]])
   
   new_nlp_ner_dl_model(model)
 }

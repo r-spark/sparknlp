@@ -9,6 +9,7 @@ nlp_ner_dl_pretrained(
   input_cols,
   output_col,
   include_confidence = NULL,
+  include_all_confidence_scores = NULL,
   name = NULL,
   lang = NULL,
   remote_loc = NULL
