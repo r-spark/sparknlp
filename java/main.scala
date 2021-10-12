@@ -75,11 +75,11 @@ object Utils {
   }
   
   def setCSCFinalLR(approach: ContextSpellCheckerApproach, lr: Double) : ContextSpellCheckerApproach = {
-    approach.setFinalLearningRate(lr.toFloat)
+    approach.setFinalRate(lr.toFloat)
   }
   
   def setCSCinitialLR(approach: ContextSpellCheckerApproach, lr: Double) : ContextSpellCheckerApproach = {
-    approach.setInitialLearningRate(lr.toFloat)
+    approach.setInitialRate(lr.toFloat)
   }
   
   def setCSCtradeoff(approach: ContextSpellCheckerApproach, tradeoff: Double) : ContextSpellCheckerApproach = {
