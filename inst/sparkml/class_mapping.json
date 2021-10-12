@@ -33,6 +33,7 @@
   "com.johnsnowlabs.nlp.annotators.TokenizerModel": "nlp_tokenizer_model",
   "com.johnsnowlabs.nlp.annotators.chunker.ChunkFilterer": "nlp_chunk_filterer",
   "com.johnsnowlabs.nlp.annotators.classifier.dl.BertForTokenClassification": "nlp_bert_for_token_classification",
+  "com.johnsnowlabs.nlp.annotators.classifier.dl.DistilBertForTokenClassification": "nlp_distilbert_for_token_classification",
   "com.johnsnowlabs.nlp.annotators.classifier.dl.ClassifierDLApproach": "nlp_classifier_dl",
   "com.johnsnowlabs.nlp.annotators.classifier.dl.ClassifierDLModel": "nlp_classifier_dl",
   "com.johnsnowlabs.nlp.annotators.classifier.dl.MultiClassifierDLApproach": "nlp_multi_classifier_dl",
