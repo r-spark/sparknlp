@@ -15,11 +15,13 @@
 #' If it is not set, the by default it will use the current year. Example: 2021
 #' @param default_day_when_missing Which day to set when it is missing from parsed input (Default: 1)
 #' @param read_month_first Whether to interpret dates as MM/DD/YYYY instead of DD/MM/YYYY (Default: true)
+#' @param source_language Source language for explicit translation
 #' 
 #' @export
 nlp_multi_date_matcher <- function(x, input_cols, output_col,
                              anchor_date_day = NULL, anchor_date_month = NULL, anchor_date_year = NULL,
                              default_day_when_missing = NULL, read_month_first = NULL, format = NULL,
+                             source_language = NULL,
                              uid = random_string("multi_date_matcher_")) {
   UseMethod("nlp_multi_date_matcher")
 }
@@ -28,6 +30,7 @@ nlp_multi_date_matcher <- function(x, input_cols, output_col,
 nlp_multi_date_matcher.spark_connection <- function(x, input_cols, output_col,
                                               anchor_date_day = NULL, anchor_date_month = NULL, anchor_date_year = NULL,
                                               default_day_when_missing = NULL, read_month_first = NULL, format = NULL,
+                                              source_language = NULL,
                                               uid = random_string("multi_date_matcher_")) {
   args <- list(
     input_cols = input_cols,
@@ -38,6 +41,7 @@ nlp_multi_date_matcher.spark_connection <- function(x, input_cols, output_col,
     default_day_when_missing = default_day_when_missing,
     read_month_first = read_month_first,
     format = format,
+    source_language = source_language,
     uid = uid
   ) %>%
   validator_nlp_date_matcher()
@@ -53,7 +57,8 @@ nlp_multi_date_matcher.spark_connection <- function(x, input_cols, output_col,
     sparklyr::jobj_set_param("setAnchorDateMonth", args[["anchor_date_month"]]) %>% 
     sparklyr::jobj_set_param("setAnchorDateYear", args[["anchor_date_year"]]) %>% 
     sparklyr::jobj_set_param("setDefaultDayWhenMissing", args[["default_day_when_missing"]]) %>% 
-    sparklyr::jobj_set_param("setReadMonthFirst", args[["read_month_first"]])
+    sparklyr::jobj_set_param("setReadMonthFirst", args[["read_month_first"]]) %>% 
+    sparklyr::jobj_set_param("setSourceLanguage", args[["source_language"]])
     
   new_nlp_date_matcher(jobj)
 }
@@ -62,6 +67,7 @@ nlp_multi_date_matcher.spark_connection <- function(x, input_cols, output_col,
 nlp_multi_date_matcher.ml_pipeline <- function(x, input_cols, output_col,
                                          anchor_date_day = NULL, anchor_date_month = NULL, anchor_date_year = NULL,
                                          default_day_when_missing = NULL, read_month_first = NULL, format = NULL,
+                                         source_language = NULL,
                                          uid = random_string("multi_date_matcher_")) {
 
   stage <- nlp_multi_date_matcher.spark_connection(
@@ -74,6 +80,7 @@ nlp_multi_date_matcher.ml_pipeline <- function(x, input_cols, output_col,
     default_day_when_missing = default_day_when_missing,
     read_month_first = read_month_first,
     format = format,
+    source_language = source_language,
     uid = uid
   )
 
@@ -84,6 +91,7 @@ nlp_multi_date_matcher.ml_pipeline <- function(x, input_cols, output_col,
 nlp_multi_date_matcher.tbl_spark <- function(x, input_cols, output_col,
                                        anchor_date_day = NULL, anchor_date_month = NULL, anchor_date_year = NULL,
                                        default_day_when_missing = NULL, read_month_first = NULL, format = NULL,
+                                       source_language = NULL,
                                        uid = random_string("multi_date_matcher_")) {
   stage <- nlp_multi_date_matcher.spark_connection(
     x = sparklyr::spark_connection(x),
@@ -95,6 +103,7 @@ nlp_multi_date_matcher.tbl_spark <- function(x, input_cols, output_col,
     default_day_when_missing = default_day_when_missing,
     read_month_first = read_month_first,
     format = format,
+    source_language = source_language,
     uid = uid
   )
 
@@ -110,6 +119,7 @@ validator_nlp_multi_date_matcher <- function(args) {
   args[["default_day_when_missing"]] <- cast_nullable_integer(args[["default_day_when_missing"]])
   args[["read_month_first"]] <- cast_nullable_logical(args[["read_month_first"]])
   args[["format"]] <- cast_nullable_string(args[["format"]])
+  args[["source_language"]] <- cast_nullable_string(args[["source_language"]])
   args
 }
 

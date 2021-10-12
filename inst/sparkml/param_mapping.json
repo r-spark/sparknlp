@@ -189,6 +189,7 @@
   "sentimentCol": "sentiment_col",
   "shortCircuit": "short_circuit",
   "shufflePerEpoch": "shuffle_per_epoch",
+  "sourceLanguage": "source_language",
   "sourcePath": "source_path",
   "splitChars": "split_chars",
   "splitLength": "split_length",

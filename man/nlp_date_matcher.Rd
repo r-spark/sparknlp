@@ -14,6 +14,7 @@ nlp_date_matcher(
   default_day_when_missing = NULL,
   read_month_first = NULL,
   format = NULL,
+  source_language = NULL,
   uid = random_string("date_matcher_")
 )
 }
@@ -38,6 +39,8 @@ If it is not set, the by default it will use the current year. Example: 2021}
 \item{read_month_first}{Whether to interpret dates as MM/DD/YYYY instead of DD/MM/YYYY (Default: true)}
 
 \item{format}{Output format of parsed date. Defaults to yyyy/MM/dd}
+
+\item{source_language}{Source language for explicit translation}
 
 \item{uid}{A character string used to uniquely identify the ML estimator.}
 }

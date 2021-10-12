@@ -26,11 +26,12 @@ test_that("date_matcher param setting", {
     input_cols = c("string1"),
     output_col = "string1",
     anchor_date_day = 11,
-    #anchor_date_month = 4, // due to a bug https://github.com/JohnSnowLabs/spark-nlp/issues/5673
+    #anchor_date_month = 4, # due to a bug https://github.com/JohnSnowLabs/spark-nlp/issues/5673
     anchor_date_year = 2020,
     default_day_when_missing = 1,
     read_month_first = FALSE,
-    format = "yyyy/MM/dd"
+    format = "yyyy/MM/dd",
+    source_language = "es"
   )
 
   test_param_setting(sc, nlp_date_matcher, test_args)

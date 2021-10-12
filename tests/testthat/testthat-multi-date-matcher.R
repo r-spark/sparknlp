@@ -30,7 +30,8 @@ test_that("multi_date_matcher param setting", {
     anchor_date_year = 2020,
     default_day_when_missing = 1,
     read_month_first = FALSE,
-    format = "yyyy/MM/dd"
+    format = "yyyy/MM/dd",
+    source_language = "fr"
   )
 
   test_param_setting(sc, nlp_multi_date_matcher, test_args)
