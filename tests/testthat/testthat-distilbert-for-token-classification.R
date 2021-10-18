@@ -22,34 +22,18 @@ teardown({
   rm(test_data, envir = .GlobalEnv)
 })
 
-test_that("distilbert_for_token_classification param setting", {
-# TODO: edit these to make them legal values for the parameters
-  test_args <- list(
-    input_cols = c("string1", "string2"),
-    output_col = "string1",
-    batch_size = 100,
-    case_sensitive = FALSE,
-    max_sentence_length = 200
-  )
 
-  test_param_setting(sc, nlp_distilbert_for_token_classification, test_args)
+test_that("nlp_distilbert_token_classification pretrained", {
+  model <- nlp_distilbert_token_classification_pretrained(sc, input_cols = c("sentence", "token"), output_col = "distilbert")
+  transformed_data <- ml_transform(model, test_data)
+  expect_true("distilbert" %in% colnames(transformed_data))
 })
 
-test_that("nlp_distilbert_for_token_classification spark_connection", {
-  test_annotator <- nlp_distilbert_for_token_classification(sc, input_cols = c("token", "document"), output_col = "label")
-  transformed_data <- ml_transform(test_annotator, test_data)
-  expect_true("label" %in% colnames(transformed_data))
-  expect_true(inherits(test_annotator, "nlp_distilbert_for_token_classification"))
-})
-
-test_that("nlp_distilbert_for_token_classification ml_pipeline", {
-  test_annotator <- nlp_distilbert_for_token_classification(pipeline, input_cols = c("token", "document"), output_col = "label")
-  transformed_data <- ml_fit_and_transform(test_annotator, test_data)
+test_that("nlp_distilbert_token_classification load", {
+  model_files <- list.files("~/cache_pretrained/")
+  bert_model_file <- max(Filter(function(s) startsWith(s, "distilbert_base_token"), model_files))
+  model <- ml_load(sc, paste0("~/cache_pretrained/", bert_model_file))
+  model <- nlp_set_output_col(model, "label")
+  transformed_data <- ml_transform(model, test_data)
   expect_true("label" %in% colnames(transformed_data))
 })
-
-test_that("nlp_distilbert_for_token_classification tbl_spark", {
-  transformed_data <- nlp_distilbert_for_token_classification(test_data, input_cols = c("token", "document"), output_col = "label")
-  expect_true("label" %in% colnames(transformed_data))
-})
-
