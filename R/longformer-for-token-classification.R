@@ -1,8 +1,8 @@
-#' Spark NLP BertForTokenClassification
+#' Spark NLP LongformerForTokenClassification
 #'
-#' BertForTokenClassification can load Bert Models with a token classification head on top 
+#' LongformerForTokenClassification can load Longformer Models with a token classification head on top 
 #' (a linear layer on top of the hidden-states output) e.g. for Named-Entity-Recognition (NER) tasks.
-#' See \url{https://nlp.johnsnowlabs.com/docs/en/transformers#bertfortokenclassification}
+#' See \url{https://nlp.johnsnowlabs.com/docs/en/transformers#longformerfortokenclassification}
 #' 
 #' @template roxlate-nlp-algo
 #' @template roxlate-inputs-output-params
@@ -11,7 +11,7 @@
 #' @param max_sentence_length Max sentence length to process (Default: 128)
 #' 
 #' @export
-nlp_bert_token_classification_pretrained <- function(sc, input_cols, output_col,
+nlp_longformer_token_classification_pretrained <- function(sc, input_cols, output_col,
                                                            batch_size = NULL, case_sensitive = NULL, 
                                                            max_sentence_length = NULL,
                                                            name = NULL, lang = NULL, remote_loc = NULL) {
@@ -22,9 +22,9 @@ nlp_bert_token_classification_pretrained <- function(sc, input_cols, output_col,
     case_sensitive = case_sensitive,
     max_sentence_length = max_sentence_length
   ) %>%
-    validator_nlp_bert_token_classification()
+    validator_nlp_longformer_token_classification()
   
-  model_class <- "com.johnsnowlabs.nlp.annotators.classifier.dl.BertForTokenClassification"
+  model_class <- "com.johnsnowlabs.nlp.annotators.classifier.dl.LongformerForTokenClassification"
   model <- pretrained_model(sc, model_class, name, lang, remote_loc)
   spark_jobj(model) %>%
     sparklyr::jobj_set_param("setInputCols", args[["input_cols"]]) %>% 
@@ -37,7 +37,7 @@ nlp_bert_token_classification_pretrained <- function(sc, input_cols, output_col,
 }
 
 #' @import forge
-validator_nlp_bert_token_classification <- function(args) {
+validator_nlp_longformer_token_classification <- function(args) {
   args[["input_cols"]] <- cast_string_list(args[["input_cols"]])
   args[["output_col"]] <- cast_string(args[["output_col"]])
   args[["batch_size"]] <- cast_nullable_integer(args[["batch_size"]])
@@ -46,7 +46,7 @@ validator_nlp_bert_token_classification <- function(args) {
   args
 }
 
-new_nlp_bert_for_token_classification <- function(jobj) {
-  sparklyr::new_ml_transformer(jobj, class = "nlp_bert_for_token_classification")
+new_nlp_longformer_for_token_classification <- function(jobj) {
+  sparklyr::new_ml_transformer(jobj, class = "nlp_longformer_for_token_classification")
 }
 
