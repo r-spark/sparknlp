@@ -10,7 +10,9 @@ nlp_entity_ruler(
   output_col,
   case_sensitive = NULL,
   enable_pattern_regex = NULL,
-  patterns_resource = NULL,
+  patterns_resource_path = NULL,
+  patterns_resource_read_as = NULL,
+  patterns_resource_options = NULL,
   storage_path = NULL,
   storage_ref = NULL,
   use_storage = NULL,
@@ -28,7 +30,11 @@ nlp_entity_ruler(
 
 \item{enable_pattern_regex}{Enables regex pattern match (Default: false).}
 
-\item{patterns_resource}{Resource in JSON or CSV format to map entities to patterns (Default: null).}
+\item{patterns_resource_path}{Resource in JSON or CSV format to map entities to patterns (Default: null).}
+
+\item{patterns_resource_read_as}{TEXT or SPARK_DATASET}
+
+\item{patterns_resource_options}{options passed to the reader. (Default: list("format" = "JSON"))}
 
 \item{storage_path}{Path to the external resource.}
 
