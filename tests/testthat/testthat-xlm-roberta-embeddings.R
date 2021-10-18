@@ -21,35 +21,17 @@ teardown({
   rm(test_data, envir = .GlobalEnv)
 })
 
-test_that("xlm_roberta_embeddings param setting", {
-  test_args <- list(
-    input_cols = c("string1", "string2"),
-    output_col = "string1",
-    batch_size = 100,
-    case_sensitive = TRUE,
-    dimension = 768,
-    max_sentence_length = 200,
-    storage_ref = "string1"
-  )
-
-  test_param_setting(sc, nlp_xlm_roberta_embeddings, test_args)
-})
-
-test_that("nlp_xlm_roberta_embeddings spark_connection", {
-  test_annotator <- nlp_xlm_roberta_embeddings(sc, input_cols = c("document","token"), output_col = "embeddings")
-  transformed_data <- ml_transform(test_annotator, test_data)
-  expect_true("embeddings" %in% colnames(transformed_data))
-  expect_true(inherits(test_annotator, "nlp_xlm_roberta_embeddings"))
-})
-
-test_that("nlp_xlm_roberta_embeddings ml_pipeline", {
-  test_annotator <- nlp_xlm_roberta_embeddings(pipeline, input_cols = c("document","token"), output_col = "embeddings")
-  transformed_data <- ml_fit_and_transform(test_annotator, test_data)
+test_that("nlp_xlm_roberta_embeddings pretrained", {
+  model <- nlp_xlm_roberta_embeddings_pretrained(sc, input_cols = c("sentence", "token"), output_col = "embeddings",
+                                                 name = "xlm_roberta_base")
+  transformed_data <- ml_transform(model, test_data)
   expect_true("embeddings" %in% colnames(transformed_data))
 })
 
-test_that("nlp_xlm_roberta_embeddings tbl_spark", {
-  transformed_data <- nlp_xlm_roberta_embeddings(test_data, input_cols = c("document","token"), output_col = "embeddings")
+test_that("nlp_xlm_roberta_embeddings load", {
+  model_files <- list.files("~/cache_pretrained/")
+  bert_model_file <- max(Filter(function(s) startsWith(s, "xml_roberta_base"), model_files))
+  model <- ml_load(sc, paste0("~/cache_pretrained/", bert_model_file))
+  transformed_data <- ml_transform(model, test_data)
   expect_true("embeddings" %in% colnames(transformed_data))
 })
-
