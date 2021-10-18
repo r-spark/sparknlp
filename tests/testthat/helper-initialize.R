@@ -33,6 +33,8 @@ testthat_spark_connection <- function() {
   if (!connected) {
     config <- sparklyr::spark_config()
     config$`sparklyr.shell.driver-memory` <- "16G"
+    config$spark.kryoserializer.buffer.max <- "2000M"
+    config$spark.serializer <- "org.apache.spark.serializer.KryoSerializer"
 
     options(sparklyr.sanitize.column.names.verbose = TRUE)
     options(sparklyr.verbose = TRUE)

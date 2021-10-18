@@ -30,7 +30,7 @@ test_that("nlp_xlm_roberta_embeddings pretrained", {
 
 test_that("nlp_xlm_roberta_embeddings load", {
   model_files <- list.files("~/cache_pretrained/")
-  bert_model_file <- max(Filter(function(s) startsWith(s, "xml_roberta_base"), model_files))
+  bert_model_file <- max(Filter(function(s) startsWith(s, "xlm_roberta_base"), model_files))
   model <- ml_load(sc, paste0("~/cache_pretrained/", bert_model_file))
   transformed_data <- ml_transform(model, test_data)
   expect_true("embeddings" %in% colnames(transformed_data))
