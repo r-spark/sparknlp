@@ -40,6 +40,7 @@
   "com.johnsnowlabs.nlp.annotators.classifier.dl.MultiClassifierDLModel": "nlp_multi_classifier_dl_model",
   "com.johnsnowlabs.nlp.annotators.classifier.dl.SentimentDLApproach": "nlp_sentiment_dl",
   "com.johnsnowlabs.nlp.annotators.classifier.dl.SentimentDLModel": "nlp_sentiment_dl_model",
+  "com.johnsnowlabs.nlp.annotators.embeddings.BertSentenceChunkEmbeddings": "nlp_bert_sentence_chunk_embeddings",
   "com.johnsnowlabs.nlp.annotators.keyword.yake.YakeModel": "nlp_yake_model",
   "com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL": "nlp_language_detector_dl",
   "com.johnsnowlabs.nlp.annotators.ner.MedicalNerApproach": "nlp_medical_ner",  
