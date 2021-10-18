@@ -8,6 +8,8 @@
   "com.johnsnowlabs.nlp.TokenAssembler": "nlp_token_assembler",
   "com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegApproach": "nlp_assertion_log_reg",
   "com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegModel": "nlp_assertion_logreg_model",  
+  "com.johnsnowlabs.nlp.annotators.er.EntityRulerApproach": "nlp_entity_ruler",
+  "com.johnsnowlabs.nlp.annotators.er.EntityRulerModel": "nlp_entity_ruler_model",
   "com.johnsnowlabs.nlp.annotators.Chunker": "nlp_chunker",
   "com.johnsnowlabs.nlp.annotators.DateMatcher": "nlp_date_matcher",
   "com.johnsnowlabs.nlp.annotators.DeepSentenceDetector": "nlp_deep_sentence_detector",
