@@ -24,6 +24,10 @@ nlp_annotation_tool_json_reader <- function(sc, json_path, assertion_labels = li
 
   min_chars_tol <- forge::cast_integer(min_chars_tol)
   align_chars_tol <- forge::cast_integer(align_chars_tol)
+  split_chars <- forge::cast_string_list(split_chars)
+  context_chars <- forge::cast_string_list(context_chars)
+  excluded_labels <- forge::cast_string_list(excluded_labels)
+  assertion_labels <- forge::cast_string_list(assertion_labels)
     
   reader <- sparklyr::invoke_new(sc, "com.johnsnowlabs.nlp.training.AnnotationToolJsonReader", assertion_labels, excluded_labels,
                                  cleanup_mode, split_chars, context_chars, scheme, min_chars_tol, align_chars_tol, merge_overlapping, sddl_path)
