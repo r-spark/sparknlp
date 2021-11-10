@@ -7,7 +7,7 @@
 #' 
 #' @export
 nlp_set_input_cols <- function(jobj, input_cols) {
-  newobj <- sparklyr:::ml_set_param(jobj, "inputCols", output_col)
+  newobj <- sparklyr:::ml_set_param(jobj, "inputCols", input_col)
   return(newobj)
   #invoke(spark_jobj(jobj), "setInputCols", cast_string_list(input_cols))
 }
