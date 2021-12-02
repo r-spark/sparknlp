@@ -134,13 +134,16 @@ nlp_setter_name <- function(param) {
 #' @param label_col name to use for the label column
 #' @param explode_sentences boolean whether the sentences should be exploded or not
 #' @param delimiter Delimiter used to separate columns inside CoNLL file
+#' @param parallelism integer value
+#' @param storage_level specifies the storage level to use for the dataset. Must be a string value from org.apache.spark.storage.StorageLevel (e.g. "DISK_ONLY"). See \url{https://spark.apache.org/docs/latest/api/java/org/apache/spark/storage/StorageLevel.html}
 #'  
 #' @return Spark dataframe containing the imported data
 #' 
 #' @export
 nlp_conll_read_dataset <- function(sc, path, read_as = NULL, document_col = NULL, sentence_col = NULL, token_col = NULL,
                                    pos_col = NULL, conll_label_index = NULL, conll_pos_index = NULL, conll_text_col = NULL,
-                                   label_col = NULL, explode_sentences = NULL, delimiter = NULL) {
+                                   label_col = NULL, explode_sentences = NULL, delimiter = NULL, parallelism = NULL, 
+                                   storage_level = NULL) {
   model_class <- "com.johnsnowlabs.nlp.training.CoNLL"
   module <- invoke_static(sc, paste0(model_class, "$"), "MODULE$")
   default_document_col <- invoke(module, "apply$default$1")
@@ -170,9 +173,29 @@ nlp_conll_read_dataset <- function(sc, path, read_as = NULL, document_col = NULL
                       label_col, explode_sentences, delimiter)
   
   default_read_as <- invoke(conll, "readDataset$default$3")
+  default_parallelism <- invoke(conll, "readDataset$default$4")
+  default_storage_level <- invoke(conll, "readDataset$default$5")
+  
+  storage_level <- forge::cast_choice(storage_level, c("DISK_ONLY", "DISK_ONLY_2", "DISK_ONLY_3",
+                                                       "MEMORY_AND_DISK", "MEMORY_AND_DISK_2",
+                                                       "MEMORY_AND_DISK_SER", "MEMORY_AND_DISK_SER_2",
+                                                       "MEMORY_ONLY", "MEMORY_ONLY_2",
+                                                       "MEMORY_ONLY_SER", "MEMORY_ONLY_SER_2",
+                                                       "ONLY_HEAP", "NONE") , allow_null = TRUE)
+  
+  parallelism <- forge::cast_nullable_integer(parallelism)
+  
+  parallelism <- ifelse(is.null(parallelism), default_parallelism, parallelism)
+  
+  storage_level <- if (is.null(storage_level)) {
+    storage_level <- default_storage_level
+  } else {
+    storage_level <-  invoke_static(sc, "org.apache.spark.storage.StorageLevel" , storage_level)
+  }
+  
   read_as <- ifelse(is.null(read_as), default_read_as, read_as)
   
-  sdf_register(invoke(conll, "readDataset", spark_session(sc), path, read_as))
+  sdf_register(invoke(conll, "readDataset", spark_session(sc), path, read_as, parallelism, storage_level))
 }
 
 #' Transform CoNLLU format text file to Spark dataframe

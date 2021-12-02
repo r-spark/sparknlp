@@ -17,7 +17,9 @@ nlp_conll_read_dataset(
   conll_text_col = NULL,
   label_col = NULL,
   explode_sentences = NULL,
-  delimiter = NULL
+  delimiter = NULL,
+  parallelism = NULL,
+  storage_level = NULL
 )
 }
 \arguments{
@@ -46,6 +48,10 @@ nlp_conll_read_dataset(
 \item{explode_sentences}{boolean whether the sentences should be exploded or not}
 
 \item{delimiter}{Delimiter used to separate columns inside CoNLL file}
+
+\item{parallelism}{integer value}
+
+\item{storage_level}{specifies the storage level to use for the dataset. Must be a string value from org.apache.spark.storage.StorageLevel (e.g. "DISK_ONLY"). See \url{https://spark.apache.org/docs/latest/api/java/org/apache/spark/storage/StorageLevel.html}}
 }
 \value{
 Spark dataframe containing the imported data
