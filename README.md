@@ -29,9 +29,22 @@ remotes::install_github("r-spark/sparknlp@dev")
 The following features/annotators have not been implemented yet
 
 ## Spark NLP
+* AlbertForSequenceClassification
+* AnnotationMerger
+* BertForSequenceClassification
+* DistilBertForSequenceClassification
+* Doc2Vec
+* GPT2Transformer
+* LongformerForSequenceClassification
+* MedicalBertForTokenClassification
+* RoBertaForSequenceClassification
+* XlmRoBertaForSequenceClassification
+* XlnetForSequenceClassification
 * WordSegmenter
 
 ## Spark NLP for Healthcare
+* ChunkKeyPhraseExtraction
+* ChunkSentenceSplitter
 * DeIdentification
 * StructuredDeIdentification
 
@@ -61,6 +74,7 @@ is created with `spark_connect`. This is usually the latest version.
 | 0.9.x | 3.3.0 |
 | 0.10.x | 3.3.1 |
 | 0.11.x | 3.3.4 |
+| 0.12.x | 3.4.0 |
 
 The function `nlp_version()`
 will show you the version that will be used. If you wish to change the version call 
