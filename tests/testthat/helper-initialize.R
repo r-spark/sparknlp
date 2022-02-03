@@ -15,7 +15,7 @@ test_classifier_text <- data.frame(description = c("The cats are laying in front
 # helper functions from sparklyr tests
 # https://github.com/rstudio/sparklyr/blob/master/tests/testthat/helper-initialize.R
 testthat_spark_connection <- function() {
-  version <- Sys.getenv("SPARK_VERSION", unset = "3.1.1")
+  version <- Sys.getenv("SPARK_VERSION", unset = "3.1.2")
   
   spark_installed <- sparklyr::spark_installed_versions()
   if (nrow(spark_installed[spark_installed$spark == version, ]) == 0) {

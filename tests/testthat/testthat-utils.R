@@ -36,6 +36,22 @@ test_that("nlp_set_param", {
   expect_equal(newvalue, 0.8)
 })
 
+test_that("nlp_set_input_cols", {
+  model <- nlp_sentence_detector_dl_pretrained(sc, input_cols = c("document"), output_col = "sentence")
+  
+  model <- nlp_set_input_cols(model, c("new_document"))
+  newvalue <- ml_param(model, "input_cols")
+  expect_equal(newvalue, list("new_document"))
+})
+
+test_that("nlp_set_output_cols", {
+  model <- nlp_sentence_detector_dl_pretrained(sc, input_cols = c("document"), output_col = "sentence")
+  
+  model <- nlp_set_output_col(model, list("new_sentence"))
+  newvalue <- ml_param(model, "output_col")
+  expect_equal(newvalue, "new_sentence")
+})
+
 test_that("nlp_conll_read_dataset", {
   conll_data <- nlp_conll_read_dataset(sc, here::here("tests", "testthat", "data", "eng.testa.conll"))
   expect_true("text" %in% colnames(conll_data))
