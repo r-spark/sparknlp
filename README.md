@@ -75,6 +75,7 @@ is created with `spark_connect`. This is usually the latest version.
 | 0.10.x | 3.3.1 |
 | 0.11.x | 3.3.4 |
 | 0.12.x | 3.4.0 |
+| 0.13.x | 3.4.1 |
 
 The function `nlp_version()`
 will show you the version that will be used. If you wish to change the version call 
