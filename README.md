@@ -32,6 +32,7 @@ The following features/annotators have not been implemented yet
 * AlbertForSequenceClassification
 * AnnotationMerger
 * BertForSequenceClassification
+* DeBertaEmbeddings
 * DistilBertForSequenceClassification
 * Doc2Vec
 * GPT2Transformer
@@ -43,9 +44,14 @@ The following features/annotators have not been implemented yet
 * WordSegmenter
 
 ## Spark NLP for Healthcare
+* AnnotationMerger
 * ChunkKeyPhraseExtraction
 * ChunkSentenceSplitter
 * DeIdentification
+* EntityChunkEmbeddings
+* MedicalBertForSequenceClassification
+* MedicalBertForTokenClassifier
+* MedicalDistilBertForSequenceClassification
 * StructuredDeIdentification
 
 # Usage
@@ -76,6 +82,7 @@ is created with `spark_connect`. This is usually the latest version.
 | 0.11.x | 3.3.4 |
 | 0.12.x | 3.4.0 |
 | 0.13.x | 3.4.1 |
+| 0.14.x | 3.4.2 |
 
 The function `nlp_version()`
 will show you the version that will be used. If you wish to change the version call 

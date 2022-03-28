@@ -85,6 +85,29 @@ nlp_float_params.default <- function(x) {
   return(NULL)
 }
 
+#' Set a Tuple2 parameter on an NLP model object
+#' 
+#' @param x A Spark NLP object, either a pipeline stage or an annotator
+#' @param param The parameter to set
+#' @param value The value to use when setting the parameter. This should be a list of size 2
+#'  
+#' @return the NLP model object with the parameter set
+#' @export
+nlp_set_param_tuple2 <- function(x, param, value) {
+  valid_params <- names(sparklyr::ml_param_map(x))
+  if (!param %in% valid_params) {
+    stop("param ", param, " not found")
+  }
+  
+  setter <- nlp_setter_name(param)
+  
+  newobj <- invoke_static(sparklyr::spark_connection(x), "sparknlp.Utils",
+                          "setTuple2Param", sparklyr::spark_jobj(x), setter, value[[1]], value[[2]]) %>% 
+    sparklyr::ml_call_constructor()
+  
+  return(newobj)
+}
+
 # Function to get the setter name for a parameter. This code is copied out of 
 # the sparklyr function ml_set_param()
 nlp_setter_name <- function(param) {

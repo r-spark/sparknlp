@@ -23,6 +23,7 @@ nlp_assertion_dl(
   output_logs_path = NULL,
   validation_split = NULL,
   verbose = NULL,
+  scope_window = NULL,
   uid = random_string("assertion_dl_")
 )
 }
@@ -62,6 +63,8 @@ nlp_assertion_dl(
 \item{validation_split}{Choose the proportion of training dataset to be validated against the model on each Epoch.}
 
 \item{verbose}{level of verbosity. One of All, PerStep, Epochs, TrainingStat, Silent}
+
+\item{scope_window}{max possible length of a sentence}
 
 \item{uid}{A character string used to uniquely identify the ML estimator.}
 }

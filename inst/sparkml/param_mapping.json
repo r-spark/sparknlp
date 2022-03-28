@@ -188,6 +188,7 @@
   "replacement": "replacement",
   "reverseMultiplier": "reverse_multiplier",
   "rootTokens": "root_tokens",
+  "scopeWindow": "scope_window",
   "sentimentCol": "sentiment_col",
   "shortCircuit": "short_circuit",
   "shufflePerEpoch": "shuffle_per_epoch",

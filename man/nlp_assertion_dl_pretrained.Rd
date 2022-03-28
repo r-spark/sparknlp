@@ -9,6 +9,7 @@ nlp_assertion_dl_pretrained(
   input_cols,
   output_col,
   batch_size = NULL,
+  scope_window = NULL,
   max_sent_len = NULL,
   storage_ref = NULL,
   name = NULL,
@@ -24,6 +25,8 @@ nlp_assertion_dl_pretrained(
 \item{output_col}{Output column. String.}
 
 \item{batch_size}{Parameter, which regulates the size of the batch}
+
+\item{scope_window}{The scope window of the assertion (whole sentence by default)}
 
 \item{max_sent_len}{Parameter, which regulates the length of the longest sentence}
 

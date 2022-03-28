@@ -22,6 +22,14 @@ object Utils {
     return retobj
   }
   
+  // Generic function to call Scala functions that need a single 2-tuple parameter
+  def setTuple2Param(obj: Object, method: String, param1: Object, param2: Object): Object = {
+    var cls: Class[_] = obj.getClass()
+    var meth: Method = cls.getMethod(method, (Int, Int).getClass)
+    var retobj: Object = meth.invoke(obj, (param1, param2))
+    return retobj
+  }
+  
   // NER DL
   def setNerLrParam(nerDLApproach: NerDLApproach, lr: Double) : NerDLApproach = {
     nerDLApproach.setLr(lr.toFloat)

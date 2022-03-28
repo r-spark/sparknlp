@@ -21,17 +21,18 @@
 #' @param output_logs_path path for the output logs to go
 #' @param validation_split Choose the proportion of training dataset to be validated against the model on each Epoch.
 #' @param verbose level of verbosity. One of All, PerStep, Epochs, TrainingStat, Silent
+#' @param scope_window max possible length of a sentence
 #' 
 #' @export
 nlp_assertion_dl <- function(x, input_cols, output_col,
-                 graph_folder = NULL, config_proto_bytes = NULL, label_column = NULL, batch_size = NULL, epochs = NULL, learning_rate = NULL, dropout = NULL, max_sent_len = NULL, start_col = NULL, end_col = NULL, chunk_col = NULL,  enable_output_logs = NULL, output_logs_path = NULL, validation_split = NULL, verbose = NULL,
+                 graph_folder = NULL, config_proto_bytes = NULL, label_column = NULL, batch_size = NULL, epochs = NULL, learning_rate = NULL, dropout = NULL, max_sent_len = NULL, start_col = NULL, end_col = NULL, chunk_col = NULL,  enable_output_logs = NULL, output_logs_path = NULL, validation_split = NULL, verbose = NULL, scope_window = NULL,
                  uid = random_string("assertion_dl_")) {
   UseMethod("nlp_assertion_dl")
 }
 
 #' @export
 nlp_assertion_dl.spark_connection <- function(x, input_cols, output_col,
-                 graph_folder = NULL, config_proto_bytes = NULL, label_column = NULL, batch_size = NULL, epochs = NULL, learning_rate = NULL, dropout = NULL, max_sent_len = NULL, start_col = NULL, end_col = NULL, chunk_col = NULL,  enable_output_logs = NULL, output_logs_path = NULL, validation_split = NULL, verbose = NULL,
+                 graph_folder = NULL, config_proto_bytes = NULL, label_column = NULL, batch_size = NULL, epochs = NULL, learning_rate = NULL, dropout = NULL, max_sent_len = NULL, start_col = NULL, end_col = NULL, chunk_col = NULL,  enable_output_logs = NULL, output_logs_path = NULL, validation_split = NULL, verbose = NULL, scope_window = NULL,
                  uid = random_string("assertion_dl_")) {
   args <- list(
     input_cols = input_cols,
@@ -51,6 +52,7 @@ nlp_assertion_dl.spark_connection <- function(x, input_cols, output_col,
     output_logs_path = output_logs_path,
     validation_split = validation_split,
     verbose = verbose,
+    scope_window = scope_window,
     uid = uid
   ) %>%
   validator_nlp_assertion_dl()
@@ -94,12 +96,16 @@ nlp_assertion_dl.spark_connection <- function(x, input_cols, output_col,
     annotator <- nlp_set_param(annotator, "dropout", args[["dropout"]])
   }
   
+  if (!is.null(args[["scope_window"]])) {
+    annotator <- nlp_set_param_tuple2(annotator, "scope_window", args[["scope_window"]])
+  }
+  
   return(annotator)
 }
 
 #' @export
 nlp_assertion_dl.ml_pipeline <- function(x, input_cols, output_col,
-                 graph_folder = NULL, config_proto_bytes = NULL, label_column = NULL, batch_size = NULL, epochs = NULL, learning_rate = NULL, dropout = NULL, max_sent_len = NULL, start_col = NULL, end_col = NULL, chunk_col = NULL,  enable_output_logs = NULL, output_logs_path = NULL, validation_split = NULL, verbose = NULL,
+                 graph_folder = NULL, config_proto_bytes = NULL, label_column = NULL, batch_size = NULL, epochs = NULL, learning_rate = NULL, dropout = NULL, max_sent_len = NULL, start_col = NULL, end_col = NULL, chunk_col = NULL,  enable_output_logs = NULL, output_logs_path = NULL, validation_split = NULL, verbose = NULL, scope_window = NULL,
                  uid = random_string("assertion_dl_")) {
 
   stage <- nlp_assertion_dl.spark_connection(
@@ -121,6 +127,7 @@ nlp_assertion_dl.ml_pipeline <- function(x, input_cols, output_col,
     output_logs_path = output_logs_path,
     validation_split = validation_split,
     verbose = verbose,
+    scope_window = scope_window,
     uid = uid
   )
 
@@ -129,7 +136,7 @@ nlp_assertion_dl.ml_pipeline <- function(x, input_cols, output_col,
 
 #' @export
 nlp_assertion_dl.tbl_spark <- function(x, input_cols, output_col,
-                 graph_folder = NULL, config_proto_bytes = NULL, label_column = NULL, batch_size = NULL, epochs = NULL, learning_rate = NULL, dropout = NULL, max_sent_len = NULL, start_col = NULL, end_col = NULL, chunk_col = NULL, enable_output_logs = NULL, output_logs_path = NULL, validation_split = NULL, verbose = NULL,
+                 graph_folder = NULL, config_proto_bytes = NULL, label_column = NULL, batch_size = NULL, epochs = NULL, learning_rate = NULL, dropout = NULL, max_sent_len = NULL, start_col = NULL, end_col = NULL, chunk_col = NULL, enable_output_logs = NULL, output_logs_path = NULL, validation_split = NULL, verbose = NULL, scope_window = NULL,
                  uid = random_string("assertion_dl_")) {
   stage <- nlp_assertion_dl.spark_connection(
     x = sparklyr::spark_connection(x),
@@ -150,6 +157,7 @@ nlp_assertion_dl.tbl_spark <- function(x, input_cols, output_col,
     output_logs_path = output_logs_path,
     validation_split = validation_split,
     verbose = verbose,
+    scope_window = scope_window,
     uid = uid
   )
 
@@ -174,6 +182,7 @@ validator_nlp_assertion_dl <- function(args) {
   args[["output_logs_path"]] <- cast_nullable_string(args[["output_logs_path"]])
   args[["validation_split"]] <- cast_nullable_double(args[["validation_split"]])
   args[["verbose"]] <- cast_nullable_string(args[["verbose"]])
+  args[["scope_window"]] <- cast_nullable_integer_list(args[["scope_window"]])
   args
 }
 
@@ -195,9 +204,10 @@ new_nlp_assertion_dl_model <- function(jobj) {
 #' @template roxlate-inputs-output-params
 #' @param batch_size Parameter, which regulates the size of the batch
 #' @param max_sent_len Parameter, which regulates the length of the longest sentence
+#' @param scope_window The scope window of the assertion (whole sentence by default)
 #' @param storage_ref storage reference for embeddings
 #' @export
-nlp_assertion_dl_pretrained <- function(sc, input_cols, output_col, batch_size = NULL,
+nlp_assertion_dl_pretrained <- function(sc, input_cols, output_col, batch_size = NULL, scope_window = NULL,
                                   max_sent_len = NULL, storage_ref = NULL,
                                   name = NULL, lang = NULL, remote_loc = NULL) {
   args <- list(
@@ -210,6 +220,7 @@ nlp_assertion_dl_pretrained <- function(sc, input_cols, output_col, batch_size =
   args[["batch_size"]] <- forge::cast_nullable_integer(args[["batch_size"]])
   args[["max_sent_len"]] <- forge::cast_nullable_integer(args[["max_sent_len"]])
   args[["storage_ref"]] <- forge::cast_nullable_string(args[["storage_ref"]])
+  args[["scope_window"]] <- forge::cast_nullable_integer_list(args[["scope_window"]])
   
   model_class <- "com.johnsnowlabs.nlp.annotators.assertion.dl.AssertionDLModel"
   model <- pretrained_model(sc, model_class, name, lang, remote_loc)
@@ -218,7 +229,8 @@ nlp_assertion_dl_pretrained <- function(sc, input_cols, output_col, batch_size =
     sparklyr::jobj_set_param("setOutputCol", args[["output_col"]]) %>%
     sparklyr::jobj_set_param("setBatchSize", args[["batch_size"]]) %>% 
     sparklyr::jobj_set_param("setMaxSentLen", args[["max_sent_len"]]) %>% 
-    sparklyr::jobj_set_param("setStorageRef", args[["storage_ref"]])
+    sparklyr::jobj_set_param("setStorageRef", args[["storage_ref"]]) %>% 
+    sparklyr::jobj_set_param("setScopeWindow", args[["scope_window"]])
   
   new_nlp_assertion_dl_model(model)
 }
