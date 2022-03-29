@@ -21,7 +21,7 @@
 #' @param output_logs_path path for the output logs to go
 #' @param validation_split Choose the proportion of training dataset to be validated against the model on each Epoch.
 #' @param verbose level of verbosity. One of All, PerStep, Epochs, TrainingStat, Silent
-#' @param scope_window max possible length of a sentence
+#' @param scope_window The scope window of the assertion (whole sentence by default)
 #' 
 #' @export
 nlp_assertion_dl <- function(x, input_cols, output_col,

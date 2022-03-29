@@ -64,7 +64,7 @@ nlp_assertion_dl(
 
 \item{verbose}{level of verbosity. One of All, PerStep, Epochs, TrainingStat, Silent}
 
-\item{scope_window}{max possible length of a sentence}
+\item{scope_window}{The scope window of the assertion (whole sentence by default)}
 
 \item{uid}{A character string used to uniquely identify the ML estimator.}
 }

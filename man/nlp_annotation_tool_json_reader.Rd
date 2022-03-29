@@ -6,7 +6,6 @@
 \usage{
 nlp_annotation_tool_json_reader(
   sc,
-  json_path,
   assertion_labels = list(),
   excluded_labels = list(),
   cleanup_mode = "disabled",
@@ -20,8 +19,6 @@ nlp_annotation_tool_json_reader(
 )
 }
 \arguments{
-\item{json_path}{path to the json from annotation lab export}
-
 \item{assertion_labels}{list of strings}
 
 \item{excluded_labels}{list of strings}
