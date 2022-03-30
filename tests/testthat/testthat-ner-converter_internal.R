@@ -31,6 +31,7 @@ test_that("ner_converter param setting", {
     input_cols = c("string1", "string2", "string3"),
     output_col = "string1",
     #white_list = c("string1", "string2"), # no getter
+    #black_list = c("string1", "string2"), # no getter
     #preserve_position = TRUE # no getter
     lazy_annotator = FALSE,
     #greedy_mode = TRUE,
@@ -41,7 +42,9 @@ test_that("ner_converter param setting", {
 })
 
 test_that("nlp_ner_converter_internal spark_connection", {
-  test_annotator <- nlp_ner_converter_internal(sc, input_cols = c("document","token","ner"), output_col = "ner_span")
+  test_annotator <- nlp_ner_converter_internal(sc, input_cols = c("document","token","ner"), output_col = "ner_span",
+                                               black_list = c("PERSON"), white_list = c("COMPANY"), greedy_mode = TRUE,
+                                               preserve_position = TRUE)
   transformed_data <- ml_transform(test_annotator, test_data)
   expect_true("ner_span" %in% colnames(transformed_data))
 })

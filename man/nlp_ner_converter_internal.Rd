@@ -9,6 +9,7 @@ nlp_ner_converter_internal(
   input_cols,
   output_col,
   white_list = NULL,
+  black_list = NULL,
   preserve_position = NULL,
   lazy_annotator = NULL,
   greedy_mode = NULL,
@@ -25,6 +26,8 @@ nlp_ner_converter_internal(
 
 \item{white_list}{If defined, list of entities to process. The rest will be ignored.
 Do not include IOB prefix on labels"}
+
+\item{black_list}{If defined, list of entities to ignore}
 
 \item{preserve_position}{Whether to preserve the original position of the tokens
 in the original document or use the modified tokens}

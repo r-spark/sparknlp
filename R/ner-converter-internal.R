@@ -8,6 +8,7 @@
 #' in the original document or use the modified tokens
 #' @param white_list If defined, list of entities to process. The rest will be ignored.
 #'  Do not include IOB prefix on labels"
+#' @param black_list If defined, list of entities to ignore
 #' @param lazy_annotator allows annotators to stand idle in the Pipeline and do nothing.
 #'  Can be called by other Annotators in a RecursivePipeline
 #' @param greedy_mode whether to ignore B tags for contiguous tokens of same entity same
@@ -19,7 +20,7 @@
 #' 
 #' @export
 nlp_ner_converter_internal <- function(x, input_cols, output_col,
-                 white_list = NULL, preserve_position = NULL, lazy_annotator = NULL,
+                 white_list = NULL, black_list = NULL, preserve_position = NULL, lazy_annotator = NULL,
                  greedy_mode = NULL, threshold = NULL, 
                  uid = random_string("ner_converter_internal_")) {
   UseMethod("nlp_ner_converter_internal")
@@ -27,7 +28,7 @@ nlp_ner_converter_internal <- function(x, input_cols, output_col,
 
 #' @export
 nlp_ner_converter_internal.spark_connection <- function(x, input_cols, output_col,
-                 white_list = NULL, preserve_position = NULL, lazy_annotator = NULL,
+                 white_list = NULL, black_list = NULL,  preserve_position = NULL, lazy_annotator = NULL,
                  greedy_mode = NULL, threshold = NULL, 
                  uid = random_string("ner_converter_internal_")) {
   args <- list(
@@ -35,6 +36,7 @@ nlp_ner_converter_internal.spark_connection <- function(x, input_cols, output_co
     output_col = output_col,
     preserve_position = preserve_position,
     white_list = white_list,
+    black_list = black_list,
     lazy_annotator = lazy_annotator,
     greedy_mode = greedy_mode,
     threshold = threshold,
@@ -49,6 +51,7 @@ nlp_ner_converter_internal.spark_connection <- function(x, input_cols, output_co
     uid = args[["uid"]]
   ) %>%
     sparklyr::jobj_set_param("setWhiteList", args[["white_list"]]) %>% 
+    sparklyr::jobj_set_param("setBlackList", args[["black_list"]]) %>%
     sparklyr::jobj_set_param("setPreservePosition", args[["preserve_position"]]) %>% 
     sparklyr::jobj_set_param("setLazyAnnotator", args[["lazy_annotator"]]) %>% 
     sparklyr::jobj_set_param("setGreedyMode", args[["greedy_mode"]])
@@ -65,7 +68,7 @@ nlp_ner_converter_internal.spark_connection <- function(x, input_cols, output_co
 
 #' @export
 nlp_ner_converter_internal.ml_pipeline <- function(x, input_cols, output_col,
-                 white_list = NULL, preserve_position = NULL, lazy_annotator = NULL,
+                 white_list = NULL, black_list = NULL,  preserve_position = NULL, lazy_annotator = NULL,
                  greedy_mode = NULL, threshold = NULL, 
                  uid = random_string("ner_converter_internal_")) {
 
@@ -74,6 +77,7 @@ nlp_ner_converter_internal.ml_pipeline <- function(x, input_cols, output_col,
     input_cols = input_cols,
     output_col = output_col,
     white_list = white_list,
+    black_list = black_list,
     preserve_position = preserve_position,
     lazy_annotator = lazy_annotator,
     greedy_mode = greedy_mode,
@@ -87,7 +91,7 @@ nlp_ner_converter_internal.ml_pipeline <- function(x, input_cols, output_col,
 
 #' @export
 nlp_ner_converter_internal.tbl_spark <- function(x, input_cols, output_col,
-                 white_list = NULL, preserve_position = NULL, lazy_annotator = NULL,
+                 white_list = NULL, black_list = NULL, preserve_position = NULL, lazy_annotator = NULL,
                  greedy_mode = NULL, threshold = NULL, 
                  uid = random_string("ner_converter_internal_")) {
   stage <- nlp_ner_converter_internal.spark_connection(
@@ -95,6 +99,7 @@ nlp_ner_converter_internal.tbl_spark <- function(x, input_cols, output_col,
     input_cols = input_cols,
     output_col = output_col,
     white_list = white_list,
+    black_list = black_list,
     preserve_position = preserve_position,
     lazy_annotator = lazy_annotator,
     greedy_mode = greedy_mode,
@@ -114,6 +119,7 @@ validator_nlp_ner_converter_internal <- function(args) {
   args[["input_cols"]] <- cast_string_list(args[["input_cols"]])
   args[["output_col"]] <- cast_string(args[["output_col"]])
   args[["white_list"]] <- cast_nullable_string_list(args[["white_list"]])
+  args[["black_list"]] <- cast_nullable_string_list(args[["black_list"]])
   args[["preserve_position"]] <- cast_nullable_logical(args[["preserve_position"]])
   args[["lazy_annotator"]] <- cast_nullable_logical(args[["lazy_annotator"]])
   args[["greedy_mode"]] <- cast_nullable_logical(args[["greedy_mode"]])
