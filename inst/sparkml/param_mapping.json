@@ -101,6 +101,7 @@
   "isArray": "is_array",
   "jsonPath": "json_path",
   "l2": "l2",
+  "labelCase": "label_case",
   "labelColumn": "label_col",
   "labelCol": "label_column",
   "labels": "labels",

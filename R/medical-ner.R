@@ -271,24 +271,30 @@ new_nlp_medical_ner_model <- function(jobj) {
 #' @template roxlate-pretrained-params
 #' @template roxlate-inputs-output-params
 #' @param include_confidence whether to include confidence values
+#' @param label_casing Set the tag to case sensitive or not.Setting all labels of the NER models upper/lower case.
 #' @export
 nlp_medical_ner_pretrained <- function(sc, input_cols, output_col, include_confidence = NULL,
+                                       label_casing = NULL,
                                    name = NULL, lang = NULL, remote_loc = NULL) {
   args <- list(
     input_cols = input_cols,
-    output_col = output_col
+    output_col = output_col,
+    include_confidence = include_confidence,
+    label_casing = label_casing
   )
   
   args[["input_cols"]] <- forge::cast_string_list(args[["input_cols"]])
   args[["output_col"]] <- forge::cast_string(args[["output_col"]])
   args[["include_confidence"]] <- forge::cast_nullable_logical(args[["include_confidence"]])
+  args[["label_casing"]] <- forge::cast_nullable_string(args[["label_casing"]])
   
   model_class <- "com.johnsnowlabs.nlp.annotators.ner.MedicalNerModel"
   model <- pretrained_model(sc, model_class, name, lang, remote_loc)
   spark_jobj(model) %>%
     sparklyr::jobj_set_param("setInputCols", args[["input_cols"]]) %>% 
     sparklyr::jobj_set_param("setOutputCol", args[["output_col"]]) %>%
-    sparklyr::jobj_set_param("setIncludeConfidence", args[["include_confidence"]])
+    sparklyr::jobj_set_param("setIncludeConfidence", args[["include_confidence"]]) %>% 
+    sparklyr::jobj_set_param("setLabelCasing", args[["label_casing"]])
   
   new_nlp_medical_ner_model(model)
 }

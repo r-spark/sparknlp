@@ -103,7 +103,7 @@ test_that("medical_ner param setting", {
 test_that("nlp_medical_ner pretrained", {
   print(nlp_version())
   model <- nlp_medical_ner_pretrained(sc, input_cols = c("sentence", "token", "embeddings"),
-                                      output_col = "ner",
+                                      output_col = "ner", label_casing = "case",
                                       name = "ner_clinical", lang = "en", remote_loc = "clinical/models")
   transformed_data <- ml_transform(model, test_data)
   expect_true("ner" %in% colnames(transformed_data))

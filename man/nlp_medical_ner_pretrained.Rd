@@ -9,6 +9,7 @@ nlp_medical_ner_pretrained(
   input_cols,
   output_col,
   include_confidence = NULL,
+  label_casing = NULL,
   name = NULL,
   lang = NULL,
   remote_loc = NULL
@@ -22,6 +23,8 @@ nlp_medical_ner_pretrained(
 \item{output_col}{Output column. String.}
 
 \item{include_confidence}{whether to include confidence values}
+
+\item{label_casing}{Set the tag to case sensitive or not.Setting all labels of the NER models upper/lower case.}
 
 \item{name}{the name of the model to load. If NULL will use the default value}
 
