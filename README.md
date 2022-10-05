@@ -32,7 +32,10 @@ The following features/annotators have not been implemented yet
 * AlbertForSequenceClassification
 * AnnotationMerger
 * BertForSequenceClassification
+* CamemBertEmbeddings
 * DeBertaEmbeddings
+* DeBertaForSequenceClassification
+* DeBertaForTokenClassification
 * DistilBertForSequenceClassification
 * Doc2Vec
 * GPT2Transformer
@@ -46,6 +49,7 @@ The following features/annotators have not been implemented yet
 ## Spark NLP for Healthcare
 * AnnotationMerger
 * ChunkKeyPhraseExtraction
+* ChunkMapperApproach
 * ChunkSentenceSplitter
 * DeIdentification
 * EntityChunkEmbeddings
@@ -53,6 +57,8 @@ The following features/annotators have not been implemented yet
 * MedicalBertForTokenClassifier
 * MedicalDistilBertForSequenceClassification
 * StructuredDeIdentification
+* TFGraphBuilder
+* ZeroShotRelationExtraction
 
 # Usage
 There are a lot of examples in R notebooks inside the `examples` directory. I recommended starting with the 
@@ -83,6 +89,7 @@ is created with `spark_connect`. This is usually the latest version.
 | 0.12.x | 3.4.0 |
 | 0.13.x | 3.4.1 |
 | 0.14.x | 3.4.2 |
+| 0.15.x | 3.4.4 |
 
 The function `nlp_version()`
 will show you the version that will be used. If you wish to change the version call 
