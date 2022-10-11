@@ -91,6 +91,7 @@ is created with `spark_connect`. This is usually the latest version.
 | 0.14.x | 3.4.2 |
 | 0.15.x | 3.4.4 |
 | 0.16.x | 4.2.0 |
+| 0.17.x | 
 
 The function `nlp_version()`
 will show you the version that will be used. If you wish to change the version call 
