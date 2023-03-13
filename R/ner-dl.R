@@ -221,6 +221,7 @@ new_nlp_ner_dl_model <- function(jobj) {
 #' @template roxlate-pretrained-params
 #' @template roxlate-inputs-output-params
 #' @param include_confidence whether to include confidence values
+#' @param include_all_confidence_scores whether to include all confidence scores in annotation metadata or just score of the predicted tag (boolean)
 #' @export
 nlp_ner_dl_pretrained <- function(sc, input_cols, output_col, include_confidence = NULL,
                                   include_all_confidence_scores = NULL, name = NULL, lang = NULL, remote_loc = NULL) {
